@@ -1,0 +1,26 @@
+<template>
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+		aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+			<div class="headerpopup"> Delete {showtype}</div>
+			<div class="bodypopup">
+				<lightning-icon icon-name="action:delete" alternative-text="Doc image"
+					class="slds-icon_small deleteicon" size="small"></lightning-icon>
+				<div class="deletetext">Do you want to delete the<span class="deleteboardname"> {boardname} </span>{showtype}</div>
+				<template if:true={notes}>
+					<div class="deletetext notes"> <span style="font-weight:bold;">Note:</span> You can Restore {showtype} from
+						Recycle Bin within 15 days </div>
+				</template>
+			</div>
+			<div class="footerpopup">
+				<div class="createbutton popupbutton" data-type={type} data-name="deletecancel" data-id="deletecancel"
+					onclick={handledeleteaction}></span> Cancel
+				</div>
+				<div class="createbutton popupbutton" data-type={type} data-name="deleteyes" data-id="deleteyes"
+					onclick={handledeleteaction}></span> Delete
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

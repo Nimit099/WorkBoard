@@ -1,0 +1,158 @@
+<template>
+	<template if:true={toast}>
+		<c-toast></c-toast>
+	</template>
+	<div class="workboardhome">
+		<div class="header">
+			<div class="headerinput">
+				<lightning-input type="search" variant="standard" name="name" onchange={search}
+					placeholder="Search here..."></lightning-input>
+			</div>
+			<div class="headerlogo">
+			</div>
+			<div class="headerbutton">
+				<div class="createbutton" onclick={handlepopupaction}></span> Create Board</div>
+				<div class="usericon recycle">
+					<lightning-icon icon-name='standard:recycle_bin' onclick={recycleaction}
+						alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon>
+				</div>
+			</div>
+		</div>
+
+		<div class="body">
+			<div class="table">
+				<!-- spinner -->
+				<template if:true={spinnertable}>
+					<div class="spinnerbody">
+						<div class="box">
+						</div>
+						<div class="box">
+						</div>
+						<div class="box">
+						</div>
+						<div class="box">
+						</div>
+					</div>
+				</template>
+				<!-- spinner ends -->
+				<div class="cardview">
+					<div class="tableheader">
+						<div class="number">No.</div>
+						<div class="name">Board Name</div>
+						<div class="description">Create Date</div>
+						<div class="user">User</div>
+						<div class="edit">Edit</div>
+						<!-- <div class="lock">Lock</div> -->
+						<div class="delete">Delete</div>
+					</div>
+					<template if:true={boardfound}>
+						<template for:each={boards} for:item="board">
+							<div class="tablebody" key={board.Id}>
+								<div class="index" onclick={openboard} data-id={board.Id} data-name={board.Name}>
+									{index}</div>
+								<div class="names" onclick={openboard} data-id={board.Id} fata-name={board.Name}
+									title={board.Description__c}>
+									{board.Name}
+								</div>
+								<div class="desc" onclick={openboard} data-id={board.Id} data-name={board.Name}>
+									{board.CreatedDate__c}
+								</div>
+								<div class="actionbutton">
+									<div class="usericon">
+										<lightning-icon variant="inverse" icon-name='action:user'
+											alternative-text='user' size='medium' title='user'></lightning-icon>
+									</div>
+								</div>
+								<div class="actionbutton">
+									<div class="usericon">
+										<lightning-icon icon-name='action:edit' alternative-text='edit' size='medium'
+											title='edit'></lightning-icon>
+									</div>
+								</div>
+								<!-- <div class="actionbutton">
+									<div class="usericon">
+										<lightning-icon icon-name='action:password_unlock' alternative-text='edit'
+											size='medium' title='edit'></lightning-icon>
+									</div>
+								</div> -->
+								<div class="actionbutton">
+									<div class="usericon">
+										<lightning-icon data-id={board.Id} data-name={board.Name}
+											onclick={handledeleteaction} icon-name='action:delete'
+											alternative-text='edit' size='medium' title='edit'></lightning-icon>
+									</div>
+								</div>
+
+							</div>
+						</template>
+					</template>
+					<template if:false={boardfound}>
+						<div class="norecordfound">
+							<div class="desertImg" aria-hidden="true">
+								<img src="/img/chatter/Desert.svg" class="imgclass" alt="test"/>
+								<h3 class="slds-text-heading_medium h3class">No Board found</h3>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- create popup start -->
+	<template if:true={isShowModal}>
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+			<div class="slds-modal__container">
+				<!-- modal header start -->
+				<div class="headerpopup"> Create Board</div>
+				<div class="bodypopup">
+					<div class="fields">
+						<label><span style="color:red; ">*</span>Board Name</label>
+						<div class="popufields">
+							<lightning-input type="text" variant="standard" value={name} data-name="name"
+								onchange={popupinput} placeholder="Name"></lightning-input>
+						</div>
+					</div>
+					<div class="fields">
+						<label>Description</label>
+						<div class="popufields">
+							<lightning-input type="text" variant="standard" data-name="description"
+								onchange={popupinput} value={description} placeholder="Description">
+							</lightning-input>
+						</div>
+					</div>
+					<!-- <div class="fields">
+						<label>Board Color</label>
+						<div class="popufields">
+							<lightning-input type="Color" class="slds-button_icon-more" variant="standard" value={Color}
+								onchange={popupinput} data-name="Color" placeholder="Color"></lightning-input>
+						</div>
+					</div> -->
+				</div>
+				<div class="footerpopup">
+					<div class="createbutton popupbutton" data-name="Cancel" onclick={handlepopupaction}></span>
+						Cancel
+					</div>
+					<div class="createbutton popupbutton" data-name="Save" onclick={handlepopupaction}></span> Save
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</template>
+	<!-- create popup end -->
+
+	<!-- Recycle popup start -->
+	<template if:true={isRecyclemodal}>
+		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={recycleaction} onrestoreboard={restoreboard} type="Board">
+		</c-recyclepopup>
+	</template>
+	<!-- Recycle popup end -->
+
+	<template if:true={deletemodal}>
+		<c-deletepopup boardid={boardid} boardname={boardname} type="board" onclosedelete={handledeleteaction}>
+		</c-deletepopup>
+	</template>
+</template>

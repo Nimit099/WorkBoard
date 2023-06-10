@@ -1,0 +1,43 @@
+<template>
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+		aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+		<c-toast></c-toast>
+		<div class="slds-modal__container">
+			<!-- modal header start -->
+			<div class="headerpopup"> Recycle Bin</div>
+			<div class="bodypopup recyclebodypopup">
+				<div class="tableheader recycleboardheader">
+					<div class="name" style="border:none;">{type}</div>
+				</div>
+				<div class="table recyclelist">
+					<template for:each={recyclelist} for:item="board">
+						<div class="deletedboards" key={board.Id}>
+							<div class="recycleboardname" title={board.Description__c}>{board.Name}</div>
+							<div class="recycleboardname">{board.DeletedDate__c}</div>
+							<div class="usericon" style="width:7%" data-name="recycle" data-id={board.Id}
+								onclick={recycleaction}>
+								<lightning-icon data-name="recycle" data-id={board.Id} onclick={handlerestoreboard}
+									icon-name='action:refresh' alternative-text='edit' size='medium' title='edit'>
+								</lightning-icon>
+							</div>
+							<div class="usericon" style="width:7%" data-name={board.Name} data-id={board.Id}
+								onclick={handledeleteaction}>
+								<lightning-icon data-name="delete" data-id={board.Id} icon-name='action:delete'
+									alternative-text='edit' size='medium' title='edit'>
+								</lightning-icon>
+							</div>
+						</div>
+					</template>
+				</div>
+			</div>
+			<div class="footerpopup">
+				<div class="createbutton popupbutton" data-name="Cancel" onclick={handleclose}></span> Close
+				</div>
+			</div>
+		</div>
+	</section>
+	<template if:true={deletepopup}>
+		<c-deletepopup onclosedelete={handledeleteaction} boardname={boardname} type={deletetype} ></c-deletepopup>
+	</template>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

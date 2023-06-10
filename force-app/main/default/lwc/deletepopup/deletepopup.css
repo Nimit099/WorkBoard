@@ -1,0 +1,83 @@
+.footerpopup{
+    height: 12%;
+    width: 100%;
+    background: lightgray;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.headerpopup{
+      height: 12%;
+    width: 100%;
+    background: lightgrey;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 700;
+}
+.bodypopup{
+       height: 40%;
+    width: 100%;
+    gap: 6%;
+    display: flex;
+    background: white;
+    flex-direction: column;
+}
+.deleteicon{
+    width: 20%;
+    height: 40%;
+    margin: 3% 0% 0% 40%;
+    background: black;
+    padding-left: 5%;
+    padding-top: 4%;
+}
+.slds-icon_small{
+    --lwc-squareIconSmallBoundary: 70%;
+}
+.deletetext{
+    margin: auto;
+    margin-top: 5%;
+    font-size: 21px;
+    font-weight: 500;
+}
+ /* createbutton css */
+
+.createbutton {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    height: 30%;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+}
+    
+.createbutton:active {
+    cursor: progress;
+    box-shadow:7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    transform: translateY(4px);
+}
+/* createbutton css end */
+.popupbutton{
+    width: 25%;
+    height: 55%;
+}
+.deleteboardname{
+    font-weight: bold;
+    font-style: italic;
+}
+.notes{
+    margin-top: 0%;
+}

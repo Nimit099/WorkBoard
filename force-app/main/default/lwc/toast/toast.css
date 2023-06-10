@@ -1,0 +1,86 @@
+.toastbody{
+    position: absolute;
+    top: 1.5%;
+    
+    height: 15%;
+    width: 100%;
+    /* display: flex; */
+    z-index: 9001;
+    justify-content: center;
+  
+}
+.toast{
+     position: absolute;
+     left: 35%;
+         -webkit-animation: fadein 2s, fadeout 2s 2.5s;
+  animation: fadein 2s, fadeout 2s 2.5s;
+    height: 100%;
+    width: 30%;
+    border-radius: 10px;
+    display: flex;
+    background-color: white;
+    box-shadow: 9px 10px 20px rgba(38, 50, 50, 1.05);
+}
+.error{
+   width: 1.5%;
+    height: 60%;
+    margin: auto;
+    margin-left: 4%;
+    margin-right: 3%;
+    border-radius: 3px;
+    background-color: red;
+}
+.success{
+    background-color: green;
+}
+.successicon{
+    --sds-c-icon-color-background: green;
+    width: 17%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.erroricon{
+    --sds-c-icon-color-background: red;
+}
+.toasttext{
+    width: 62%;
+    margin-right: 8%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+}
+.toastheader{
+    font-size: 20px;
+    font-weight: 600;
+}
+.toastmessage{
+    font-weight: 600;
+    font-size: 15px;
+}
+.successtrue{
+  background-color: #9ef9a8;
+}
+.errortrue{
+ background-color: #ff9090;
+}
+@-webkit-keyframes fadein {
+  from {left: 0; opacity: 0;} 
+  to {left: 35%; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {left: 0; opacity: 0;}
+  to {left: 35%; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {left: 35%; opacity: 1;} 
+  to {left:70%; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {left: 35%; opacity: 1;}
+  to {left: 70%; opacity: 0;}
+}

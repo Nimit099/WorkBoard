@@ -1,0 +1,21 @@
+<template>
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+		aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+            <div class="fullpopup" >
+			<div class="headerpopup"> Ticket </div>
+			<div class="bodypopup">
+			</div>
+			<div class="footerpopup">
+				<div class="createbutton popupbutton" data-type={type} data-name="deletecancel" data-id="deletecancel"
+					onclick={handledeleteaction}></span> Cancel
+				</div>
+				<div class="createbutton popupbutton" data-type={type} data-name="deleteyes" data-id="deleteyes"
+					onclick={handledeleteaction}></span> Delete
+				</div>
+			</div>
+            </div>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+</template>

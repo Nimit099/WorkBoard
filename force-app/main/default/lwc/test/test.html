@@ -1,0 +1,85 @@
+<template>
+   <!-- modal start -->      
+   <!-- <template if:true={isShowModal}> -->
+
+            <!--
+                I Used SLDS for this code
+                Here is link https://www.lightningdesignsystem.com/components/modals/
+            --> 
+
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+       <div class="slds-modal__container">
+        <!-- modal header start -->
+       <div class="fullpopup">
+				<!-- modal header start -->
+				<div class="headerpopup"> Create Ticket</div>
+					<c-toast></c-toast>
+				<div class="bodypopups">
+					<div class="bodypopup">
+						<div class="fields">
+							<label><span style="color:red; ">*</span>Ticket Number</label>
+							<div class="popufields">
+								<lightning-input type="text" variant="standard" value={number} data-name="Number"
+									onchange={handleinputaction} placeholder="Ticket Number"></lightning-input>
+							</div>
+						</div>
+						<div class="fields">
+							<label><span style="color:red; ">*</span>Ticket Name</label>
+							<div class="popufields">
+								<lightning-input type="text" variant="standard" data-name="Name"
+									onchange={handleinputaction} value={name} placeholder="Ticket Name">
+								</lightning-input>
+							</div>
+						</div>
+						<div class="fields">
+							<label>Description</label>
+							<div class="popufields">
+								<lightning-textarea type="text" variant="standard" value={description} data-name="Description"
+									onchange={handleinputaction} placeholder="Ticket Description"></lightning-textarea>
+							</div>
+						</div>
+					</div>
+
+					<div class="bodypopup">
+						<div class="fields">
+							<label>Start Date</label>
+							<div class="popufields">
+								<lightning-input type="Date" variant="standard" value={startdate} data-name="StartDate"
+									onchange={handleinputaction} placeholder="Start Date"></lightning-input>
+							</div>
+						</div>
+						<div class="fields">
+							<label>End Date</label>
+							<div class="popufields">
+								<lightning-input type="Date" variant="standard" data-name="EndDate"
+									onchange={handleinputaction} value={enddate} placeholder="End Date"></lightning-input>
+							</div>
+						</div>
+						<div class="fields">
+							<label>Priority</label>
+							<div class="popufields">
+								<lightning-combobox data-name="Priority" value={priority} placeholder="Select Priortiy"
+									options={options} onchange={handleinputaction}></lightning-combobox>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="footerpopup">
+					<div class="createbutton popupbutton" data-name="Cancel" onclick={handleticketaction}></span> Cancel
+					</div>
+					<div class="createbutton popupbutton" data-name="Save" onclick={handleticketaction}></span> Save
+					</div>
+					<div class="createbutton popupbutton" data-name="SaveNew" onclick={handleticketaction}></span> Save &
+						New
+					</div>
+				</div>
+			</div>
+       </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+ </template>
+ <!-- modal end -->
+
+<!-- /</template> -->

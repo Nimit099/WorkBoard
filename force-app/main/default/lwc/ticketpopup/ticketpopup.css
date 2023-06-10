@@ -1,0 +1,73 @@
+.slds-modal__container {
+    margin: 0 auto;
+    width: 100% !important;
+    max-width: 100% !important
+}
+.fullpopup{
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+.footerpopup{
+    height: 12%;
+    width: 60%;
+    background: lightgray;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.headerpopup{
+	height: 12%;
+    width: 60%;
+    background: lightgrey;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 700;
+}
+.bodypopup{
+	height: 60%;
+    width: 60%;
+    gap: 6%;
+    display: flex;
+    background: white;
+    flex-direction: column;
+}
+
+ /* createbutton css */
+
+.createbutton {
+    background-color: black;
+    display: flex;
+    flex-direction: row;
+    height: 30%;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+}
+    
+.createbutton:active {
+    cursor: progress;
+    box-shadow:7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    transform: translateY(4px);
+}
+/* createbutton css end */
+.popupbutton{
+    width: 25%;
+    height: 55%;
+}
