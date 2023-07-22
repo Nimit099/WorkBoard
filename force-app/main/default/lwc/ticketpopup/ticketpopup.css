@@ -35,12 +35,16 @@
     font-weight: 700;
 }
 .bodypopup{
-	height: 60%;
+    height: 60%;
     width: 60%;
-    gap: 6%;
     display: flex;
     background: white;
-    flex-direction: column;
+    flex-direction: row;
+    overflow-y:scroll;
+}
+.bodypopup::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
 }
 
  /* createbutton css */
@@ -70,4 +74,91 @@
 .popupbutton{
     width: 25%;
     height: 55%;
+}
+
+.ticket-details{
+    height: fit-content;
+    width: 70%;
+    border-right: 1px solid;
+    display: flex;
+    flex-direction: column;
+}
+.ticket-number-priority{
+    width: 100%;
+    height: 10%;
+    display: flex;
+    align-items: center;
+}
+.ticket-number{
+    width: 50%;
+    margin-left: 5%;
+    font-size: 22px;
+    color: gray;
+}
+.ticket-priority{
+    width: 50%;
+    font-size: 23px;
+    margin-right: 2%;
+    color: gray;
+    display: flex;
+    justify-content: flex-end;
+    gap: 3%;
+}
+.ticket-name{
+    margin-left: 4%;
+    margin-top: 1%;
+    font-size: 40px;
+    display: flex;
+}
+.ticket-description-attachment{
+    width: 100%;
+    font-size: 20px;
+    padding: 1% 3%;
+}
+.ticket-comments{
+    width: 100%;
+    font-size: 20px;
+    padding: 1% 3%;
+}
+.ticket-description{
+    width: 100%;
+    height: 230px;
+    padding: 0% 2% 0% 2%;
+    border: 1px dashed;
+    text-align: justify;
+}
+.ticket-attachment{
+    width: 100%;
+    height: 230px;
+    padding: 0% 3%;
+    border: 1px dashed;
+}
+.ticket-description-scroll{
+    height: 100%;
+    width: 100%;
+    overflow-y: scroll;
+}
+.ticket-description-scroll::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+.ticket-settings{
+    height: 100%;
+    width: 30%;
+    padding: 1%;
+    display: flex;
+    flex-direction: column;
+    gap: 12%;
+}
+.ticket-setting{
+    display: flex;
+    gap: 1%;
+    font-size: 20px;
+    border-radius: 3px;
+    border-bottom: 1px solid;
+    align-items: center;
+}
+.key{
+    font-weight: bolder;
+    font-size: 25px;
 }

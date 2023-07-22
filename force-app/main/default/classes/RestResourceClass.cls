@@ -2,9 +2,9 @@
 global class RestResourceClass {
 
 @HttpGet
-global static Board__c getAccount(){
+global static ContentVersion getAccount(){
     try{
-        return [SELECT Id, Name FROM Board__c LIMIT 1];
+        return null;
     } catch(Exception e){
         return null;
     }
