@@ -96,7 +96,7 @@ lightning-input {
 }
 .fields{
 	height: 98%;
-     width: 16%;
+     width: 13%;
 	border-radius: 10px;
     margin: 0% 0.5% 0% 0.5%;
     display: flex;
@@ -174,13 +174,13 @@ lightning-input {
 }
 .ticketnumber{
     font-weight: 400;
-    font-size: 19px;
+    font-size: 16px;
     display: flex;
     justify-content: space-between;
 }
 .ticketname{
     font-weight: bold;
-    font-size: 19px;
+    font-size: 16px;
 }
 .ticketfooter{
     height: 50%;
@@ -198,7 +198,7 @@ lightning-input {
     font-size: 14px;
 }
 .ticketstartdate{
-    font-size: 16px;
+    font-size: 15px;
 }
 .deleteview{
     width: 13%;

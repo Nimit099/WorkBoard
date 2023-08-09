@@ -53,8 +53,9 @@
 											</div>
 											<div class="ticketfooter">
 												<div class="ticketuser" data-type="delete">
-													<lightning-button-icon onclick={deleteticket} data-type="delete" data-name ={ticket.Name} data-id={ticket.Id}
-														variant="base" size="medium" icon-name="utility:delete"
+													<lightning-button-icon onclick={deleteticket} data-type="delete"
+														data-name={ticket.Name} data-id={ticket.Id} variant="base"
+														size="medium" icon-name="utility:delete"
 														alternative-text="delete"></lightning-button-icon>
 												</div>
 												<div class="ticketpriority">
@@ -84,11 +85,12 @@
 		</c-deletepopup>
 	</template>
 	<template if:true={isRecyclemodal}>
-		<c-recyclepopup recyclelist={deletedticketlist} oncloserecycle={recycleaction} onrestoreticket={restoreticket} type="Ticket">
+		<c-recyclepopup recyclelist={deletedticketlist} oncloserecycle={recycleaction} onrestoreticket={restoreticket}
+			type="Ticket">
 		</c-recyclepopup>
 	</template>
 	<template if:true={openticketmodal}>
-		<c-ticketpopup></c-ticketpopup>
+		<c-ticketpopup oncloseticketpopup={openticket} ticketpopupdata={ticketpopupdata}></c-ticketpopup>
 	</template>
 	<template if:true={isShowModal}>
 		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"

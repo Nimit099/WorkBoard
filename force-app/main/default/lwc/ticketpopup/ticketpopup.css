@@ -94,6 +94,7 @@
     margin-left: 5%;
     font-size: 22px;
     color: gray;
+    cursor: pointer;
 }
 .ticket-priority{
     width: 50%;
@@ -109,6 +110,7 @@
     margin-top: 1%;
     font-size: 40px;
     display: flex;
+    cursor: pointer;
 }
 .ticket-description-attachment{
     width: 100%;
@@ -148,17 +150,64 @@
     padding: 1%;
     display: flex;
     flex-direction: column;
-    gap: 12%;
+    gap: 7%;
 }
 .ticket-setting{
+    font-size: 17px;
     display: flex;
-    gap: 1%;
-    font-size: 20px;
-    border-radius: 3px;
-    border-bottom: 1px solid;
-    align-items: center;
+    align-items: flex-start;
+    flex-direction: column;
 }
 .key{
-    font-weight: bolder;
-    font-size: 25px;
+    font-size: 23px;
+    font-weight: 600;
+}
+.value{
+    width: 100%;
+    cursor: pointer;
+}
+.priority-value{
+    cursor: pointer;
+}
+
+.ticket-number-input lightning-input {
+    --lwc-colorBorderInput: rgb(0, 0, 0);
+    --slds-c-input-radius-border: 10px;
+    /* --lwc-heightInput: 45px; */
+    font-size: 16px;
+    width: 80% !important;
+    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --lwc-squareIconMediumContentAlt:16px;
+}
+.ticket-number-input{
+    margin-top: -2%;
+}
+
+.ticket-name lightning-input {
+    --lwc-colorBorderInput: rgb(0, 0, 0);
+    --slds-c-input-radius-border: 10px;
+    --lwc-heightInput: 34px;
+    font-size: 16px;
+    width: 80% !important;
+    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --lwc-squareIconMediumContentAlt:16px;
+}
+
+.ticket-setting lightning-input {
+    --lwc-colorBorderInput:  rgb(0, 0, 0);
+    --slds-c-input-radius-border: 10px;
+    /* --lwc-heightInput: 34px; */
+    font-size: 16px;
+    width: 80% !important;
+    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --lwc-squareIconMediumContentAlt:16px;
+    margin-top: -7%;
+}
+.slds-input-has-icon .slds-input__icon{
+    position: absolute !important;
+    top: 35% !important;
+}
+lightning-textarea{
+    --sds-c-textarea-sizing-min-height: 230px;
+    margin-top: -5%;
 }

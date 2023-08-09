@@ -47,6 +47,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     @track toast1 = false;
     @track toast2 = false;
     @track deletemodal = false;
+    @track ticketpopupdata;
 
 
     connectedCallback() {
@@ -80,6 +81,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 this.fieldsfound = true;
             }
 
+            console.log('OUTPUT : ', JSON.stringify(this.ticketlist));
 
             var tickets = [];
             this.hfieldlist.forEach((field) => {
@@ -93,6 +95,19 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             })
         } catch (error) {
             console.log('OUTPUT viewBoard connected: ', error.message);
+        }
+    }
+
+    renderedCallback() {
+        try {
+
+            if (this.ticketlist != null) {
+                this.ticketlist.forEach(ticket => {
+                    this.template.querySelector("div[data-id =" + ticket.Id + "]").style.background = ticket.Color__c;
+                });
+            }
+        } catch (e) {
+            console.error(e.message);
         }
     }
 
@@ -168,7 +183,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     }
 
 
-    createticket(event) {
+    createticket() {
         try {
             if (this.isShowModal == false) {
                 this.isShowModal = true;
@@ -232,7 +247,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                             this.priority = '';
                             this.template.querySelector('c-home').handletickets('create', newticket);
                             this.template.querySelector('c-toast').showToast('success', 'Ticket Created successfully');
-                             setTimeout(() => {
+                            setTimeout(() => {
                                 this.toast1 = false;
                                 this.toast2 = false;
                             }, 4000);
@@ -331,18 +346,18 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     }
 
     disconnectedCallback() {
-        this.fieldid;
-        this.boardname;
-        this.hboardid;
-        this.hboardname;
-        this.hfieldlist;
-        this.ticketlist;
-        this.hcommentlist;
-        this.hboarduserrelationlist;
-        this.huserlist;
+        this.fieldid = null;
+        this.boardname = null;
+        this.hboardid = null;
+        this.hboardname = null;
+        this.hfieldlist = null;
+        this.ticketlist = null;
+        this.hcommentlist = null;
+        this.hboarduserrelationlist = null;
+        this.huserlist = null;
         this.boarddata = [];
-        this.ticketId;
-        this.ticketName;
+        this.ticketId = null;
+        this.ticketName = null;
         sessionStorage.clear();
         window.removeEventListener('popstate', this.handlePopstate.bind(this));
     }
@@ -453,9 +468,10 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
     recycleaction(event) {
         try {
-            if (this.isRecyclemodal == false) {
-                this.isRecyclemodal = true;
-            } else {
+            // if (this.isRecyclemodal == false) {
+
+            // } else {
+            if (this.isRecyclemodal != false) {
                 if (event.detail == 'close') {
                     this.isRecyclemodal = false;
                 } else {
@@ -472,6 +488,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.template.querySelector('c-home').handletickets('permanentdelete', deleteticket);
                 }
             }
+            this.isRecyclemodal = !this.isRecyclemodal;
         } catch (error) {
             console.log('OUTPUT : ', error.message);
         }
@@ -512,7 +529,20 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     }
 
     openticket(event) {
-        if (this.deletemodal == false)
-            this.openticketmodal = true;
+        try {
+            if (this.deletemodal == false) {                             // Keep it so while click on delete it will not open ticketpopup
+                if (this.openticketmodal == false) {
+                    this.ticketlist.forEach(ticket => {
+                        if (ticket.Id == event.currentTarget.dataset.id) {
+                            this.ticketpopupdata = ticket;
+                        }
+                    });
+                }
+                this.openticketmodal = !this.openticketmodal;
+            }
+        } catch (error) {
+            console.error('OUTPUT : ', error.message);
+        }
     }
+
 }

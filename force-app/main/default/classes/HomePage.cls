@@ -7,7 +7,7 @@ public without sharing class HomePage {
         List<Board__c> boards = [SELECT Id,Name,DeletedDate__c,CreatedDate__c,Description__c FROM Board__c order by LastModifiedDate asc];
         List<User__c> users = [SELECT Id, Name, Password__c, Email__c FROM User__c];
         List<Fields__c> fields = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c ORDER BY OrderNumber__c ASC];
-        List<Ticket__c> tickets = [SELECT Id, Name, TicketPriority__c, CreatedDate__c, Field__c, Description__c, DeletedDate__c, CompletedPercentage__c,StartDate__c,TicketNumber__c FROM Ticket__c order by LastModifiedDate asc];
+        List<Ticket__c> tickets = [SELECT Id, Name, TicketPriority__c, CreatedDate__c, Field__c, Field__r.Name,Color__c, Description__c, DeletedDate__c, CompletedPercentage__c,StartDate__c,TicketNumber__c FROM Ticket__c order by LastModifiedDate asc];
         List<Comment__c> comments = [SELECT Id, Name,Comments__c,Ticket__c FROM Comment__c];
         List<BoardUserRelation__c> boarduserlimit = [SELECT Id, Name,Board__c, User__c FROM BoardUserRelation__c];
 
