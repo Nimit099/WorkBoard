@@ -44,7 +44,8 @@
 														{ticket.TicketNumber__c}
 													</div>
 													<div class="ticketstartdate">
-														{ticket.CreatedDate__c}
+														<!-- {ticket.CreatedDate} -->
+														<lightning-formatted-date-time value={ticket.CreatedDate}></lightning-formatted-date-time>
 													</div>
 												</div>
 												<div class="ticketname">

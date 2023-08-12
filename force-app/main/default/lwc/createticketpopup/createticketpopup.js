@@ -33,6 +33,7 @@ export default class Createticketpopup extends LightningElement {
                 ticketrecord['EndDate'] = this.enddate;
                 ticketrecord['TicketPriority__c'] = this.priority;
                 ticketrecord['Field__c'] = this.fieldid;
+                ticketrecord['Color__c'] = '#FFFFFF';
                 createticket({ newticket: ticketrecord })
                     .then(result => {
                         ticketrecord = result;
