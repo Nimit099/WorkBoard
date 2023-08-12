@@ -20,8 +20,8 @@
 							<div class="ticket-priority">
 								<div class="priority-key">Priority -</div>
 								<!-- <template if:false={isupdateticketPriority}> -->
-									<div class="priority-value" data-name="ticketPriority" ondblclick={updatingTicket}>
-										{ticketPriority}</div>
+								<div class="priority-value" data-name="ticketPriority" ondblclick={updatingTicket}>
+									{ticketPriority}</div>
 								<!-- </template>
 								<template if:true={isupdateticketPriority}>
 									<div class="priority-value">
@@ -45,14 +45,16 @@
 							<lightning-tabset active-tab-value="description">
 								<lightning-tab label="Description" value="description">
 									<template if:false={isupdateticketDescription}>
-									<div class="ticket-description" data-name="ticketDescription" ondblclick={updatingTicket}>
-										<div class="ticket-description-scroll">
-											{ticketDescription}
+										<div class="ticket-description" data-name="ticketDescription"
+											ondblclick={updatingTicket}>
+											<div class="ticket-description-scroll">
+												{ticketDescription}
+											</div>
 										</div>
-									</div>
 									</template>
 									<template if:true={isupdateticketDescription}>
-										<lightning-textarea name="inputname" placeholder="Enter Your Description..." value=""></lightning-textarea>
+										<lightning-textarea name="inputname" placeholder="Enter Your Description..."
+											value=""></lightning-textarea>
 									</template>
 								</lightning-tab>
 								<lightning-tab label="Attachment" value="attachment">
@@ -151,7 +153,8 @@
 							<div class="key">Start Date</div>
 							<template if:false={isupdateticketStartDate}>
 								<div class="value" ondblclick={updatingTicket} data-name="ticketStartDate">
-									{ticketStartDate}
+									<lightning-formatted-date-time
+										value={ticketStartDate}></lightning-formatted-date-time>
 								</div>
 							</template>
 							<template if:true={isupdateticketStartDate}>
@@ -163,7 +166,9 @@
 						<div class="ticket-setting-enddate ticket-setting">
 							<div class="key">End Date</div>
 							<template if:false={isupdateticketEndDate}>
-								<div class="value" ondblclick={updatingTicket} data-name="ticketEndDate">{ticketEndDate}
+								<div class="value" ondblclick={updatingTicket} data-name="ticketEndDate">
+									<lightning-formatted-date-time
+										value={ticketEndDate}></lightning-formatted-date-time>
 								</div>
 							</template>
 							<template if:true={isupdateticketEndDate}>
@@ -200,11 +205,17 @@
 						</div>
 						<div class="ticket-setting-createddate ticket-setting">
 							<div class="key">Created On</div>
-							<div class="value">{ticketCreatedDate}</div>
+							<div class="value">
+								<lightning-formatted-date-time
+									value={ticketCreatedDate}></lightning-formatted-date-time>
+							</div>
 						</div>
 						<div class="ticket-setting-updateddate ticket-setting">
 							<div class="key">Last Updated On</div>
-							<div class="value">3/12/2002</div>
+							<div class="value">
+								<lightning-formatted-date-time
+									value={ticketLastmodifieddate}></lightning-formatted-date-time>
+							</div>
 						</div>
 					</div>
 				</div>

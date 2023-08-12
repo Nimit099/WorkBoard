@@ -4,10 +4,10 @@ public without sharing class HomePage {
     public static boarduserwrapper boards(){
         boarduserwrapper boarduserwrapper = new boarduserwrapper();
         try{
-        List<Board__c> boards = [SELECT Id,Name,DeletedDate__c,CreatedDate__c,Description__c FROM Board__c order by LastModifiedDate asc];
+        List<Board__c> boards = [SELECT Id,Name,DeletedDate__c,CreatedDate,Description__c FROM Board__c order by LastModifiedDate asc];
         List<User__c> users = [SELECT Id, Name, Password__c, Email__c FROM User__c];
         List<Fields__c> fields = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c ORDER BY OrderNumber__c ASC];
-        List<Ticket__c> tickets = [SELECT Id, Name, TicketPriority__c, CreatedDate__c,CreatedDate, Field__c, Field__r.Name,Color__c, Description__c, DeletedDate__c, CompletedPercentage__c,StartDate__c,TicketNumber__c FROM Ticket__c order by LastModifiedDate asc];
+        List<Ticket__c> tickets = [SELECT Id, Name, TicketPriority__c,CreatedDate,LastModifiedDate, Field__c, Field__r.Name,Color__c, Description__c, DeletedDate__c, CompletedPercentage__c,StartDate__c,EndDate__c,TicketNumber__c FROM Ticket__c order by LastModifiedDate asc];
         List<Comment__c> comments = [SELECT Id, Name,Comments__c,Ticket__c FROM Comment__c];
         List<BoardUserRelation__c> boarduserlimit = [SELECT Id, Name,Board__c, User__c FROM BoardUserRelation__c];
 
@@ -30,7 +30,7 @@ public without sharing class HomePage {
             }
             delete deleteboard;
             // To delete the 15 day old deleted board
-         // To delete the 15 day old deleted ticket
+            //  To delete the 15 day old deleted ticket
            for(integer i = 0; i < tickets.size(); i++ ){
                 if(tickets[i].DeletedDate__c != null){
                     endDate = date.newinstance( tickets[i].DeletedDate__c.year(),  tickets[i].DeletedDate__c.month(),  tickets[i].DeletedDate__c.day());
@@ -63,7 +63,7 @@ public without sharing class HomePage {
      public static Board__c createboard(Board__c board){
        Board__c newboard = new Board__c();
        newboard.Name = board.Name;
-       newboard.CreatedDate__c =System.today();
+    //    newboard.CreatedDate__c =System.today();
        newboard.Description__c = board.Description__c;
        insert newboard;
        return newboard;

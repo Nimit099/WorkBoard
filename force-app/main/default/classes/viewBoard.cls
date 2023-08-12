@@ -4,7 +4,7 @@ public class viewBoard {
     @AuraEnabled
     public static Ticket__c createticket(Ticket__c newticket){
         try{
-            Ticket__c ticket = new Ticket__c (TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, CreatedDate__c = System.today(), Field__c = newticket.Field__c, Color__c = newticket.Color__c);
+            Ticket__c ticket = new Ticket__c (TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c);
             insert ticket;
             return ticket;
         } catch(Exception e){

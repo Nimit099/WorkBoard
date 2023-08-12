@@ -55,7 +55,7 @@
 									{board.Name}
 								</div>
 								<div class="desc" onclick={openboard} data-id={board.Id} data-name={board.Name}>
-									{board.CreatedDate__c}
+									<lightning-formatted-date-time value={board.CreatedDate}></lightning-formatted-date-time>
 								</div>
 								<div class="actionbutton">
 									<div class="usericon">

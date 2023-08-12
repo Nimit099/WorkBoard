@@ -13,7 +13,9 @@
 					<template for:each={recyclelist} for:item="board">
 						<div class="deletedboards" key={board.Id}>
 							<div class="recycleboardname" title={board.Description__c}>{board.Name}</div>
-							<div class="recycleboardname">{board.DeletedDate__c}</div>
+							<div class="recycleboardname">
+								<lightning-formatted-date-time value={board.DeletedDate__c}></lightning-formatted-date-time>
+							</div>
 							<div class="usericon" style="width:7%" data-name="recycle" data-id={board.Id}
 								onclick={recycleaction}>
 								<lightning-icon data-name="recycle" data-id={board.Id} onclick={handlerestoreboard}

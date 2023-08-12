@@ -14,6 +14,7 @@ export default class Ticketpopup extends LightningElement {
     @track ticketUser = '-';
     @track ticketColor;
     @track ticketCompletedPercentage = 0;
+    @track ticketLastmodifieddate = '';
 
     @track isupdateticketNumber = false;
     @track isupdateticketPriority = false;
@@ -34,6 +35,7 @@ export default class Ticketpopup extends LightningElement {
         this.ticketCreatedDate = this.ticketpopupdata.CreatedDate__c;
         this.ticketFieldName = this.ticketpopupdata.Field__r.Name;
         this.ticketColor = this.ticketpopupdata.Color__c;
+        this.ticketLastmodifieddate = this.ticketpopupdata.LastModifiedDate;
 
         if (this.ticketpopupdata.Description__c != undefined)
             this.ticketDescription = this.ticketpopupdata.Description__c;
@@ -46,7 +48,6 @@ export default class Ticketpopup extends LightningElement {
 
         if (this.ticketpopupdata.EndDate__c != undefined)
             this.ticketEndDate = this.ticketpopupdata.EndDate__c;
-
 
         if (this.ticketpopupdata.Users__c != undefined)
             this.ticketUser = this.ticketpopupdata.Users__c;
