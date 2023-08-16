@@ -48,7 +48,7 @@
     background-color: black;
     display: flex;
     flex-direction: row;
-    height: 30%;
+    height: 35%;
     width: 60%;
     justify-content: center;
     align-items: center;
@@ -81,8 +81,8 @@
     color: white;
     text-align: center;
     align-items: center;
-     position: sticky;
-    z-index: 1;
+    position: sticky;
+    /* z-index: 1; */
     top: 0;
 }
 .number{
@@ -378,4 +378,14 @@ label{
     width: 100%;
     display: flex;
     align-items: center;
+}
+lightning-button-menu {
+    --lwc-colorTextIconDefault: white;
+    /* z-index: 9001; */
+    /* position: sticky; */
+}
+.menu-item{
+    z-index: 9001;
+    width: fit-content;
+    left: 81%;
 }

@@ -50,12 +50,13 @@
 							<div class="tablebody" key={board.Id}>
 								<div class="index" onclick={openboard} data-id={board.Id} data-name={board.Name}>
 									{index}</div>
-								<div class="names" onclick={openboard} data-id={board.Id} fata-name={board.Name}
+								<div class="names" onclick={openboard} data-id={board.Id} data-name={board.Name}
 									title={board.Description__c}>
 									{board.Name}
 								</div>
 								<div class="desc" onclick={openboard} data-id={board.Id} data-name={board.Name}>
-									<lightning-formatted-date-time value={board.CreatedDate}></lightning-formatted-date-time>
+									<lightning-formatted-date-time
+										value={board.CreatedDate}></lightning-formatted-date-time>
 								</div>
 								<div class="actionbutton">
 									<div class="usericon">
@@ -69,12 +70,6 @@
 											title='edit'></lightning-icon>
 									</div>
 								</div>
-								<!-- <div class="actionbutton">
-									<div class="usericon">
-										<lightning-icon icon-name='action:password_unlock' alternative-text='edit'
-											size='medium' title='edit'></lightning-icon>
-									</div>
-								</div> -->
 								<div class="actionbutton">
 									<div class="usericon">
 										<lightning-icon data-id={board.Id} data-name={board.Name}
@@ -89,7 +84,7 @@
 					<template if:false={boardfound}>
 						<div class="norecordfound">
 							<div class="desertImg" aria-hidden="true">
-								<img src="/img/chatter/Desert.svg" class="imgclass" alt="test"/>
+								<img src="/img/chatter/Desert.svg" class="imgclass" alt="test" />
 								<h3 class="slds-text-heading_medium h3class">No Board found</h3>
 							</div>
 						</div>
@@ -123,13 +118,6 @@
 							</lightning-input>
 						</div>
 					</div>
-					<!-- <div class="fields">
-						<label>Board Color</label>
-						<div class="popufields">
-							<lightning-input type="Color" class="slds-button_icon-more" variant="standard" value={Color}
-								onchange={popupinput} data-name="Color" placeholder="Color"></lightning-input>
-						</div>
-					</div> -->
 				</div>
 				<div class="footerpopup">
 					<div class="createbutton popupbutton" data-name="Cancel" onclick={handlepopupaction}></span>
@@ -146,13 +134,16 @@
 
 	<!-- Recycle popup start -->
 	<template if:true={isRecyclemodal}>
-		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={recycleaction} onrestoreboard={restoreboard} type="Board">
+		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={recycleaction} onrestoreboard={restoreboard}
+			type="Board">
 		</c-recyclepopup>
 	</template>
 	<!-- Recycle popup end -->
 
+	<!-- Delete popup start -->
 	<template if:true={deletemodal}>
 		<c-deletepopup boardid={boardid} boardname={boardname} type="board" onclosedelete={handledeleteaction}>
 		</c-deletepopup>
 	</template>
+	<!-- Delete popup end -->
 </template>

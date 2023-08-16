@@ -320,7 +320,6 @@ export default class Home extends NavigationMixin(LightningElement) {
         }
       })
       var restoreboard = this.recyclelist.splice(temp, 1);
-      // restoreboard[0].boarddeletedDate = undefined;
       this.boardlist.push(restoreboard[0]);
       this.boards.push(restoreboard[0]);
       this.indexval = 1;
@@ -374,5 +373,9 @@ export default class Home extends NavigationMixin(LightningElement) {
     } catch (error) {
       console.log('OUTPUT handletickets: ', error.message);
     }
+  }
+  @track menuitemopen = false
+  handlemenu(){
+    this.menuitemopen = !this.menuitemopen;
   }
 }
