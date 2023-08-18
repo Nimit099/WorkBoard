@@ -11,7 +11,7 @@
 			<div class="headerlogo">
 			</div>
 			<div class="headerbutton">
-				<div class="createbutton" onclick={handlepopupaction}></span> Create Board</div>
+				<div class="createbutton" onclick={opencreatepopup}></span> Create Board</div>
 				<div class="usericon recycle">
 					<lightning-icon icon-name='standard:recycle_bin' onclick={recycleaction}
 						alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon>
@@ -120,10 +120,10 @@
 					</div>
 				</div>
 				<div class="footerpopup">
-					<div class="createbutton popupbutton" data-name="Cancel" onclick={handlepopupaction}></span>
+					<div class="createbutton popupbutton" data-name="Cancel" onclick={cancelboardaction}></span>
 						Cancel
 					</div>
-					<div class="createbutton popupbutton" data-name="Save" onclick={handlepopupaction}></span> Save
+					<div class="createbutton popupbutton" data-name="Save" onclick={saveboardaction}></span> Save
 					</div>
 				</div>
 			</div>

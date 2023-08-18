@@ -51,7 +51,7 @@ export default class Home extends NavigationMixin(LightningElement) {
           this.ticketlist = result.tickets;
           this.fieldlist = result.fields;
           this.boardlist = result.boards;
-          console.log('OUTPUT connected : ',this.ticketlist.length);
+          console.log('OUTPUT connected : ', this.ticketlist.length);
           let board = [];
           let recycleboard = [];
           this.boardlist.forEach((element) => {
@@ -87,6 +87,7 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
     return this.indexval++;
   }
+
   search(event) {
     try {
       this.spinnertable = true;
@@ -136,7 +137,7 @@ export default class Home extends NavigationMixin(LightningElement) {
           this.boardfield.push(field);
         }
       });
-      console.log('OUTPUT : ',this.ticketlist.length);
+      console.log('OUTPUT : ', this.ticketlist.length);
       this.boardfield.forEach(field => {
         this.ticketlist.forEach(ticket => {
           if (ticket.Field__c == field.Id) {
@@ -185,59 +186,62 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  handlepopupaction(event) {
+  opencreatepopup() {
+    this.isShowModal = true;
+    this.toast = true;
+  }
+
+  saveboardaction() {
     try {
-      if (this.isShowModal == false) {
-        this.isShowModal = true;
+
+      // This is use to create new board
+      if (this.name == null || this.name == undefined || this.name.trim() == '') {
+        this.template.querySelector('c-toast').showToast('error', 'PLEASE ENTER NAME');
+      } else {
+        this.spinnertable = true;
+        this.isShowModal = false;
         this.toast = true;
+        let boardrecord = {
+          'sobjectType': 'Board__c'
+        };
+        boardrecord['Name'] = this.name;
+        boardrecord['Description__c'] = this.description;
+        createboard({ board: boardrecord })
+          .then(result => {
+            this.name = '';
+            this.description = '';
+            this.indexval = 1;
+            let newboard = [{ "CreatedDate__c": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
+            this.boardlist.push(newboard[0]);
+            this.boards.push(newboard[0]);
+            this.count = this.boards.length;
+            this.template.querySelector('c-toast').showToast('success', 'BOARD CREATED SUCCESSFULLY');
+            setTimeout(() => {
+              this.toast = false;
+            }, 4000);
+            if (this.count > 0) {
+              this.boardfound = true;
+            } else {
+              this.boardfound = false;
+            }
+            this.spinnertable = false;
+          }).catch(error => {
+            console.log('OUTPUT handlepopupaction apex: ', error.message);
+          })
       }
-      else {
-        if (event.currentTarget.dataset.name === 'Cancel') {
-          this.isShowModal = false;
-          this.name = '';
-          this.description = '';
-          this.toast = false;
-        } else if (event.currentTarget.dataset.name === 'Save') {        // This is use to create new board
-          if (this.name == null || this.name == undefined || this.name.trim() == '') {
-            this.template.querySelector('c-toast').showToast('error', 'PLEASE ENTER NAME');
-          } else {
-            this.spinnertable = true;
-            this.isShowModal = false;
-            this.toast = true;
-            let boardrecord = {
-              'sobjectType': 'Board__c'
-            };
-            boardrecord['Name'] = this.name;
-            boardrecord['Description__c'] = this.description;
-            createboard({ board: boardrecord })
-              .then(result => {
-                this.name = '';
-                this.description = '';
-                this.indexval = 1;
-                let newboard = [{ "CreatedDate__c": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
-                this.boardlist.push(newboard[0]);
-                this.boards.push(newboard[0]);
-                this.count = this.boards.length;
-                this.template.querySelector('c-toast').showToast('success', 'BOARD CREATED SUCCESSFULLY');
-                setTimeout(() => {
-                  this.toast = false;
-                }, 4000);
-                if (this.count > 0) {
-                  this.boardfound = true;
-                } else {
-                  this.boardfound = false;
-                }
-                this.spinnertable = false;
-              }).catch(error => {
-                console.log('OUTPUT handlepopupaction apex: ', error.message);
-              })
-          }
-        }
-      }
+
     } catch (error) {
       console.log('OUTPUT handlepopupaction : ', error.message);
     }
   }
+
+  cancelboardaction() {
+    this.isShowModal = false;
+    this.name = '';
+    this.description = '';
+    this.toast = false;
+  }
+
   handledeleteaction(event) {
     try {
       if (this.deletemodal == false) {
@@ -311,6 +315,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       console.log('OUTPUT recycleaction : ', error.message);
     }
   }
+
   restoreboard(event) {
     try {
       var temp;
@@ -334,6 +339,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       console.log('OUTPUT restoreboard : ', error.message);
     }
   }
+
   disconnectedCallback() {
     console.log('OUTPUT : disconnected');
   }
@@ -351,9 +357,9 @@ export default class Home extends NavigationMixin(LightningElement) {
         this.ticketlist.splice(i, 1);
         this.ticketlist.push(updatedticket[0]);
       } else if (task == 'create') {
-        console.log('OUTPUT : ',this.ticketlist.length);
+        console.log('OUTPUT : ', this.ticketlist.length);
         this.ticketlist.push(updatedticket[0]);
-        console.log('OUTPUT : ',this.ticketlist.length);
+        console.log('OUTPUT : ', this.ticketlist.length);
       } else if (task == 'delete') {
         this.ticketlist.forEach(function (ticket, index) {
           if (ticket.Id == updatedticket[0].Id) {
@@ -373,9 +379,5 @@ export default class Home extends NavigationMixin(LightningElement) {
     } catch (error) {
       console.log('OUTPUT handletickets: ', error.message);
     }
-  }
-  @track menuitemopen = false
-  handlemenu(){
-    this.menuitemopen = !this.menuitemopen;
   }
 }
