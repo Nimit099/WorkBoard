@@ -41,11 +41,16 @@ export default class Home extends NavigationMixin(LightningElement) {
     try {
 
       this.spinnertable = true;
+
+      // This is use to get todays date 
       this.today = new Date();
       var dd = String(this.today.getDate()).padStart(2, '0');
       var mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
       var yyyy = this.today.getFullYear();
       this.today = yyyy + '-' + mm + '-' + dd;
+
+      // Created By Nimit Shah on 21/08/2023
+      // This is use to get Boards, Fields, Tickets, User, BoardUsers, Comments List
       boards()
         .then(result => {
           this.commentlist = result.comments;
@@ -83,6 +88,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to give index to the boards
   get index() {
     if (this.indexval > this.count) {
       this.indexval = 1;
@@ -90,6 +97,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     return this.indexval++;
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to search board 
   search(event) {
     try {
       this.spinnertable = true;
@@ -127,6 +136,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to open the Board or View the Board
   openboard(event) {
     try {
       this.boardid = event.currentTarget.dataset.id;
@@ -171,10 +182,14 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to open Create Board popup
   opencreatepopup() {
     this.isShowModal = true;
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to take input of Board Details
   popupinput(event) {
     try {
       if (event.currentTarget.dataset.name == 'name') {
@@ -187,10 +202,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  opencreatepopup() {
-    this.isShowModal = true;
-  }
-
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to save records of Boards
   saveboardaction() {
     try {
 
@@ -234,6 +247,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to cancel while creating board
   cancelboardaction() {
     try {
 
@@ -246,6 +261,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to open delete popup to delete the popup
   handledeleteaction(event) {
     try {
 
@@ -295,6 +312,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to open the recycle page
   recycleaction(event) {
     try {
       if (this.isRecyclemodal == false) {
@@ -317,6 +336,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to restore the boards 
   restoreboard(event) {
     try {
       let temp;
@@ -341,11 +362,8 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  disconnectedCallback() {
-    console.log('OUTPUT : disconnected');
-    this.enqueueToast = [];
-  }
-
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to store the ticket data which is send by the viewBoard page
   @api handletickets(task, updatedticket) {
     try {
 
@@ -404,5 +422,12 @@ export default class Home extends NavigationMixin(LightningElement) {
     } catch (error) {
       console.error(error.message);
     }
+  }
+
+  // Created By Nimit Shah on 21/08/2023
+  // This function is use to remove the enqueueToast 
+  disconnectedCallback() {
+    console.log('OUTPUT : disconnected');
+    this.enqueueToast = [];
   }
 }
