@@ -11,6 +11,10 @@ export default class Recyclepopup extends LightningElement {
     @track boardname;
     @track deletepopup = false
 
+    // This variables use in Toast
+    @track enqueueToast = [];
+    @track ongoingtoast;
+
     handledeleteaction(event) {
         try {
             if (this.type == 'Board') {
@@ -20,7 +24,9 @@ export default class Recyclepopup extends LightningElement {
                         permanentdeleteboard({ boardId: this.boardid })
                             .then(result => {
                                 this.deletepopup = false;
-                                this.template.querySelector('c-toast').showToast('success', 'BOARD DELETED SUCCESSFULLY');
+                                this.enqueueToast.push({status:'success', message:'BOARD DELETED SUCCESSFULLY'});
+                                this.toastprocess(null);
+                                
                                 const permanentdeleted = new CustomEvent("closerecycle", {
                                     detail: this.boardid
                                 });
@@ -43,7 +49,8 @@ export default class Recyclepopup extends LightningElement {
                         permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
                             .then(result => {
                                 this.deletepopup = false;
-                                this.template.querySelector('c-toast').showToast('success', 'TICKET DELETED SUCCESSFULLY');
+                                this.enqueueToast.push({status:'success', message:'TICKET DELETED SUCCESSFULLY'});
+                                this.toastprocess(null);
                                 const permanentdeleted = new CustomEvent("closerecycle", {
                                     detail: this.boardid // boardid is ticket id here
                                 });
@@ -90,7 +97,8 @@ export default class Recyclepopup extends LightningElement {
                 this.boardid = event.currentTarget.dataset.id
                 restoreboard({ boardId: this.boardid })
                     .then(result => {
-                        this.template.querySelector('c-toast').showToast('success', 'BOARD RESTORED SUCCESSFULLY');
+                        this.enqueueToast.push({status:'success', message:'BOARD RESTORED SUCCESSFULLY'});
+                        this.toastprocess(null);
                         const closerecycle = new CustomEvent("restoreboard", {
                             detail: this.boardid
                         });
@@ -102,7 +110,8 @@ export default class Recyclepopup extends LightningElement {
                 restoreticket({ ticketId: ticketId })
                     .then(result => {
                         console.log('OUTPUT : ', ticketId);
-                        this.template.querySelector('c-toast').showToast('success', 'TICKET RESTORED SUCCESSFULLY');
+                        this.enqueueToast.push({status:'success', message:'TICKET RESTORED SUCCESSFULLY'});
+                        this.toastprocess(null);
                         const closerecycle = new CustomEvent("restoreticket", {
                             detail: ticketId
                         });
@@ -112,6 +121,31 @@ export default class Recyclepopup extends LightningElement {
         }
         catch (error) {
             console.log('OUTPUT handlerestoreboard : ', error);
+        }
+    }
+
+    // 21/8/2023 Created By Nimit Shah
+    // This function is use to show toast on multiple calls
+    // Multiple calls like I press two time save button on create board and it will generate two time red toast 
+    toastprocess(event) {
+        try {
+
+            if (event != null) {
+                this.ongoingtoast = !this.ongoingtoast;
+            }
+
+            if (this.enqueueToast.length > 0) {
+                if (!this.ongoingtoast) {
+                    this.ongoingtoast = !this.ongoingtoast;
+                    let toastdata = this.enqueueToast.splice(0, 1);
+                    setTimeout(() => {
+                        this.template.querySelector('c-toast').showToast(toastdata[0].status, toastdata[0].message);
+                    }, 1);
+                }
+            }
+
+        } catch (error) {
+            console.error(error.message);
         }
     }
 }

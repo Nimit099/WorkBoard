@@ -17,6 +17,10 @@ export default class Createticketpopup extends LightningElement {
     @track startdate;
     @track priority;
 
+    // This variables use in Toast
+    @track enqueueToast = [];
+    @track ongoingtoast;
+
     handleticketaction(event) {
         try {
             var ticketrecord;
@@ -51,8 +55,9 @@ export default class Createticketpopup extends LightningElement {
 
 
             } else if (event.currentTarget.dataset.name == 'SaveNew') {
-                if (this.name == '' || this.number == '' || this.name.trim() == '' || this.number.trim() == '' ) {
-                    this.template.querySelector('c-toast').showToast('error', 'Please fill required fields');
+                if (this.name == '' || this.number == '' || this.name.trim() == '' || this.number.trim() == '') {
+                    this.enqueueToast.push({ status: 'error', message: 'Please fill required fields' });
+                    this.toastprocess(null);
                 } else {
                     ticketrecord = {
                         'sobjectType': 'Ticket__c'
@@ -120,6 +125,31 @@ export default class Createticketpopup extends LightningElement {
             }
         } catch (error) {
             console.log('OUTPUT : ', error.message);
+        }
+    }
+
+    // 21/8/2023 Created By Nimit Shah
+    // This function is use to show toast on multiple calls
+    // Multiple calls like I press two time save button on create board and it will generate two time red toast 
+    toastprocess(event) {
+        try {
+
+            if (event != null) {
+                this.ongoingtoast = !this.ongoingtoast;
+            }
+
+            if (this.enqueueToast.length > 0) {
+                if (!this.ongoingtoast) {
+                    this.ongoingtoast = !this.ongoingtoast;
+                    let toastdata = this.enqueueToast.splice(0, 1);
+                    setTimeout(() => {
+                        this.template.querySelector('c-toast').showToast(toastdata[0].status, toastdata[0].message);
+                    }, 1);
+                }
+            }
+
+        } catch (error) {
+            console.error(error.message);
         }
     }
 }

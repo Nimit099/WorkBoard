@@ -1,7 +1,7 @@
 <template>
 	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
 		aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-		<c-toast></c-toast>
+		<c-toast oncompleteonetoast={toastprocess}></c-toast>
 		<div class="slds-modal__container">
 			<!-- modal header start -->
 			<div class="headerpopup"> Recycle Bin</div>
@@ -14,7 +14,8 @@
 						<div class="deletedboards" key={board.Id}>
 							<div class="recycleboardname" title={board.Description__c}>{board.Name}</div>
 							<div class="recycleboardname">
-								<lightning-formatted-date-time value={board.DeletedDate__c}></lightning-formatted-date-time>
+								<lightning-formatted-date-time
+									value={board.DeletedDate__c}></lightning-formatted-date-time>
 							</div>
 							<div class="usericon" style="width:7%" data-name="recycle" data-id={board.Id}
 								onclick={recycleaction}>
@@ -39,7 +40,7 @@
 		</div>
 	</section>
 	<template if:true={deletepopup}>
-		<c-deletepopup onclosedelete={handledeleteaction} boardname={boardname} type={deletetype} ></c-deletepopup>
+		<c-deletepopup onclosedelete={handledeleteaction} boardname={boardname} type={deletetype}></c-deletepopup>
 	</template>
 	<div class="slds-backdrop slds-backdrop_open"></div>
 </template>

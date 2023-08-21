@@ -26,12 +26,15 @@ export default class Home extends NavigationMixin(LightningElement) {
   @track deletemodal = false;
   @track boardfound = false;
   @track spinnertable = false;
-  @track toast = false;
 
   @track boardfield = [];
   @track boardticket = [];
   @track boardcomment = [];
   @track boarduserrelation = [];
+
+  // This variables use in Toast
+  @track enqueueToast = [];
+  @track ongoingtoast;
 
 
   connectedCallback() {
@@ -51,7 +54,6 @@ export default class Home extends NavigationMixin(LightningElement) {
           this.ticketlist = result.tickets;
           this.fieldlist = result.fields;
           this.boardlist = result.boards;
-          console.log('OUTPUT connected : ', this.ticketlist.length);
           let board = [];
           let recycleboard = [];
           this.boardlist.forEach((element) => {
@@ -74,10 +76,10 @@ export default class Home extends NavigationMixin(LightningElement) {
           this.spinnertable = false;
         }).catch(error => {
           this.spinnertable = false;
-          console.log('OUTPUT home connected apex : ', error.message);
+          console.error('OUTPUT home connected apex : ', error.message);
         })
     } catch (error) {
-      console.log('OUTPUT home connected: ', error.message);
+      console.error('OUTPUT home connected: ', error.message);
     }
   }
 
@@ -121,7 +123,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       this.spinnertable = false;
     }
     catch (error) {
-      console.log('OUTPUT search : ', error.message);
+      console.error('OUTPUT search : ', error.message);
     }
   }
 
@@ -137,7 +139,6 @@ export default class Home extends NavigationMixin(LightningElement) {
           this.boardfield.push(field);
         }
       });
-      console.log('OUTPUT : ', this.ticketlist.length);
       this.boardfield.forEach(field => {
         this.ticketlist.forEach(ticket => {
           if (ticket.Field__c == field.Id) {
@@ -166,7 +167,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       });
 
     } catch (error) {
-      console.log('OUTPUT openboard : ', error.message);
+      console.error('OUTPUT openboard : ', error.message);
     }
   }
 
@@ -182,13 +183,12 @@ export default class Home extends NavigationMixin(LightningElement) {
         this.description = event.target.value;
       }
     } catch (error) {
-      console.log('OUTPUT popupinput : ', error.message);
+      console.error('OUTPUT popupinput : ', error.message);
     }
   }
 
   opencreatepopup() {
     this.isShowModal = true;
-    this.toast = true;
   }
 
   saveboardaction() {
@@ -196,11 +196,12 @@ export default class Home extends NavigationMixin(LightningElement) {
 
       // This is use to create new board
       if (this.name == null || this.name == undefined || this.name.trim() == '') {
-        this.template.querySelector('c-toast').showToast('error', 'PLEASE ENTER NAME');
+        this.enqueueToast.push({ status: 'error', message: 'PLEASE ENTER NAME' });
+        this.toastprocess(null);
+
       } else {
         this.spinnertable = true;
         this.isShowModal = false;
-        this.toast = true;
         let boardrecord = {
           'sobjectType': 'Board__c'
         };
@@ -215,10 +216,8 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.boardlist.push(newboard[0]);
             this.boards.push(newboard[0]);
             this.count = this.boards.length;
-            this.template.querySelector('c-toast').showToast('success', 'BOARD CREATED SUCCESSFULLY');
-            // setTimeout(() => {
-            //   this.toast = false;
-            // }, 4000);
+            this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' })
+            this.toastprocess(null);
             if (this.count > 0) {
               this.boardfound = true;
             } else {
@@ -226,29 +225,34 @@ export default class Home extends NavigationMixin(LightningElement) {
             }
             this.spinnertable = false;
           }).catch(error => {
-            console.log('OUTPUT handlepopupaction apex: ', error.message);
+            console.error('OUTPUT handlepopupaction apex: ', error.message);
           })
       }
 
     } catch (error) {
-      console.log('OUTPUT handlepopupaction : ', error.message);
+      console.error('OUTPUT handlepopupaction : ', error.message);
     }
   }
 
   cancelboardaction() {
-    this.isShowModal = false;
-    this.name = '';
-    this.description = '';
-    this.toast = false;
+    try {
+
+      this.isShowModal = false;
+      this.name = '';
+      this.description = '';
+
+    } catch (error) {
+      console.error(error.message);
+    }
   }
 
   handledeleteaction(event) {
     try {
+
       if (this.deletemodal == false) {
         this.boardname = event.currentTarget.dataset.name;
         this.boardid = event.currentTarget.dataset.id;
         this.deletemodal = true;
-        this.toast = true;
       }
       else {
         this.boardid = event.detail;
@@ -277,20 +281,17 @@ export default class Home extends NavigationMixin(LightningElement) {
           } else {
             this.boardfound = false;
           }
-          this.template.querySelector('c-toast').showToast('success', 'BOARD DELETED SUCCESSFULLY');
-          // setTimeout(() => {
-          //   this.toast = false;
-          // }, 4000);
+          this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
+
+          this.toastprocess(null);
+
         }
         this.spinnertable = false;
         this.deletemodal = false;
-        if (this.boardid == 0) {
-          this.toast = false;
-        }
       }
     }
     catch (error) {
-      console.log('OUTPUT handledeleteaction : ', error.message);
+      console.error('OUTPUT handledeleteaction : ', error.message);
     }
   }
 
@@ -302,7 +303,7 @@ export default class Home extends NavigationMixin(LightningElement) {
         if (event.detail == 'close') {
           this.isRecyclemodal = false;
         } else {
-          var temp;
+          let temp;
           this.recyclelist.forEach((element, index) => {
             if (element.Id.toLowerCase().includes(event.detail.toLowerCase())) {
               temp = index;
@@ -312,13 +313,13 @@ export default class Home extends NavigationMixin(LightningElement) {
         }
       }
     } catch (error) {
-      console.log('OUTPUT recycleaction : ', error.message);
+      console.error('OUTPUT recycleaction : ', error.message);
     }
   }
 
   restoreboard(event) {
     try {
-      var temp;
+      let temp;
       this.recyclelist.forEach((element, index) => {
         if (element.Id.toLowerCase().includes(event.detail.toLowerCase())) {
           temp = index;
@@ -336,12 +337,13 @@ export default class Home extends NavigationMixin(LightningElement) {
       }
     }
     catch (error) {
-      console.log('OUTPUT restoreboard : ', error.message);
+      console.error('OUTPUT restoreboard : ', error.message);
     }
   }
 
   disconnectedCallback() {
     console.log('OUTPUT : disconnected');
+    this.enqueueToast = [];
   }
 
   @api handletickets(task, updatedticket) {
@@ -357,9 +359,7 @@ export default class Home extends NavigationMixin(LightningElement) {
         this.ticketlist.splice(i, 1);
         this.ticketlist.push(updatedticket[0]);
       } else if (task == 'create') {
-        console.log('OUTPUT : ', this.ticketlist.length);
         this.ticketlist.push(updatedticket[0]);
-        console.log('OUTPUT : ', this.ticketlist.length);
       } else if (task == 'delete') {
         this.ticketlist.forEach(function (ticket, index) {
           if (ticket.Id == updatedticket[0].Id) {
@@ -377,7 +377,32 @@ export default class Home extends NavigationMixin(LightningElement) {
         this.ticketlist.splice(i, 1);
       }
     } catch (error) {
-      console.log('OUTPUT handletickets: ', error.message);
+      console.error('OUTPUT handletickets: ', error.message);
+    }
+  }
+
+  // 21/8/2023 Created By Nimit Shah
+  // This function is use to show toast on multiple calls
+  // Multiple calls like I press two time save button on create board and it will generate two time red toast 
+  toastprocess(event) {
+    try {
+
+      if (event != null) {
+        this.ongoingtoast = !this.ongoingtoast;
+      }
+
+      if (this.enqueueToast.length > 0) {
+        if (!this.ongoingtoast) {
+          this.ongoingtoast = !this.ongoingtoast;
+          let toastdata = this.enqueueToast.splice(0, 1);
+          setTimeout(() => {
+            this.template.querySelector('c-toast').showToast(toastdata[0].status, toastdata[0].message);
+          }, 1);
+        }
+      }
+
+    } catch (error) {
+      console.error(error.message);
     }
   }
 }

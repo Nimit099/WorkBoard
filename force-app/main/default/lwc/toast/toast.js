@@ -3,14 +3,14 @@ export default class Toast extends LightningElement {
 
     @track error = false;
     @track success = false;
-    @api type 
-    // @track showtoast = false;
+    @api type;
     @api toastmessage;
     @api
     showToast(type, message) {
         try {
-            this.showtoast = true;
+
             this.toastmessage = message;
+
             if (type == "success") {
                 this.success = true;
                 this.error = false;
@@ -19,15 +19,23 @@ export default class Toast extends LightningElement {
                 this.success = false;
                 this.error = true;
             }
+
             setTimeout(() => {
-                this.showtoast = false
+
                 this.success = false;
                 this.error = false;
                 this.type = '';
                 this.toastmessage = '';
-            }, 4000);
+
+                const dispatch = new CustomEvent("completeonetoast", {
+                    detail: 'onetoastdone'
+                })
+                this.dispatchEvent(dispatch);
+
+            }, 3500);
+
         } catch (error) {
-            console.log('OUTPUT showtoast : ', error);
+            console.error('OUTPUT showtoast : ', error);
         }
     }
 
