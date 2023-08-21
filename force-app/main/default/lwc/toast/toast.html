@@ -1,41 +1,40 @@
 <template>
-	<!-- <template if:true={showtoast}> -->
+	<template if:true={success}>
 		<div class="toastbody">
-			<template if:true={success}>
-				<div class="toast successtrue">
-					<div class="error success">
+			<div class="toast successtrue">
+				<div class="error success">
+				</div>
+				<div class="successicon">
+					<lightning-icon icon-name="action:approval" alternative-text="Doc image"></lightning-icon>
+				</div>
+				<div class="toasttext">
+					<div class="toastheader">
+						SUCCESS
 					</div>
-					<div class="successicon">
-						<lightning-icon icon-name="action:approval" alternative-text="Doc image"></lightning-icon>
-					</div>
-					<div class="toasttext">
-						<div class="toastheader">
-							SUCCESS
-						</div>
-						<div class="toastmessage">
-							{toastmessage}
-						</div>
+					<div class="toastmessage">
+						{toastmessage}
 					</div>
 				</div>
-			</template>
-			<template if:true={error}>
-				<div class=" toast errortrue">
-					<div class="error">
-					</div>
-					<div class="successicon erroricon">
-						<lightning-icon icon-name="action:close" alternative-text="Doc image"></lightning-icon>
-					</div>
-					<div class="toasttext">
-						<div class="toastheader">
-							ERROR
-						</div>
-						<div class="toastmessage">
-							{toastmessage}
-						</div>
-					</div>
-				</div>
-			</template>
-			<!-- </div> -->
+			</div>
 		</div>
-	<!-- </template> -->
+	</template>
+	<template if:true={error}>
+		<div class="toastbody">
+			<div class=" toast errortrue">
+				<div class="error">
+				</div>
+				<div class="successicon erroricon">
+					<lightning-icon icon-name="action:close" alternative-text="Doc image"></lightning-icon>
+				</div>
+				<div class="toasttext">
+					<div class="toastheader">
+						ERROR
+					</div>
+					<div class="toastmessage">
+						{toastmessage}
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
 </template>

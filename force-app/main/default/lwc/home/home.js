@@ -216,9 +216,9 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.boards.push(newboard[0]);
             this.count = this.boards.length;
             this.template.querySelector('c-toast').showToast('success', 'BOARD CREATED SUCCESSFULLY');
-            setTimeout(() => {
-              this.toast = false;
-            }, 4000);
+            // setTimeout(() => {
+            //   this.toast = false;
+            // }, 4000);
             if (this.count > 0) {
               this.boardfound = true;
             } else {
@@ -278,9 +278,9 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.boardfound = false;
           }
           this.template.querySelector('c-toast').showToast('success', 'BOARD DELETED SUCCESSFULLY');
-          setTimeout(() => {
-            this.toast = false;
-          }, 4000);
+          // setTimeout(() => {
+          //   this.toast = false;
+          // }, 4000);
         }
         this.spinnertable = false;
         this.deletemodal = false;
