@@ -255,58 +255,59 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  opendeletepopup(event) {
+    try {
+      this.deletemodal = !this.deletemodal;
+      if (event != null) {
+        this.boardname = event.currentTarget.dataset.name;
+        this.boardid = event.currentTarget.dataset.id;
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   // Created By Nimit Shah on 12/08/2023 --- This function is use to open delete popup to delete the boards
   // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
   // STATUS - DONE
   handledeleteaction(event) {
     try {
 
-      this.deletemodal = !this.deletemodal;
-      this.boardname = event.currentTarget.dataset.name;
-      this.boardid = event.currentTarget.dataset.id;
+      this.spinnertable = true;
 
-      if (event.currentTarget.dataset.id == undefined) {
-        this.boardid = event.detail;
-        let temp;
-        if (this.boardid != 0) {
+      this.boardid = event.detail;
+      let temp;
+      if (this.boardid != null) {
 
-          this.spinnertable = true;
-          this.boards.forEach((element, index) => {
-            if (element.Id.includes(this.boardid)) {
-              temp = index;
-            }
-          });
-          let recycleboard = this.boards.splice(temp, 1);
-
-          if (this.searchkey != undefined && this.searchkey.trim() != '' && this.searchkey != '') {
-            this.boardlist.forEach((element, index) => {
-              if (element.Id.includes(this.boardid)) {
-                temp = index;
-              }
-            });
-            this.boardlist.splice(temp, 1);
-          } else {
-            this.boardlist = this.boards;
+        this.boards.forEach((element, index) => {
+          if (element.Id.includes(this.boardid)) {
+            temp = index;
           }
+        });
+        let recycleboard = this.boards.splice(temp, 1);
 
-
-          recycleboard[0].DeletedDate__c = this.today;
-          this.recyclelist.push(recycleboard[0]);
-
-          this.indexval = 1;
-          if (this.boards.length > 0) {
-            this.boardfound = true;
-          } else {
-            this.boardfound = false;
+        this.boardlist.forEach((element, index) => {
+          if (element.Id.includes(this.boardid)) {
+            temp = index;
           }
+        });
+        this.boardlist.splice(temp, 1);
 
-          this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
-          this.toastprocess(null);
+        recycleboard[0].DeletedDate__c = this.today;
+        this.recyclelist.push(recycleboard[0]);
 
+        this.indexval = 1;
+        if (this.boards.length > 0) {
+          this.boardfound = true;
+        } else {
+          this.boardfound = false;
         }
-        this.spinnertable = false;
-        this.deletemodal = false;
+
+        this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
+        this.toastprocess(null);
+        this.opendeletepopup(null);
       }
+      this.spinnertable = false;
     } catch (error) {
       console.error('OUTPUT handledeleteaction : ', error.message);
     }
@@ -355,12 +356,8 @@ export default class Home extends NavigationMixin(LightningElement) {
       restoreboard[0].DeletedDate__c = undefined;
 
       this.boards.push(restoreboard[0]);
-
-      if (this.searchkey != undefined && this.searchkey.trim() != '' && this.searchkey != '') {
-        this.boardlist.push(restoreboard[0]);
-      } else {
-        this.boardlist = this.boards;
-      }
+      this.boardlist.push(restoreboard[0]);
+      
 
       this.indexval = 1;
       if (this.boards.length > 0) {
