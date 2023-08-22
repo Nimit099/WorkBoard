@@ -244,9 +244,8 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
             this.toastprocess(null);
           })
-
+        this.opencloseCreateBoardPopup();
       }
-      this.opencloseCreateBoardPopup();
 
     } catch (error) {
       this.spinnertable = false;
