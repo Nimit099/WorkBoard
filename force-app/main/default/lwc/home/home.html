@@ -9,9 +9,9 @@
 			<div class="headerlogo">
 			</div>
 			<div class="headerbutton">
-				<div class="createbutton" onclick={opencreatepopup}></span> Create Board</div>
+				<div class="createbutton" onclick={opencloseCreateBoardPopup}></span> Create Board</div>
 				<div class="usericon recycle">
-					<lightning-icon icon-name='standard:recycle_bin' onclick={recycleaction}
+					<lightning-icon icon-name='standard:recycle_bin' onclick={deleteBoard}
 						alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon>
 				</div>
 			</div>
@@ -118,7 +118,7 @@
 					</div>
 				</div>
 				<div class="footerpopup">
-					<div class="createbutton popupbutton" data-name="Cancel" onclick={cancelboardaction}></span>
+					<div class="createbutton popupbutton" data-name="Cancel" onclick={opencloseCreateBoardPopup}></span>
 						Cancel
 					</div>
 					<div class="createbutton popupbutton" data-name="Save" onclick={saveboardaction}></span> Save
@@ -132,7 +132,7 @@
 
 	<!-- Recycle popup start -->
 	<template if:true={isRecyclemodal}>
-		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={recycleaction} onrestoreboard={restoreboard}
+		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={deleteBoard} onrestoreboard={restoreboard}
 			type="Board">
 		</c-recyclepopup>
 	</template>

@@ -1,42 +1,50 @@
-import { LightningElement, track, api } from 'lwc';
-import createboard from '@salesforce/apex/HomePage.createboard';
-import boards from '@salesforce/apex/HomePage.boards';
+// STATUS FOR THE FUNCTIONS - WORKING, WORKING-FATAL, DONE, DEPRECATED
+
+import { LightningElement, track } from 'lwc';
+import createboard from '@salesforce/apex/HomePage.createboard';  // This is use to create boards;
+import getBoards from '@salesforce/apex/HomePage.getBoards';  // This is use to get the boards;
 import { NavigationMixin } from "lightning/navigation";
+
 export default class Home extends NavigationMixin(LightningElement) {
 
-  @track today;
+  @track today; // To store todays date
+
+  // This variables are use to store all the board data according to there specification
   @track boardlist = [];
   @track recyclelist = [];
-  @track userlist = [];
-  @track boarduserrelationlist = [];
-  @track commentlist = [];
-  @track ticketlist = [];
-  @track fieldlist = [];
-
   @track boards;
+
+  // This is use to store searching keywords
   @track searchkey;
+
+  // This variable is use for creation of board
   @track isShowModal = false;
   @track name = '';
   @track description;
-  @track isRecyclemodal = false;
-  count;
+
+  // count;  // Deprecated because we make replacement with this.boards.length;
+
+  // This is use for index numbers
   indexval = 1;
+
+  // This varialbes is use to open, close and perform action on Delete and Recycle popup
   @track boardid;
   @track boardname;
   @track deletemodal = false;
+  @track isRecyclemodal = false;
+
+  // This variables is used to run and stop spinner and make boardnotfound page visible
   @track boardfound = false;
   @track spinnertable = false;
-
-  @track boardfield = [];
-  @track boardticket = [];
-  @track boardcomment = [];
-  @track boarduserrelation = [];
 
   // This variables use in Toast
   @track enqueueToast = [];
   @track ongoingtoast;
 
 
+  // Created By Nimit Shah on 12/08/2023  ---  This is use to get Boards and arrange the boards.
+  // Updated By Nimit Shah on 22/8/2023   ---  Update to reduce variable like field, ticket, etc and make code lighter.
+  // STATUS - DONE
   connectedCallback() {
     try {
 
@@ -49,60 +57,60 @@ export default class Home extends NavigationMixin(LightningElement) {
       var yyyy = this.today.getFullYear();
       this.today = yyyy + '-' + mm + '-' + dd;
 
-      // Created By Nimit Shah on 21/08/2023
-      // This is use to get Boards, Fields, Tickets, User, BoardUsers, Comments List
-      boards()
+      getBoards()
         .then(result => {
-          this.commentlist = result.comments;
-          this.boarduserrelationlist = result.boarduserlimit;
-          this.userlist = result.users;
-          this.ticketlist = result.tickets;
-          this.fieldlist = result.fields;
-          this.boardlist = result.boards;
+
           let board = [];
           let recycleboard = [];
-          this.boardlist.forEach((element) => {
+
+          result.forEach((element) => {
             if (element.DeletedDate__c == undefined) {
               board.push(element);
             } else {
               recycleboard.push(element);
             }
-          })
+          });
+
           this.recyclelist = recycleboard;
           this.boards = board;
-          this.count = this.boards.length;
-          this.spinnertable = false;
-          if (this.count > 0) {
+          this.boardlist = board;
+
+          if (this.boards.length > 0) {
             this.boardfound = true;
           } else {
             this.boardfound = false;
-
           }
+
           this.spinnertable = false;
+
         }).catch(error => {
           this.spinnertable = false;
           console.error('OUTPUT home connected apex : ', error.message);
         })
     } catch (error) {
+      this.spinnertable = false;
       console.error('OUTPUT home connected: ', error.message);
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to give index to the boards
+
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to give index to the boards
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // STATUS - DONE
   get index() {
-    if (this.indexval > this.count) {
+    if (this.indexval > this.boards.length) {
       this.indexval = 1;
     }
     return this.indexval++;
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to search board 
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to search board.
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // STATUS - DONE
   search(event) {
     try {
       this.spinnertable = true;
-      var temparaylist = [];
+      let temparaylist = [];
       this.searchkey = event.target.value;
       this.indexval = 1;
       if (this.searchkey.trim() != '') {
@@ -113,7 +121,6 @@ export default class Home extends NavigationMixin(LightningElement) {
             }
           }
         })
-        this.boards = temparaylist;
       } else {
         temparaylist = [];
         this.boardlist.forEach((element) => {
@@ -121,14 +128,15 @@ export default class Home extends NavigationMixin(LightningElement) {
             temparaylist.push(element);
           }
         })
-        this.boards = temparaylist;
       }
-      this.count = this.boards.length;
-      if (this.count > 0) {
+      this.boards = temparaylist;
+
+      if (this.boards.length > 0) {
         this.boardfound = true;
       } else {
         this.boardfound = false;
       }
+
       this.spinnertable = false;
     }
     catch (error) {
@@ -136,37 +144,19 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to open the Board or View the Board
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to open the Board or View the Board.
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // STATUS - FATAL --- Need to change code in viewBoard.
   openboard(event) {
     try {
       this.boardid = event.currentTarget.dataset.id;
       this.boardname = event.currentTarget.dataset.name;
-      this.boardfield = [];
-      this.boardticket = [];
-
-      this.fieldlist.forEach(field => {
-        if (field.Board__c === this.boardid) {
-          this.boardfield.push(field);
-        }
-      });
-      this.boardfield.forEach(field => {
-        this.ticketlist.forEach(ticket => {
-          if (ticket.Field__c == field.Id) {
-            this.boardticket.push(ticket);
-          }
-        });
-      });
 
       let cmpDef = {
         componentDef: "c:viewBoard",
         attributes: {
           hboardid: this.boardid,
           hboardname: this.boardname,
-          hfieldlist: this.boardfield,
-          hticketlist: this.boardticket,
-          hcommentlist: this.boardcomment,
-          hboarduserrelationlist: this.boarduserrelation
         }
       };
       let encodedDef = btoa(JSON.stringify(cmpDef));
@@ -182,149 +172,151 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to open Create Board popup
-  opencreatepopup() {
-    this.isShowModal = true;
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to open & close Create Board popup.
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
+  // STATUS - DONE
+  opencloseCreateBoardPopup() {
+    this.isShowModal = !this.isShowModal;
+    this.name = '';
+    this.description = '';
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to take input of Board Details
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to take input of Board Details.
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
+  // STATUS - DONE
   popupinput(event) {
     try {
+
       if (event.currentTarget.dataset.name == 'name') {
         this.name = event.target.value;
       } else if (event.currentTarget.dataset.name == 'description') {
         this.description = event.target.value;
       }
+
     } catch (error) {
       console.error('OUTPUT popupinput : ', error.message);
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to save records of Boards
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to save records of Boards.
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
+  // STATUS - DONE
   saveboardaction() {
     try {
 
       // This is use to create new board
       if (this.name == null || this.name == undefined || this.name.trim() == '') {
+
         this.enqueueToast.push({ status: 'error', message: 'PLEASE ENTER NAME' });
         this.toastprocess(null);
 
       } else {
+
         this.spinnertable = true;
-        this.isShowModal = false;
         let boardrecord = {
           'sobjectType': 'Board__c'
         };
         boardrecord['Name'] = this.name;
         boardrecord['Description__c'] = this.description;
+
         createboard({ board: boardrecord })
           .then(result => {
-            this.name = '';
-            this.description = '';
+
             this.indexval = 1;
-            let newboard = [{ "CreatedDate__c": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
-            this.boardlist.push(newboard[0]);
+            let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
+
             this.boards.push(newboard[0]);
-            this.count = this.boards.length;
-            this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' })
+            this.boardlist = this.boards;
+
+            this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' });
             this.toastprocess(null);
-            if (this.count > 0) {
+
+            this.spinnertable = false;
+
+            if (this.boards.length > 0) {
               this.boardfound = true;
             } else {
               this.boardfound = false;
             }
-            this.spinnertable = false;
           }).catch(error => {
+            this.spinnertable = false;
             console.error('OUTPUT handlepopupaction apex: ', error.message);
+            this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
+            this.toastprocess(null);
           })
+
       }
+      this.opencloseCreateBoardPopup();
 
     } catch (error) {
+      this.spinnertable = false;
+      this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
+      this.toastprocess(null);
       console.error('OUTPUT handlepopupaction : ', error.message);
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to cancel while creating board
-  cancelboardaction() {
-    try {
-
-      this.isShowModal = false;
-      this.name = '';
-      this.description = '';
-
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to open delete popup to delete the popup
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to open delete popup to delete the boards
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // STATUS - DONE
   handledeleteaction(event) {
     try {
 
-      if (this.deletemodal == false) {
-        this.boardname = event.currentTarget.dataset.name;
-        this.boardid = event.currentTarget.dataset.id;
-        this.deletemodal = true;
-      }
-      else {
+      this.deletemodal = !this.deletemodal;
+      this.boardname = event.currentTarget.dataset.name;
+      this.boardid = event.currentTarget.dataset.id;
+
+      if (event.currentTarget.dataset.id == undefined) {
         this.boardid = event.detail;
-        var temp;
+        let temp;
         if (this.boardid != 0) {
+
           this.spinnertable = true;
           this.boards.forEach((element, index) => {
-            if (element.Id.toLowerCase().includes(this.boardid.toLowerCase())) {
+            if (element.Id.includes(this.boardid)) {
               temp = index;
             }
           });
-          var recycleboard = this.boards.splice(temp, 1);
+          let recycleboard = this.boards.splice(temp, 1);
+          this.boardlist = this.boards;
 
-          this.boardlist.forEach((element, index) => {
-            if (element.Id.toLowerCase().includes(this.boardid.toLowerCase())) {
-              temp = index;
-            }
-          })
-          this.boardlist.splice(temp, 1);
-          recycleboard = [{ "CreatedDate__c": recycleboard[0].CreatedDate__c, "DeletedDate__c": this.today, "Id": recycleboard[0].Id, "Name": recycleboard[0].Name }];
+          recycleboard[0].DeletedDate__c = this.today;
           this.recyclelist.push(recycleboard[0]);
+
           this.indexval = 1;
-          this.count = this.boards.length;
-          if (this.count > 0) {
+          if (this.boards.length > 0) {
             this.boardfound = true;
           } else {
             this.boardfound = false;
           }
-          this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
 
+          this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
           this.toastprocess(null);
 
         }
         this.spinnertable = false;
         this.deletemodal = false;
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('OUTPUT handledeleteaction : ', error.message);
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to open the recycle page
-  recycleaction(event) {
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to open the recycle page.
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // STATUS - DONE
+  deleteBoard(event) {
     try {
-      if (this.isRecyclemodal == false) {
-        this.isRecyclemodal = true;
+      this.isRecyclemodal = !this.isRecyclemodal;
+
+      if (event.detail == 'close') {
+
+        this.isRecyclemodal = false;
       } else {
-        if (event.detail == 'close') {
-          this.isRecyclemodal = false;
-        } else {
+        if (!event.isTrusted) {
           let temp;
           this.recyclelist.forEach((element, index) => {
-            if (element.Id.toLowerCase().includes(event.detail.toLowerCase())) {
+            if (element.Id.includes(event.detail)) {
               temp = index;
             }
           })
@@ -332,79 +324,82 @@ export default class Home extends NavigationMixin(LightningElement) {
         }
       }
     } catch (error) {
-      console.error('OUTPUT recycleaction : ', error.message);
+      console.error('OUTPUT deleteBoard : ', error.message);
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to restore the boards 
+  // Created By Nimit Shah on 12/08/2023 --- This function is use to restore the boards 
+  // Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // STATUS - DONE
   restoreboard(event) {
     try {
+
       let temp;
       this.recyclelist.forEach((element, index) => {
-        if (element.Id.toLowerCase().includes(event.detail.toLowerCase())) {
+        if (element.Id.includes(event.detail)) {
           temp = index;
         }
       })
-      var restoreboard = this.recyclelist.splice(temp, 1);
-      this.boardlist.push(restoreboard[0]);
+
+      let restoreboard = this.recyclelist.splice(temp, 1);
+      restoreboard[0].DeletedDate__c = undefined;
+
       this.boards.push(restoreboard[0]);
+      this.boardlist = this.boards;
+
       this.indexval = 1;
-      this.count = this.boards.length;
-      if (this.count > 0) {
+      if (this.boards.length > 0) {
         this.boardfound = true;
       } else {
         this.boardfound = false;
       }
-    }
-    catch (error) {
+
+    } catch (error) {
       console.error('OUTPUT restoreboard : ', error.message);
     }
   }
 
-  // Created By Nimit Shah on 21/08/2023
-  // This function is use to store the ticket data which is send by the viewBoard page
-  @api handletickets(task, updatedticket) {
-    try {
+  // ************* Deprecated due to remove storing data for ticket field and etc ******************//
+  // @api handletickets(task, updatedticket) {
+  //   try {
 
-      let i;
-      if (task == 'update') {
-        this.ticketlist.forEach(function (ticket, index) {
-          if (ticket.Id == updatedticket[0].Id) {
-            i = index;
-          }
-        });
-        this.ticketlist.splice(i, 1);
-        this.ticketlist.push(updatedticket[0]);
-      } else if (task == 'create') {
-        this.ticketlist.push(updatedticket[0]);
-      } else if (task == 'delete') {
-        this.ticketlist.forEach(function (ticket, index) {
-          if (ticket.Id == updatedticket[0].Id) {
-            i = index;
-          }
-        });
-        this.ticketlist.splice(i, 1);
-        this.ticketlist.push(updatedticket[0]);
-      } else if (task == 'permanentdelete') {
-        this.ticketlist.forEach(function (ticket, index) {
-          if (ticket.Id == updatedticket[0].Id) {
-            i = index;
-          }
-        });
-        this.ticketlist.splice(i, 1);
-      }
-    } catch (error) {
-      console.error('OUTPUT handletickets: ', error.message);
-    }
-  }
+  //     let i;
+  //     if (task == 'update') {
+  //       this.ticketlist.forEach(function (ticket, index) {
+  //         if (ticket.Id == updatedticket[0].Id) {
+  //           i = index;
+  //         }
+  //       });
+  //       this.ticketlist.splice(i, 1);
+  //       this.ticketlist.push(updatedticket[0]);
+  //     } else if (task == 'create') {
+  //       this.ticketlist.push(updatedticket[0]);
+  //     } else if (task == 'delete') {
+  //       this.ticketlist.forEach(function (ticket, index) {
+  //         if (ticket.Id == updatedticket[0].Id) {
+  //           i = index;
+  //         }
+  //       });
+  //       this.ticketlist.splice(i, 1);
+  //       this.ticketlist.push(updatedticket[0]);
+  //     } else if (task == 'permanentdelete') {
+  //       this.ticketlist.forEach(function (ticket, index) {
+  //         if (ticket.Id == updatedticket[0].Id) {
+  //           i = index;
+  //         }
+  //       });
+  //       this.ticketlist.splice(i, 1);
+  //     }
+  //   } catch (error) {
+  //     console.error('OUTPUT handletickets: ', error.message);
+  //   }
+  // }
 
-  // 21/8/2023 Created By Nimit Shah
-  // This function is use to show toast on multiple calls
-  // Multiple calls like I press two time save button on create board and it will generate two time red toast 
+  // Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
+  // Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
+  // STATUS - DONE
   toastprocess(event) {
     try {
-
       if (event != null) {
         this.ongoingtoast = !this.ongoingtoast;
       }
@@ -430,4 +425,5 @@ export default class Home extends NavigationMixin(LightningElement) {
     console.log('OUTPUT : disconnected');
     this.enqueueToast = [];
   }
+
 }
