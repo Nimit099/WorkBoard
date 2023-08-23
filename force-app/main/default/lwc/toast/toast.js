@@ -5,6 +5,10 @@ export default class Toast extends LightningElement {
     @track success = false;
     @api type;
     @api toastmessage;
+
+    // Created By Nimit Shah on 12/08/2023  ---  This is use to show toast message
+    // Updated By Nimit Shah on 23/8/2023   ---  This is update to reduce time limit of the toast
+    // STATUS - DONE
     @api
     showToast(type, message) {
         try {
@@ -32,7 +36,7 @@ export default class Toast extends LightningElement {
                 })
                 this.dispatchEvent(dispatch);
 
-            }, 3500);
+            }, 2700);
 
         } catch (error) {
             console.error('OUTPUT showtoast : ', error);

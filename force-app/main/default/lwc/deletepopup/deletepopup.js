@@ -41,7 +41,7 @@ export default class Deletepopup extends LightningElement {
                             console.log(JSON.stringify(error));
                         })
                 } else {
-                    this.boardid = 0;
+                    this.boardid = null;
                 }
                 const deleted = new CustomEvent("closedelete", {
                     detail: this.boardid
