@@ -9,9 +9,13 @@ export default class Deletepopup extends LightningElement {
     @api type;
     @track showtype;
     @track notes;
+
+    // CREATION - Created By Nimit Shah on 12/08/2023 --- This is use to show delete popup
+    // UPDATION - Updated By Nimit Shah on 23/08/2023 --- Make it lighter and furnish the code
+    // CONDITION - Not cleaned code
+    // STATUS - Working
     connectedCallback() {
         try {
-            console.log('OUTPUT : ', this.boardid);
             if (this.type == 'board') {
                 this.showtype = "Board";
                 this.notes = true;
@@ -32,68 +36,91 @@ export default class Deletepopup extends LightningElement {
     }
     handledeleteaction(event) {
         try {
-            console.log('OUTPUT : ', event.currentTarget.dataset.name);
             if (event.currentTarget.dataset.type == "board") {
-                if (event.currentTarget.dataset.name == "deleteyes") {
-                    deleteboard({ boardId: this.boardid })
-                        .then(result => {
-                        }).catch(error => {
-                            console.log(JSON.stringify(error));
-                        })
-                } else {
-                    this.boardid = null;
-                }
-                const deleted = new CustomEvent("closedelete", {
-                    detail: this.boardid
-                });
-                this.dispatchEvent(deleted);
+                
+                this.temporarydeleteboard(event);
+                
             } else if (event.currentTarget.dataset.type == "restoreboard") {
-                if (event.currentTarget.dataset.name == "deleteyes") {
-                    const deleted = new CustomEvent("closedelete", {
-                        detail: "deleteyes"
-                    });
-                    this.dispatchEvent(deleted);
-                } else {
-                    const deleted = new CustomEvent("closedelete", {
-                        detail: "deleteno"
-                    });
-                    this.dispatchEvent(deleted);
-                }
+
+                this.permanentdeleteboard(event);
+
             } else if (event.currentTarget.dataset.type == "ticket") {
-                if (event.currentTarget.dataset.name == "deleteyes") {
-                    deleteticket({ ticketId: this.boardid })
-                        .then(result => {
-                            const deleted = new CustomEvent("closedelete", {
-                                detail: "deleteyes"
-                            });
-                            this.dispatchEvent(deleted);
-                        }).catch(error => {
-                            console.log(JSON.stringify(error));
-                        })
-                } else {
-                    console.log('OUTPUT : deleteno');
-                    const deleted = new CustomEvent("closedelete", {
-                        detail: "deleteno"
-                    });
-                    this.dispatchEvent(deleted);
-                }
+                
+                this.temporarydeleteticket(event);
+
             } else if (event.currentTarget.dataset.type == "restoreticket") {
-                if (event.currentTarget.dataset.name == "deleteyes") {
-                    const deleted = new CustomEvent("closedelete", {
-                        detail: "deleteyes"
-                    });
-                    this.dispatchEvent(deleted);
-                }
-                else {
-                    const deleted = new CustomEvent("closedelete", {
-                        detail: "deleteno"
-                    });
-                    this.dispatchEvent(deleted);
-                }
+
+                this.permanentdeleteticket(); 
+
             }
 
         } catch (error) {
             console.log('OUTPUT : ', error);
+        }
+    }
+
+    temporarydeleteboard(event) {
+        if (event.currentTarget.dataset.name != "deleteyes") {
+            // deleteboard({ boardId: this.boardid })
+            //     .then(result => {
+            //     }).catch(error => {
+            //         console.log(JSON.stringify(error));
+            //     })
+            this.boardid = null;
+        }
+        
+        const deleted = new CustomEvent("closedelete", {
+            detail: this.boardid
+        });
+        this.dispatchEvent(deleted);
+    }
+
+    permanentdeleteboard(event) {
+        if (event.currentTarget.dataset.name == "deleteyes") {
+            const deleted = new CustomEvent("closedelete", {
+                detail: "deleteyes"
+            });
+            this.dispatchEvent(deleted);
+        } else {
+            const deleted = new CustomEvent("closedelete", {
+                detail: "deleteno"
+            });
+            this.dispatchEvent(deleted);
+        }
+    }
+
+    temporarydeleteticket(event) {
+        if (event.currentTarget.dataset.name == "deleteyes") {
+            deleteticket({ ticketId: this.boardid })
+                .then(result => {
+                    const deleted = new CustomEvent("closedelete", {
+                        detail: "deleteyes"
+                    });
+                    this.dispatchEvent(deleted);
+                }).catch(error => {
+                    console.log(JSON.stringify(error));
+                })
+        } else {
+            console.log('OUTPUT : deleteno');
+            const deleted = new CustomEvent("closedelete", {
+                detail: "deleteno"
+            });
+            this.dispatchEvent(deleted);
+        }
+    }
+
+    permanentdeleteticket(event){
+        if (event.currentTarget.dataset.name == "deleteyes") {
+            const deleted = new CustomEvent("closedelete", {
+                detail: "deleteyes"
+            });
+            this.dispatchEvent(deleted);
+        }
+        else {
+            const deleted = new CustomEvent("closedelete", {
+                detail: "deleteno"
+            });
+            this.dispatchEvent(deleted);
         }
     }
 }
