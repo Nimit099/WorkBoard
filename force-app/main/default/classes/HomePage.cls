@@ -75,6 +75,31 @@ public with sharing class HomePage {
         }
     }
 
+         /**
+     * @description deleteboard Method
+     * @param searchkey Id of Board__c
+     * @Return boards It is List of Board__c
+     */
+    @AuraEnabled
+    public static List<Board__c> searchBoard(String searchkey){
+        try{
+
+            List<Board__c> boards = new List<Board__c>(); 
+            if (searchkey != null) {
+                searchkey = '%' + searchkey + '%';
+                boards = [SELECT Id,Name,DeletedDate__c,CreatedDate,Description__c FROM Board__c WHERE Name LIKE: searchkey AND DeletedDate__c =: null WITH SECURITY_ENFORCED order by LastModifiedDate asc];
+            } else {
+                boards = [SELECT Id,Name,DeletedDate__c,CreatedDate,Description__c FROM Board__c WHERE DeletedDate__c =: null WITH SECURITY_ENFORCED order by LastModifiedDate asc];
+            }
+            return boards;
+
+        } catch(Exception e){
+            HandleExceptions eh = new HandleExceptions(e);
+            return null;
+        }
+    }
+
+
      /**
      * @description deleteboard Method
      * @param boardId Id of Board__c

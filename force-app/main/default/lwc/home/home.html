@@ -44,7 +44,7 @@
 						<div class="delete">Delete</div>
 					</div>
 					<template if:true={boardfound}>
-						<template for:each={boards} for:item="board">
+						<template for:each={boardlist} for:item="board">
 							<div class="tablebody" key={board.Id}>
 								<div class="index" onclick={openboard} data-id={board.Id} data-name={board.Name}>
 									{index}</div>
