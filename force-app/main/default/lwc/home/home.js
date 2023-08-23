@@ -224,9 +224,14 @@ export default class Home extends NavigationMixin(LightningElement) {
 
             this.indexval = 1;
             let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
+            console.log('OUTPUT : ',this.boardlist.length);
+            console.log('OUTPUT : ',this.boards.length);
 
             this.boards.push(newboard[0]);
-            this.boardlist.push(newboard[0]);
+            // this.boardlist.push(newboard[0]);
+            console.log('OUTPUT : ',this.boardlist.length);
+            console.log('OUTPUT : ',this.boards.length);
+
 
             this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' });
             this.toastprocess(null);
@@ -279,6 +284,9 @@ export default class Home extends NavigationMixin(LightningElement) {
       let temp;
       if (this.boardid != null) {
 
+        console.log(this.boards.length);
+        console.log(this.boardlist.length);
+
         this.boards.forEach((element, index) => {
           if (element.Id.includes(this.boardid)) {
             temp = index;
@@ -292,7 +300,8 @@ export default class Home extends NavigationMixin(LightningElement) {
           }
         });
         this.boardlist.splice(temp, 1);
-
+        console.log(this.boards.length);
+        console.log(this.boardlist.length);
         recycleboard[0].DeletedDate__c = this.today;
         this.recyclelist.push(recycleboard[0]);
 
@@ -355,9 +364,14 @@ export default class Home extends NavigationMixin(LightningElement) {
       let restoreboard = this.recyclelist.splice(temp, 1);
       restoreboard[0].DeletedDate__c = undefined;
 
+      console.log(this.boards.length);
+      console.log(this.boardlist.length);
+      
       this.boards.push(restoreboard[0]);
       this.boardlist.push(restoreboard[0]);
       
+      console.log(this.boards.length);
+      console.log(this.boardlist.length);
 
       this.indexval = 1;
       if (this.boards.length > 0) {
