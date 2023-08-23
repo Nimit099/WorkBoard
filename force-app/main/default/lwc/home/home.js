@@ -4,6 +4,8 @@ import { LightningElement, track } from 'lwc';
 import createboard from '@salesforce/apex/HomePage.createboard';  // This is use to create boards;
 import getBoards from '@salesforce/apex/HomePage.getBoards';  // This is use to get the boards;
 import searchBoard from '@salesforce/apex/HomePage.searchBoard';  // This is use to get the boards while searching;
+import deleteboard from '@salesforce/apex/HomePage.deleteboard';  // This is use to temporary delete the board;
+
 
 import { NavigationMixin } from "lightning/navigation";
 
@@ -280,7 +282,7 @@ export default class Home extends NavigationMixin(LightningElement) {
   }
 
   // CREATION - CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open delete popup to delete the boards
-  // UPDATION - UPDATION - Updated By Nimit Shah on 23/08/2023 --- Remove boardlist variable usage in this
+  // UPDATION - UPDATION - Updated By Nimit Shah on 23/08/2023 --- Add temporary delete to this function
   // CONDITION - Cleaned code
   // STATUS - DONE
   handledeleteaction(event) {
@@ -292,30 +294,42 @@ export default class Home extends NavigationMixin(LightningElement) {
       let temp;
       if (this.boardid != null) {
 
-        this.boardlist.forEach((element, index) => {
-          if (element.Id.includes(this.boardid)) {
-            temp = index;
-          }
-        });
+        deleteboard({ boardId: this.boardid })
+          .then(result => {
 
-        let recycleboard = this.boardlist.splice(temp, 1);
+            this.boardlist.forEach((element, index) => {
+              if (element.Id.includes(this.boardid)) {
+                temp = index;
+              }
+            });
 
-        recycleboard[0].DeletedDate__c = this.today;
-        this.recyclelist.push(recycleboard[0]);
+            let recycleboard = this.boardlist.splice(temp, 1);
 
-        this.indexval = 1;
-        if (this.boardlist.length > 0) {
-          this.boardfound = true;
-        } else {
-          this.boardfound = false;
-        }
+            recycleboard[0].DeletedDate__c = this.today;
+            this.recyclelist.push(recycleboard[0]);
 
-        this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
-        this.toastprocess(null);
+            this.indexval = 1;
+            if (this.boardlist.length > 0) {
+              this.boardfound = true;
+            } else {
+              this.boardfound = false;
+            }
+
+            this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
+            this.toastprocess(null);
+            this.spinnertable = false;
+
+          }).catch(error => {
+            this.enqueueToast.push({ status: 'error', message: 'BOARD DELETED FAILED' });
+            this.toastprocess(null);
+            console.log(JSON.stringify(error));
+          })
+
         this.opendeletepopup(null);
       }
-      this.spinnertable = false;
     } catch (error) {
+      this.enqueueToast.push({ status: 'error', message: 'BOARD DELETED FAILED' });
+      this.toastprocess(null);
       console.error('OUTPUT handledeleteaction : ', error.message);
     }
   }
