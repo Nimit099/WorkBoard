@@ -8,7 +8,6 @@ export default class Toast extends LightningElement {
     @api
     showToast(type, message) {
         try {
-
             this.toastmessage = message;
 
             if (type == "success") {

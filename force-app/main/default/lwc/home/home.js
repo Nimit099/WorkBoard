@@ -157,6 +157,7 @@ export default class Home extends NavigationMixin(LightningElement) {
   // STATUS - FATAL --- Need to change code in viewBoard.
   openboard(event) {
     try {
+      
       this.boardid = event.currentTarget.dataset.id;
       this.boardname = event.currentTarget.dataset.name;
 

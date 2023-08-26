@@ -33,6 +33,7 @@ export default class Deletepopup extends LightningElement {
 
     handledeleteaction(event) {
         try {
+            
             if (this.showtype == 'Board') {
                 this.handledeleteboard(event);
             } else if (this.showtype == 'Ticket') {

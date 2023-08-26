@@ -139,10 +139,8 @@ public with sharing class HomePage {
     @AuraEnabled
     public static void permanentdeleteboard(Id boardId){
         try{
-            
                 Board__c b = new Board__c(Id = boardId);
                 delete as User b;
-
         } catch(Exception e){
             HandleExceptions eh = new HandleExceptions(e);
             System.debug(e);

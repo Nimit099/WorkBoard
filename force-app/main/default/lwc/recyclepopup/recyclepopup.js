@@ -101,6 +101,7 @@ export default class Recyclepopup extends LightningElement {
     // STATUS - WORKING
     handlepermanentdeleteticket() {
         try {
+            
             permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
                 .then(result => {
                     this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
