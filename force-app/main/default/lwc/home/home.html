@@ -71,8 +71,8 @@
 								<div class="actionbutton">
 									<div class="usericon">
 										<lightning-icon data-id={board.Id} data-name={board.Name}
-											onclick={openclosedeletepopup} icon-name='action:delete' alternative-text='edit'
-											size='medium' title='edit'></lightning-icon>
+											onclick={openclosedeletepopup} icon-name='action:delete'
+											alternative-text='edit' size='medium' title='edit'></lightning-icon>
 									</div>
 								</div>
 
@@ -140,7 +140,8 @@
 
 	<!-- Delete popup start -->
 	<template if:true={deletemodal}>
-		<c-deletepopup boardid={boardid} boardname={boardname} type="board" onclosedeletepopup={openclosedeletepopup} ontemporaryboarddelete={handletemporarydeleteaction}>
+		<c-deletepopup boardid={boardid} boardname={boardname} type="board" onclosedeletepopup={openclosedeletepopup}
+			ontemporaryboarddelete={handletemporarydeleteaction}>
 		</c-deletepopup>
 	</template>
 	<!-- Delete popup end -->
