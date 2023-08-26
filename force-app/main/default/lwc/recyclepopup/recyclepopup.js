@@ -93,6 +93,7 @@ export default class Recyclepopup extends LightningElement {
         } catch (error) {
             console.error(error);
         }
+        
     }
 
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to permanently delete the ticket
@@ -101,7 +102,7 @@ export default class Recyclepopup extends LightningElement {
     // STATUS - WORKING
     handlepermanentdeleteticket() {
         try {
-            
+
             permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
                 .then(result => {
                     this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
