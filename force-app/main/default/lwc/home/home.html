@@ -11,7 +11,7 @@
 			<div class="headerbutton">
 				<div class="createbutton" onclick={opencloseCreateBoardPopup}></span> Create Board</div>
 				<div class="usericon recycle">
-					<lightning-icon icon-name='standard:recycle_bin' onclick={deleteBoard}
+					<lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
 						alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon>
 				</div>
 			</div>
@@ -71,8 +71,8 @@
 								<div class="actionbutton">
 									<div class="usericon">
 										<lightning-icon data-id={board.Id} data-name={board.Name}
-											onclick={opendeletepopup} icon-name='action:delete'
-											alternative-text='edit' size='medium' title='edit'></lightning-icon>
+											onclick={openclosedeletepopup} icon-name='action:delete' alternative-text='edit'
+											size='medium' title='edit'></lightning-icon>
 									</div>
 								</div>
 
@@ -132,15 +132,15 @@
 
 	<!-- Recycle popup start -->
 	<template if:true={isRecyclemodal}>
-		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={deleteBoard} onrestoreboard={restoreboard}
-			type="Board">
+		<c-recyclepopup recyclelist={recyclelist} oncloserecycle={opencloserecyclepopup}
+			onpermanentdeleteboard={permanentdeleteBoard} onrestoreboard={restoreboard} type="Board">
 		</c-recyclepopup>
 	</template>
 	<!-- Recycle popup end -->
 
 	<!-- Delete popup start -->
 	<template if:true={deletemodal}>
-		<c-deletepopup boardid={boardid} boardname={boardname} type="board" onclosedelete={handledeleteaction}>
+		<c-deletepopup boardid={boardid} boardname={boardname} type="board" onclosedeletepopup={openclosedeletepopup} ontemporaryboarddelete={handletemporarydeleteaction}>
 		</c-deletepopup>
 	</template>
 	<!-- Delete popup end -->

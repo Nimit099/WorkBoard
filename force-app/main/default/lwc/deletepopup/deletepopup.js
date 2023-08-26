@@ -10,16 +10,12 @@ export default class Deletepopup extends LightningElement {
     @track showtype;
     @track notes;
 
-    // CREATION - Created By Nimit Shah on 12/08/2023 --- This is use to show delete popup
-    // UPDATION - Updated By Nimit Shah on 23/08/2023 --- Make it lighter and furnish the code
-    // CONDITION - Not cleaned code
-    // STATUS - Working
     connectedCallback() {
         try {
             if (this.type == 'board') {
                 this.showtype = "Board";
                 this.notes = true;
-            } else if (this.type == "restoreboard") {
+            } else if (this.type == "permanentdeleteboard") {
                 this.showtype = "Board";
                 this.notes = false;
             } else if (this.type == 'ticket') {
@@ -31,96 +27,81 @@ export default class Deletepopup extends LightningElement {
                 this.notes = false;
             }
         } catch (error) {
-            console.log('OUTPUT : ', error);
+            console.error('OUTPUT : ', error.message);
         }
     }
+
     handledeleteaction(event) {
         try {
-            if (event.currentTarget.dataset.type == "board") {
-                
-                this.temporarydeleteboard(event);
-                
-            } else if (event.currentTarget.dataset.type == "restoreboard") {
-
-                this.permanentdeleteboard(event);
-
-            } else if (event.currentTarget.dataset.type == "ticket") {
-                
-                this.temporarydeleteticket(event);
-
-            } else if (event.currentTarget.dataset.type == "restoreticket") {
-
-                this.permanentdeleteticket(); 
-
+            if (this.showtype == 'Board') {
+                this.handledeleteboard(event);
+            } else if (this.showtype == 'Ticket') {
+                if (event.currentTarget.dataset.type == "ticket") {
+                    if (event.currentTarget.dataset.name == "deleteyes") {
+                        deleteticket({ ticketId: this.boardid })
+                            .then(result => {
+                                const deleted = new CustomEvent("closedelete", {
+                                    detail: "deleteyes"
+                                });
+                                this.dispatchEvent(deleted);
+                            }).catch(error => {
+                                console.error(error.message);
+                            })
+                    } else {
+                        const deleted = new CustomEvent("closedelete", {
+                            detail: "deleteno"
+                        });
+                        this.dispatchEvent(deleted);
+                    }
+                } else if (event.currentTarget.dataset.type == "restoreticket") {
+                    if (event.currentTarget.dataset.name == "deleteyes") {
+                        const deleted = new CustomEvent("closedelete", {
+                            detail: "deleteyes"
+                        });
+                        this.dispatchEvent(deleted);
+                    }
+                    else {
+                        const deleted = new CustomEvent("closedelete", {
+                            detail: "deleteno"
+                        });
+                        this.dispatchEvent(deleted);
+                    }
+                }
             }
 
         } catch (error) {
-            console.log('OUTPUT : ', error);
+            console.error('OUTPUT : ', error.message);
         }
     }
 
-    temporarydeleteboard(event) {
-        if (event.currentTarget.dataset.name != "deleteyes") {
-            // deleteboard({ boardId: this.boardid })
-            //     .then(result => {
-            //     }).catch(error => {
-            //         console.log(JSON.stringify(error));
-            //     })
-            this.boardid = null;
-        }
-        
-        const deleted = new CustomEvent("closedelete", {
-            detail: this.boardid
+    closedeletepopup() {
+
+        // This is use for closing delete popup on everypage (currently) while clicking on cancel button
+        const closedelete = new CustomEvent("closedeletepopup", {
+            detail: 'closedelete'
         });
-        this.dispatchEvent(deleted);
+        this.dispatchEvent(closedelete);
     }
 
-    permanentdeleteboard(event) {
-        if (event.currentTarget.dataset.name == "deleteyes") {
-            const deleted = new CustomEvent("closedelete", {
+    handledeleteboard(event) {
+        if (event.currentTarget.dataset.type == "board") {
+            //*************** To temporarily delete the board  ***************//
+            const deleted = new CustomEvent("temporaryboarddelete", {
+                detail: this.boardid
+            });
+            this.dispatchEvent(deleted);
+
+        } else if (event.currentTarget.dataset.type == "permanentdeleteboard") {
+            //*************** To permanent delete the board  ***************//
+            const deleted = new CustomEvent("permanentdeleteboard", {
                 detail: "deleteyes"
             });
             this.dispatchEvent(deleted);
-        } else {
-            const deleted = new CustomEvent("closedelete", {
-                detail: "deleteno"
-            });
-            this.dispatchEvent(deleted);
+
         }
     }
 
-    temporarydeleteticket(event) {
-        if (event.currentTarget.dataset.name == "deleteyes") {
-            deleteticket({ ticketId: this.boardid })
-                .then(result => {
-                    const deleted = new CustomEvent("closedelete", {
-                        detail: "deleteyes"
-                    });
-                    this.dispatchEvent(deleted);
-                }).catch(error => {
-                    console.log(JSON.stringify(error));
-                })
-        } else {
-            console.log('OUTPUT : deleteno');
-            const deleted = new CustomEvent("closedelete", {
-                detail: "deleteno"
-            });
-            this.dispatchEvent(deleted);
-        }
-    }
+    handledeleteticket() {
 
-    permanentdeleteticket(event){
-        if (event.currentTarget.dataset.name == "deleteyes") {
-            const deleted = new CustomEvent("closedelete", {
-                detail: "deleteyes"
-            });
-            this.dispatchEvent(deleted);
-        }
-        else {
-            const deleted = new CustomEvent("closedelete", {
-                detail: "deleteno"
-            });
-            this.dispatchEvent(deleted);
-        }
     }
 }

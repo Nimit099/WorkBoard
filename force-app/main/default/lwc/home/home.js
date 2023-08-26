@@ -5,6 +5,8 @@ import createboard from '@salesforce/apex/HomePage.createboard';  // This is use
 import getBoards from '@salesforce/apex/HomePage.getBoards';  // This is use to get the boards;
 import searchBoard from '@salesforce/apex/HomePage.searchBoard';  // This is use to get the boards while searching;
 import deleteboard from '@salesforce/apex/HomePage.deleteboard';  // This is use to temporary delete the board;
+import permanentdeleteboard from '@salesforce/apex/HomePage.permanentdeleteboard'; // This is use to permanent delete the board.
+
 
 
 import { NavigationMixin } from "lightning/navigation";
@@ -109,7 +111,7 @@ export default class Home extends NavigationMixin(LightningElement) {
   // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to search board.
   // UPDATION - Updated By Nimit Shah on 23/08/2023 --- Add condition so that every functionality work with searching
   // CONDITION - Cleaned code
-  // STATUS - WORKING
+  // STATUS - DONE
   search(event) {
     try {
       clearTimeout(this.typingTimer);
@@ -144,6 +146,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       }, 700);
 
     } catch (error) {
+      this.spinnertable = false;
       console.error('OUTPUT search : ', error.message);
     }
   }
@@ -173,6 +176,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       });
 
     } catch (error) {
+      this.spinnertable = false;
       console.error('OUTPUT openboard : ', error.message);
     }
   }
@@ -201,6 +205,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       }
 
     } catch (error) {
+      this.spinnertable = false;
       console.error('OUTPUT popupinput : ', error.message);
     }
   }
@@ -233,7 +238,7 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.indexval = 1;
             let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
 
-            if (this.searchkey == undefined || newboard[0].Name.toLowerCase().includes(this.searchkey)) {
+            if (this.searchkey == undefined || newboard[0].Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
               this.boardlist.push(newboard[0]);
             }
 
@@ -269,44 +274,40 @@ export default class Home extends NavigationMixin(LightningElement) {
   // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
   // CONDITION - Cleaned code
   // STATUS - DONE
-  opendeletepopup(event) {
+  openclosedeletepopup(event) {
     try {
       this.deletemodal = !this.deletemodal;
-      if (event != null) {
+      if (this.deletemodal) {
         this.boardname = event.currentTarget.dataset.name;
         this.boardid = event.currentTarget.dataset.id;
       }
     } catch (error) {
+      this.spinnertable = false;
       console.error(error.message);
     }
   }
 
   // CREATION - CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open delete popup to delete the boards
-  // UPDATION - UPDATION - Updated By Nimit Shah on 23/08/2023 --- Add temporary delete to this function
+  // UPDATION - UPDATION - Updated By Nimit Shah on 23/08/2023 --- Remove boardlist variable usage in this
   // CONDITION - Cleaned code
   // STATUS - DONE
-  handledeleteaction(event) {
+  handletemporarydeleteaction(event) {
     try {
 
       this.spinnertable = true;
 
       this.boardid = event.detail;
-      let temp;
-      if (this.boardid != null) {
 
+      if (this.boardid != null) {
         deleteboard({ boardId: this.boardid })
           .then(result => {
-
             this.boardlist.forEach((element, index) => {
               if (element.Id.includes(this.boardid)) {
-                temp = index;
+                let recycleboard = this.boardlist.splice(index, 1);
+                recycleboard[0].DeletedDate__c = this.today;
+                this.recyclelist.push(recycleboard[0]);
               }
             });
-
-            let recycleboard = this.boardlist.splice(temp, 1);
-
-            recycleboard[0].DeletedDate__c = this.today;
-            this.recyclelist.push(recycleboard[0]);
 
             this.indexval = 1;
             if (this.boardlist.length > 0) {
@@ -322,43 +323,43 @@ export default class Home extends NavigationMixin(LightningElement) {
           }).catch(error => {
             this.enqueueToast.push({ status: 'error', message: 'BOARD DELETED FAILED' });
             this.toastprocess(null);
-            console.log(JSON.stringify(error));
+            console.error(JSON.stringify(error));
+            this.spinnertable = false;
           })
 
-        this.opendeletepopup(null);
+        this.openclosedeletepopup(null);
       }
     } catch (error) {
       this.enqueueToast.push({ status: 'error', message: 'BOARD DELETED FAILED' });
       this.toastprocess(null);
       console.error('OUTPUT handledeleteaction : ', error.message);
+      this.spinnertable = false;
     }
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open the recycle page.
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
+  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to remove the permanent deleted board
+  // UPDATION - Updated By Nimit Shah on 26/08/2023 --- Make it lighter and furnish the code. Made function to remove the board from the list
   // CONDITION - Cleaned code
   // STATUS - DONE
-  deleteBoard(event) {
+  permanentdeleteBoard(event) {
     try {
-      this.isRecyclemodal = !this.isRecyclemodal;
-
-      if (event.detail == 'close') {
-
-        this.isRecyclemodal = false;
-      } else {
-        if (!event.isTrusted) {
-          let temp;
-          this.recyclelist.forEach((element, index) => {
-            if (element.Id.includes(event.detail)) {
-              temp = index;
-            }
-          })
-          this.recyclelist.splice(temp, 1);
+      this.recyclelist.forEach((element, index) => {
+        if (element.Id.includes(event.detail)) {
+          this.recyclelist.splice(index, 1);
         }
-      }
+      })
     } catch (error) {
+      this.spinnertable = false;
       console.error('OUTPUT deleteBoard : ', error.message);
     }
+  }
+
+  // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to open and close recycle popup  
+  // UPDATION - --
+  // CONDITION - Cleaned code
+  // STATUS - DONE
+  opencloserecyclepopup() {
+    this.isRecyclemodal = !this.isRecyclemodal;
   }
 
   // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to restore the boards 
@@ -368,19 +369,15 @@ export default class Home extends NavigationMixin(LightningElement) {
   restoreboard(event) {
     try {
 
-      let temp;
       this.recyclelist.forEach((element, index) => {
         if (element.Id.includes(event.detail)) {
-          temp = index;
+          let restoreboard = this.recyclelist.splice(index, 1);
+          restoreboard[0].DeletedDate__c = undefined;
+          if (this.searchkey == undefined || restoreboard[0].Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
+            this.boardlist.push(restoreboard[0]);
+          }
         }
       })
-
-      let restoreboard = this.recyclelist.splice(temp, 1);
-      restoreboard[0].DeletedDate__c = undefined;
-
-      if (this.searchkey == undefined || restoreboard[0].Name.toLowerCase().includes(this.searchkey)) {
-        this.boardlist.push(restoreboard[0]);
-      }
 
       this.indexval = 1;
       if (this.boardlist.length > 0) {
@@ -390,6 +387,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       }
 
     } catch (error) {
+      this.spinnertable = false;
       console.error('OUTPUT restoreboard : ', error.message);
     }
   }
@@ -415,6 +413,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       }
 
     } catch (error) {
+      this.spinnertable = false;
       console.error(error.message);
     }
   }

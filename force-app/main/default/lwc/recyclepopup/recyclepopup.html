@@ -19,12 +19,12 @@
 							</div>
 							<div class="usericon" style="width:7%" data-name="recycle" data-id={board.Id}
 								onclick={recycleaction}>
-								<lightning-icon data-name="recycle" data-id={board.Id} onclick={handlerestoreboard}
+								<lightning-icon data-name="recycle" data-id={board.Id} onclick={handlerestore}
 									icon-name='action:refresh' alternative-text='edit' size='medium' title='edit'>
 								</lightning-icon>
 							</div>
 							<div class="usericon" style="width:7%" data-name={board.Name} data-id={board.Id}
-								onclick={handledeleteaction}>
+								onclick={openclosedeletepopup}>
 								<lightning-icon data-name="delete" data-id={board.Id} icon-name='action:delete'
 									alternative-text='edit' size='medium' title='edit'>
 								</lightning-icon>
@@ -34,13 +34,14 @@
 				</div>
 			</div>
 			<div class="footerpopup">
-				<div class="createbutton popupbutton" data-name="Cancel" onclick={handleclose}></span> Close
+				<div class="createbutton popupbutton" data-name="Cancel" onclick={handlecloserecycle}></span> Close
 				</div>
 			</div>
 		</div>
 	</section>
 	<template if:true={deletepopup}>
-		<c-deletepopup onclosedelete={handledeleteaction} boardname={boardname} type={deletetype}></c-deletepopup>
+		<c-deletepopup onpermanentdeleteboard={handlepermanentdeleteaction} onclosedeletepopup={openclosedeletepopup}
+			boardname={boardname} type={deletetype}></c-deletepopup>
 	</template>
 	<div class="slds-backdrop slds-backdrop_open"></div>
 </template>
