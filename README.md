@@ -26,8 +26,8 @@ The `sfdx-project.json` file contains useful configuration information for your 
 - WorkBoard where all the MasterBranches are merge after completely working condition.
 - Every pull will be done through WorkBoard.
 
-PUSH -- weekly sprint --> master --> MasterTester --> MasterBranches --> WorkBoard
-PULL -- weekly sprint <-- master <-- WorkBoard
+- PUSH -- weekly sprint --> master --> MasterTester --> MasterBranches --> WorkBoard
+- PULL -- weekly sprint <-- master <-- WorkBoard
 
 ## NOTE - 
 
@@ -35,3 +35,7 @@ PULL -- weekly sprint <-- master <-- WorkBoard
 - After every commits in WorkBoard should be pull by master.
 - Weekly Sprints branches will always pull master.
 - After completion of week weekly sprint pushes to the master.
+
+## NEXT PHASE OF HOMEPAGE
+
+Use sessionstorage for the search functionality to remove query. After completing task delete this.

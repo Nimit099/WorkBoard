@@ -164,8 +164,8 @@ export default class Home extends NavigationMixin(LightningElement) {
       let cmpDef = {
         componentDef: "c:viewBoard",
         attributes: {
-          hboardid: this.boardid,
-          hboardname: this.boardname,
+          boardid: this.boardid,
+          boardname: this.boardname,
         }
       };
       let encodedDef = btoa(JSON.stringify(cmpDef));

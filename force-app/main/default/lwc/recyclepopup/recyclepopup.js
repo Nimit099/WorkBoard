@@ -45,7 +45,7 @@ export default class Recyclepopup extends LightningElement {
                 if (this.type == 'Board') {
                     this.deletetype = "permanentdeleteboard";
                 } else {
-                    this.deletetype = "restoreticket"; // left with the work of ticket.
+                    this.deletetype = "permanentdeleteticket"; // left with the work of ticket.
                 }
                 this.boardname = event.currentTarget.dataset.name;
                 this.boardid = event.currentTarget.dataset.id;
@@ -100,15 +100,14 @@ export default class Recyclepopup extends LightningElement {
     // UPDATION - --
     // CONDITION - Cleaned code
     // STATUS - WORKING
-    handlepermanentdeleteticket() {
+    handlepermanentdeleteticket(event) {
         try {
-
             permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
                 .then(result => {
                     this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
-                    const permanentdeleted = new CustomEvent("closerecycle", {
-                        detail: this.boardid // boardid is ticket id here
+                    const permanentdeleted = new CustomEvent("permanentdeleteticket", {
+                        detail: this.boardid
                     });
                     this.dispatchEvent(permanentdeleted);
                 }).catch(error => {
@@ -173,7 +172,6 @@ export default class Recyclepopup extends LightningElement {
             let ticketId = event.currentTarget.dataset.id
             restoreticket({ ticketId: ticketId })
                 .then(result => {
-                    console.log('OUTPUT : ', ticketId);
                     this.enqueueToast.push({ status: 'success', message: 'TICKET RESTORED SUCCESSFULLY' });
                     this.toastprocess(null);
                     const closerecycle = new CustomEvent("restoreticket", {

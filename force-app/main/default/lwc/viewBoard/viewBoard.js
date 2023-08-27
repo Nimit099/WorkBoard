@@ -1,25 +1,28 @@
 import { LightningElement, api, track } from 'lwc';
-import updatetickets from '@salesforce/apex/viewBoard.updateticket';
+import updateticketfield from '@salesforce/apex/viewBoard.updateticketfield';
 import createticket from '@salesforce/apex/viewBoard.createticket';
+import getBoardData from '@salesforce/apex/viewBoard.getBoardData';
+import temporarydeleteticket from '@salesforce/apex/viewBoard.temporarydeleteticket';
+
 import { NavigationMixin } from "lightning/navigation";
 export default class ViewBoard extends NavigationMixin(LightningElement) {
 
-    @api hboardid;
-    @api hboardname;
-    @api hfieldlist = [];
-    @api hticketlist = [];
-    @api hcommentlist;
-    @api hboarduserrelationlist;
-    @api huserlist;
+    @api boardid;
+    @api boardname;
+    @track fieldlist = [];
+    @track ticketlist = [];
 
     @track today;
     @track fieldid;
     @track boarddata = [];
     @track ticketId;
     @track ticketName;
-    @track ticketlist = [];
     @track deletedticketlist = [];
-    @track searchkey;
+    @track searchkey = '';
+
+    // This variables use in Toast
+    @track enqueueToast = [];
+    @track ongoingtoast;
 
 
     @track isRecyclemodal = false;
@@ -44,16 +47,16 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     @track enddate;
     @track startdate;
     @track priority;
-    @track toast1 = false;
-    @track toast2 = false;
     @track deletemodal = false;
     @track ticketpopupdata;
 
 
+    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to get Fields and Ticket List.
+    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
+    // CONDITION - Cleaned code
+    // STATUS - DONE
     connectedCallback() {
         try {
-
-            window.addEventListener('popstate', this.handlePopstate.bind(this));
 
             this.today = new Date();
             var dd = String(this.today.getDate()).padStart(2, '0');
@@ -61,102 +64,124 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             var yyyy = this.today.getFullYear();
             this.today = yyyy + '-' + mm + '-' + dd;
 
+            getBoardData({ boardId: this.boardid })
+                .then(result => {
 
-            if (JSON.parse(sessionStorage.getItem(this.hboardid + 'ticketlist'))) {
-                this.ticketlist = JSON.parse(sessionStorage.getItem(this.hboardid + 'ticketlist'));
-                this.deletedticketlist = JSON.parse(sessionStorage.getItem(this.hboardid + 'deletedticketlist'));
-            } else {
-                this.hticketlist.forEach(ticket => {
-                    if (ticket.DeletedDate__c == undefined) {
-                        this.ticketlist.push(ticket);
-                    } else {
-                        this.deletedticketlist.push(ticket);
+                    this.fieldlist = result.fieldList;
+
+                    result.ticketList.forEach(ticket => {
+                        if (ticket.DeletedDate__c == undefined) {
+                            this.ticketlist.push(ticket)
+                        } else {
+                            this.deletedticketlist.push(ticket);
+                        }
+                    });
+
+                    this.search(null);
+
+                    if (this.fieldlist.length > 0) {
+                        this.fieldsfound = true;
                     }
                 });
-                sessionStorage.setItem(this.hboardid + 'ticketlist', JSON.stringify(this.ticketlist));
-                sessionStorage.setItem(this.hboardid + 'deletedticketlist', JSON.stringify(this.deletedticketlist));
-            }
-
-            if (this.hfieldlist.length > 0) {
-                this.fieldsfound = true;
-            }
-
-            console.log('OUTPUT : ', JSON.stringify(this.ticketlist));
-
-            var tickets = [];
-            this.hfieldlist.forEach((field) => {
-                this.ticketlist.forEach((ticket) => {
-                    if (ticket.Field__c == field.Id) {
-                        tickets.push(ticket);
-                    }
-                })
-                this.boarddata.push({ "field": field, "ticket": tickets })
-                tickets = [];
-            })
         } catch (error) {
-            console.log('OUTPUT viewBoard connected: ', error.message);
+            console.error('OUTPUT viewBoard connected: ', error.message);
         }
     }
 
+    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to color the tickets.
+    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
+    // CONDITION - Cleaned code
+    // STATUS - WORKING
     renderedCallback() {
         try {
-
-            if (this.ticketlist != null) {
-                this.ticketlist.forEach(ticket => {
+            this.ticketlist.forEach(ticket => {
+                if (ticket.Color__c != undefined) {
                     this.template.querySelector("div[data-id =" + ticket.Id + "]").style.background = ticket.Color__c;
-                });
-            }
+                }
+            });
         } catch (e) {
-            console.error(e.message);
+            console.log(e);
         }
     }
 
-
-    dragover(event) {
-        event.preventDefault();
-    }
-
-
-
-    dropzone(event) {
+    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to search tickets.
+    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
+    // CONDITION - Cleaned code
+    // STATUS - WORKING
+    search(event) {
         try {
+            if (event != null) {
+                this.searchkey = event.target.value;
+                this.searchkey = this.searchkey.trim()
+            }
             this.boarddata = [];
-            var fieldId = event.currentTarget.dataset.id;
-            var tickets = [];
-            var updateticket;
-            let tempticket = [];
-
-            this.hfieldlist.forEach((field) => {
+            this.fieldlist.forEach((field) => {
+                let tickets = [];
                 this.ticketlist.forEach((ticket) => {
-                    if (ticket.Id == this.ticketId) {
-                        if (field.Id == fieldId) {
-                            if (fieldId != ticket.Field__c) {
-                                updatetickets({ ticketId: this.ticketId, fieldId: fieldId })
-                                    .then(result => { });
-                            }
-                            updateticket = [{
-                                "Id": ticket.Id, "Field__c": fieldId, "CompletedPercentage__c": ticket.CompletedPercentage__c, "DeletedDate__c": ticket.DeletedDate__c,
-                                "Description__c": ticket.Description__c, "EndDate__c": ticket.EndDate__c, "StartDate__c": ticket.StartDate__c, "Name": ticket.Name,
-                                "TicketNumber__c": ticket.TicketNumber__c, "TicketPriority__c": ticket.TicketPriority__c, "Users__c": ticket.Users__c, "CreatedDate__c": ticket.CreatedDate__c
-                            }];
-                            tempticket.push(updateticket[0]);
-                            tickets.push(updateticket[0]);
-                        }
-                    } else {
-                        if (field.Id == ticket.Field__c) {
-                            tempticket.push(ticket);
+                    if (ticket.Field__c == field.Id) {
+                        if (ticket.Name.toLowerCase().includes(this.searchkey.toLowerCase()) ||
+                            ticket.TicketNumber__c.toLowerCase().includes(this.searchkey.toLowerCase())) {
                             tickets.push(ticket);
                         }
                     }
                 })
                 this.boarddata.push({ "field": field, "ticket": tickets })
-                tickets = [];
-            })
-            this.ticketlist = tempticket;
+            });
+        } catch (error) {
+            console.error('OUTPUT : ', error.message);
+        }
+    }
 
-            this.template.querySelector('c-home').handletickets('update', updateticket);
-            sessionStorage.clear();
-            sessionStorage.setItem(this.hboardid + 'ticketlist', JSON.stringify(this.ticketlist));
+    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to get ticketId and make field border dotted on drag.
+    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
+    // CONDITION - Cleaned code
+    // STATUS - DONE
+    dragstart(event) {
+        try {
+            this.ticketId = event.currentTarget.dataset.id;
+            this.fieldid = event.currentTarget.dataset.fieldid;
+            let arr = this.template.querySelectorAll('.fieldbody');
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                element.style = 'border:dotted;';
+            }
+        } catch (error) {
+            console.error('OUTPUT dragstart : ', error.message);
+        }
+    }
+
+    dragover(event) {
+        event.preventDefault();
+    }
+
+    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use drop ticket on the fields and change ticket field.
+    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
+    // CONDITION - Cleaned code
+    // STATUS - WORKING
+    dropzone(event) {
+        try {
+            let fieldId = event.currentTarget.dataset.id;
+
+            if (fieldId != this.fieldid) {
+                this.boarddata = [];
+
+                updateticketfield({ ticketId: this.ticketId, fieldId: fieldId })
+                    .then(result => {
+
+                    }).catch(error => {
+                        console.error('updateticketfield : ', error.message);
+                    })
+
+
+                this.ticketlist.forEach(ticket => {
+                    if (this.ticketId == ticket.Id) {
+                        ticket.Field__c = fieldId;
+                    }
+                });
+
+                this.search(null);
+            }
+
             let arr = this.template.querySelectorAll('.fieldbody');
             for (let i = 0; i < arr.length; i++) {
                 const element = arr[i];
@@ -164,35 +189,18 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             }
 
         } catch (error) {
-            console.log('OUTPUT dropzone: ', (error.message));
+            console.error('OUTPUT dropzone: ', (error.message));
         }
     }
-
-
-    dragstart(event) {
-        try {
-            let arr = this.template.querySelectorAll('.fieldbody');
-            for (let i = 0; i < arr.length; i++) {
-                const element = arr[i];
-                element.style = 'border:dotted;';
-            }
-            this.ticketId = event.currentTarget.dataset.id;
-        } catch (error) {
-            console.log('OUTPUT dragstart : ', error.message);
-        }
-    }
-
 
     createticket() {
         try {
             if (this.isShowModal == false) {
                 this.isShowModal = true;
-                this.toast1 = false;
-                this.toast2 = true;
                 this.fieldid = this.boarddata[0].field.Id
             }
         } catch (error) {
-            console.log('OUTPUT : ', error.message);
+            console.error('OUTPUT : ', error.message);
         }
     }
 
@@ -202,12 +210,8 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             // to perform some action to save or cancel ticket creation
             if (event.currentTarget.dataset.name == 'Save') {
                 if (this.name == '' || this.number == '' || this.name.trim() == '' || this.number.trim() == '') {
-                    this.toast2 = true;
-                    this.template.querySelector('c-toast').showToast('error', 'Please fill required details');
                 } else {
                     this.isShowModal = false;
-                    this.toast1 = true;
-                    this.toast2 = false;
                     ticketrecord = {
                         'sobjectType': 'Ticket__c'
                     };
@@ -221,7 +225,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     createticket({ newticket: ticketrecord })
                         .then(result => {
                             let newticket = [{
-                                "Id": result.Id, "Field__c": result.Field__c, "Description__c": result.Description__c, "EndDate__c": result.EndDate__c, 'CreatedDate__c': result.CreatedDate__c,
+                                "Id": result.Id, "Field__c": result.Field__c, "Description__c": result.Description__c, "EndDate__c": result.EndDate__c, 'CreatedDate': result.CreatedDate,
                                 "StartDate__c": result.StartDate__c, "Name": result.Name, "TicketNumber__c": result.TicketNumber__c, "TicketPriority__c": result.TicketPriority__c
                             }];
                             let tickets = [];
@@ -236,8 +240,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                                 this.boarddata.push({ "field": field, "ticket": tickets })
                                 tickets = [];
                             })
-                            sessionStorage.clear();
-                            sessionStorage.setItem(this.hboardid + 'ticketlist', JSON.stringify(this.ticketlist));
                             this.fieldid = '';
                             this.name = '';
                             this.number = '';
@@ -245,21 +247,13 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                             this.startdate = '';
                             this.enddate = '';
                             this.priority = '';
-                            this.template.querySelector('c-home').handletickets('create', newticket);
-                            this.template.querySelector('c-toast').showToast('success', 'Ticket Created successfully');
-                            setTimeout(() => {
-                                this.toast1 = false;
-                                this.toast2 = false;
-                            }, 4000);
                         }).catch(error => {
-                            console.log('OUTPUT : ', error.message);
+                            console.error('OUTPUT : ', error.message);
                         });
                 }
             }
             else if (event.currentTarget.dataset.name == 'SaveNew') {
                 if (this.name == '' || this.number == '' || this.name.trim() == '' || this.number.trim() == '') {
-                    this.toast2 = true;
-                    this.template.querySelector('c-toast').showToast('error', 'Please fill required details');
                 } else {
                     ticketrecord = {
                         'sobjectType': 'Ticket__c'
@@ -275,7 +269,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     createticket({ newticket: ticketrecord })
                         .then(result => {
                             let newticket = [{
-                                "Id": result.Id, "Field__c": result.Field__c, "Description__c": result.Description__c, "EndDate__c": result.EndDate__c, 'CreatedDate__c': result.CreatedDate__c,
+                                "Id": result.Id, "Field__c": result.Field__c, "Description__c": result.Description__c, "EndDate__c": result.EndDate__c, 'CreatedDate': result.CreatedDate,
                                 "StartDate__c": result.StartDate__c, "Name": result.Name, "TicketNumber__c": result.TicketNumber__c, "TicketPriority__c": result.TicketPriority__c
                             }];
                             let tickets = [];
@@ -292,20 +286,15 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                                 tickets = [];
                             })
 
-                            sessionStorage.clear();
-                            sessionStorage.setItem(this.hboardid + 'ticketlist', JSON.stringify(this.ticketlist));
                             this.name = '';
                             this.number = '';
                             this.description = '';
                             this.startdate = '';
                             this.enddate = '';
                             this.priority = '';
-                            this.toast2 = true;
-                            this.template.querySelector('c-home').handletickets('create', newticket);
-                            this.template.querySelector('c-toast').showToast('success', 'Ticket Created successfully');
                         })
                         .catch(error => {
-                            console.log('OUTPUT : ', error.message);
+                            console.error('OUTPUT : ', error.message);
                         });
                 }
             } else if (event.currentTarget.dataset.name == 'Cancel') {
@@ -316,11 +305,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 this.startdate = '';
                 this.enddate = '';
                 this.priority = '';
-                this.toast2 = false;
-                this.toast1 = false;
             }
         } catch (error) {
-            console.log('OUTPUT errors: ', error.message);
+            console.error('OUTPUT errors: ', error.message);
         }
     }
 
@@ -341,7 +328,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 this.priority = event.target.value;
             }
         } catch (error) {
-            console.log('OUTPUT : ', error.message);
+            console.error('OUTPUT : ', error.message);
         }
     }
 
@@ -358,7 +345,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         this.boarddata = [];
         this.ticketId = null;
         this.ticketName = null;
-        sessionStorage.clear();
         window.removeEventListener('popstate', this.handlePopstate.bind(this));
     }
 
@@ -367,130 +353,62 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         this.disconnectedCallback();
     }
 
-    deleteticket(event) {
+    openclosedeletepopup(event) {
         try {
-            console.log('OUTPUT : ', event.currentTarget.dataset.type);
-            if (this.deletemodal == false) {
+            this.deletemodal = !this.deletemodal;
+            if (this.deletemodal) {
                 this.ticketId = event.currentTarget.dataset.id;
                 this.ticketName = event.currentTarget.dataset.name;
-                this.deletemodal = true;
-                this.toast1 = true;
-            } else {
-                let deleteticket = [];
-                if (event.detail == 'deleteyes') {
-                    this.boarddata = [];
-                    let tickets = [];
+            }
+
+        } catch (error) {
+            console.error('OUTPUT : ', error.message);
+        }
+    }
+
+    handletemporarydeleteticket(event) {
+        try {
+            this.ticketId = event.detail;
+
+            temporarydeleteticket({ ticketId: this.ticketId })
+                .then(result => {
 
                     this.ticketlist.forEach((ticket, index) => {
-                        if (ticket.Id != this.ticketId) {
-                            tickets.push(ticket);
-                        } else {
-                            deleteticket = [{
-                                "Id": ticket.Id, "Field__c": ticket.Field__c, "CompletedPercentage__c": ticket.CompletedPercentage__c, "DeletedDate__c": ticket.DeletedDate__c,
-                                "Description__c": ticket.Description__c, "EndDate__c": ticket.EndDate__c, "StartDate__c": ticket.StartDate__c, "Name": ticket.Name, "DeletedDate__c": this.today,
-                                "TicketNumber__c": ticket.TicketNumber__c, "TicketPriority__c": ticket.TicketPriority__c, "Users__c": ticket.Users__c, "CreatedDate__c": ticket.CreatedDate__c
-                            }];
-                            this.deletedticketlist.push(deleteticket[0]);
+                        if (ticket.Id == this.ticketId) {
+                            ticket.DeletedDate__c = this.today;
+                            this.deletedticketlist.push(this.ticketlist.splice(index, 1)[0]);
+                            this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
+                            this.toastprocess(null);
                         }
-                    })
-                    this.template.querySelector('c-home').handletickets('delete', deleteticket);
-                    this.ticketlist = tickets;
-                    tickets = [];
-                    if (this.toast1 == true) {
-                        this.template.querySelector('c-toast').showToast('success', 'Ticket deleted successfully');
-                        setTimeout(() => {
-                            this.toast1 = false;
-                        }, 4000);
-                    }
+                    });
 
-                    this.hfieldlist.forEach((field) => {
-                        this.ticketlist.forEach((ticket) => {
-                            if (ticket.Field__c == field.Id) {
-                                tickets.push(ticket);
-                            }
-                        })
-                        this.boarddata.push({ "field": field, "ticket": tickets })
-                        tickets = [];
-                    })
-                    sessionStorage.clear();
-                    sessionStorage.setItem(this.hboardid + 'ticketlist', JSON.stringify(this.ticketlist));
-                    sessionStorage.setItem(this.hboardid + 'deletedticketlist', JSON.stringify(this.deletedticketlist));
-                    this.ticketId = '';
-                    this.ticketName = '';
-                    this.deletemodal = false;
+                    this.search(null);
 
-                } else if (event.detail == 'deleteno') {
-                    this.ticketId = '';
-                    this.ticketName = '';
-                    this.deletemodal = false;
-                }
-            }
+                }).catch(error => {
+                    console.error(error.message);
+                });
+
+            this.openclosedeletepopup();
         } catch (error) {
-            console.log('OUTPUT : ', error.message);
+            console.error(error.message);
         }
     }
 
-    search(event) {
-        try {
-            this.searchkey = event.target.value;
-            let tickets = [];
-            this.boarddata = [];
-            if (this.searchkey.trim() != '') {
-                this.hfieldlist.forEach((field) => {
-                    this.ticketlist.forEach((ticket) => {
-                        if (ticket.Field__c == field.Id) {
-                            if (ticket.Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
-                                tickets.push(ticket);
-                            } else if (ticket.TicketNumber__c.toLowerCase().includes(this.searchkey.toLowerCase())) {
-                                tickets.push(ticket);
-                            }
-                        }
-                    })
-                    this.boarddata.push({ "field": field, "ticket": tickets })
-                    tickets = [];
-                })
-            } else {
-                this.hfieldlist.forEach((field) => {
-                    this.ticketlist.forEach((ticket) => {
-                        if (ticket.Field__c == field.Id) {
-                            tickets.push(ticket);
-                        }
-                    })
-                    this.boarddata.push({ "field": field, "ticket": tickets })
-                    tickets = [];
-                })
-
-            }
-        } catch (error) {
-            console.log('OUTPUT : ', error.message);
-        }
+    opencloserecyclepopup() {
+        this.isRecyclemodal = !this.isRecyclemodal;
     }
 
-    recycleaction(event) {
+    permanentdeleteticket(event) {
         try {
-            // if (this.isRecyclemodal == false) {
-
-            // } else {
-            if (this.isRecyclemodal != false) {
-                if (event.detail == 'close') {
-                    this.isRecyclemodal = false;
-                } else {
-                    let i;
-                    let ticketId = event.detail;
-                    this.deletedticketlist.forEach((ticket, index) => {
-                        if (ticket.Id == ticketId) {
-                            i = index;
-                        }
-                    })
-                    let deleteticket = this.deletedticketlist.splice(i, 1);
-                    sessionStorage.setItem(this.hboardid + 'deletedticketlist', JSON.stringify(this.deletedticketlist));
-
-                    this.template.querySelector('c-home').handletickets('permanentdelete', deleteticket);
+            let ticketId = event.detail;
+            this.deletedticketlist.forEach((ticket, index) => {
+                if (ticket.Id == ticketId) {
+                    this.deletedticketlist.splice(index, 1);
                 }
-            }
-            this.isRecyclemodal = !this.isRecyclemodal;
+            })
+
         } catch (error) {
-            console.log('OUTPUT : ', error.message);
+            console.error('OUTPUT : ', error.message);
         }
     }
 
@@ -500,31 +418,14 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             let i;
             this.deletedticketlist.forEach((ticket, index) => {
                 if (ticket.Id == ticketId) {
-                    i = index;
+                    this.ticketlist.push(this.deletedticketlist.splice(index, 1)[0]);
                 }
             })
 
-            let restoreticket = this.deletedticketlist.splice(i, 1);
-            this.ticketlist.push(restoreticket[0]);
-
-            sessionStorage.setItem(this.hboardid + 'ticketlist', JSON.stringify(this.ticketlist));
-            sessionStorage.setItem(this.hboardid + 'deletedticketlist', JSON.stringify(this.deletedticketlist));
-
-            this.boarddata = [];
-            let tickets = [];
-
-            this.hfieldlist.forEach((field) => {
-                this.ticketlist.forEach((ticket) => {
-                    if (ticket.Field__c == field.Id) {
-                        tickets.push(ticket);
-                    }
-                })
-                this.boarddata.push({ "field": field, "ticket": tickets })
-                tickets = [];
-            })
+            this.search(null);
 
         } catch (error) {
-            console.log('OUTPUT : ', error.message);
+            console.error('OUTPUT : ', error.message);
         }
     }
 
@@ -545,4 +446,27 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
+    // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
+    // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
+    // CONDITION - Cleaned code
+    // STATUS - DONE
+    toastprocess(event) {
+        try {
+            if (event != null) {
+                this.ongoingtoast = !this.ongoingtoast;
+            }
+            if (this.enqueueToast.length > 0) {
+                if (!this.ongoingtoast) {
+                    this.ongoingtoast = !this.ongoingtoast;
+                    let toastdata = this.enqueueToast.splice(0, 1);
+                    setTimeout(() => {
+                        this.template.querySelector('c-toast').showToast(toastdata[0].status, toastdata[0].message);
+                    }, 1);
+                }
+            }
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
 }

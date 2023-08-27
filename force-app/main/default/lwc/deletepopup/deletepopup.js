@@ -1,6 +1,4 @@
 import { LightningElement, api, track } from 'lwc';
-import deleteboard from '@salesforce/apex/HomePage.deleteboard';
-import deleteticket from '@salesforce/apex/viewBoard.deleteticket';
 export default class Deletepopup extends LightningElement {
     @api boardid;
     @api boardname;
@@ -22,53 +20,22 @@ export default class Deletepopup extends LightningElement {
                 this.showtype = 'Ticket'
                 this.notes = true;
             }
-            else if (this.type == 'restoreticket') {
+            else if (this.type == 'permanentdeleteticket') {
                 this.showtype = 'Ticket'
                 this.notes = false;
             }
         } catch (error) {
             console.error('OUTPUT : ', error.message);
         }
-        
+
     }
 
     handledeleteaction(event) {
         try {
-
             if (this.showtype == 'Board') {
                 this.handledeleteboard(event);
             } else if (this.showtype == 'Ticket') {
-                if (event.currentTarget.dataset.type == "ticket") {
-                    if (event.currentTarget.dataset.name == "deleteyes") {
-                        deleteticket({ ticketId: this.boardid })
-                            .then(result => {
-                                const deleted = new CustomEvent("closedelete", {
-                                    detail: "deleteyes"
-                                });
-                                this.dispatchEvent(deleted);
-                            }).catch(error => {
-                                console.error(error.message);
-                            })
-                    } else {
-                        const deleted = new CustomEvent("closedelete", {
-                            detail: "deleteno"
-                        });
-                        this.dispatchEvent(deleted);
-                    }
-                } else if (event.currentTarget.dataset.type == "restoreticket") {
-                    if (event.currentTarget.dataset.name == "deleteyes") {
-                        const deleted = new CustomEvent("closedelete", {
-                            detail: "deleteyes"
-                        });
-                        this.dispatchEvent(deleted);
-                    }
-                    else {
-                        const deleted = new CustomEvent("closedelete", {
-                            detail: "deleteno"
-                        });
-                        this.dispatchEvent(deleted);
-                    }
-                }
+                this.handledeleteticket(event);
             }
 
         } catch (error) {
@@ -103,7 +70,22 @@ export default class Deletepopup extends LightningElement {
         }
     }
 
-    handledeleteticket() {
+    handledeleteticket(event) {
 
+        // Here boardid is ticketId
+
+        if (event.currentTarget.dataset.type == "ticket") {
+            const deleted = new CustomEvent("temporarydeleteticket", {
+                detail: this.boardid
+            });
+            this.dispatchEvent(deleted);
+
+        } else if (event.currentTarget.dataset.type == "permanentdeleteticket") {
+
+            const deleted = new CustomEvent("permanentdeleteticket", {
+                detail: "deleteyes"
+            });
+            this.dispatchEvent(deleted);
+        }
     }
 }

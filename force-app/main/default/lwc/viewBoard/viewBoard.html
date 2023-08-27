@@ -3,9 +3,7 @@
 		<c-home></c-home>
 	</div>
 	<template if:true={viewboard}>
-		<template if:true={toast1}>
-			<c-toast></c-toast>
-		</template>
+		<c-toast oncompleteonetoast={toastprocess}></c-toast>
 		<div class="viewboard">
 			<!-- header -->
 			<div class="header">
@@ -18,75 +16,81 @@
 				<div class="headerbutton">
 					<div class="createbutton" onclick={createticket}></span> Create Ticket</div>
 					<div class="usericon recycle">
-						<lightning-icon icon-name='standard:recycle_bin' onclick={recycleaction}
+						<lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
 							alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon>
 					</div>
 				</div>
 			</div>
 			<!-- header ends -->
-
+			<!-- <div class="scrollablesdiv"> -->
 			<div class="body">
-				<template if:true={fieldsfound}>
-					<template for:each={boarddata} for:item="field" for:index="index">
-						<div class="fields" data-id={field.field.Id} key={field.field.Id} ondrop={dropzone}
-							ondragover={dragover}>
-							<div class="fieldheader">
-								<div class="fieldname">{field.field.Name}</div>
-							</div>
-							<div class="fieldbody">
-								<div class="scrollableclass">
-									<template for:each={field.ticket} for:item="ticket">
-										<div class="ticket" data-id={ticket.Id} draggable="true" key={ticket.Id}
-											ondragstart={dragstart} onclick={openticket}>
-											<div class="ticketheader">
-												<div class="ticketnumber">
-													<div>
-														{ticket.TicketNumber__c}
-													</div>
-													<div class="ticketstartdate">
-														<lightning-formatted-date-time value={ticket.CreatedDate}></lightning-formatted-date-time>
-													</div>
-												</div>
-												<div class="ticketname">
-													{ticket.Name}
-												</div>
-											</div>
-											<div class="ticketfooter">
-												<div class="ticketuser" data-type="delete">
-													<lightning-button-icon onclick={deleteticket} data-type="delete"
-														data-name={ticket.Name} data-id={ticket.Id} variant="base"
-														size="medium" icon-name="utility:delete"
-														alternative-text="delete"></lightning-button-icon>
-												</div>
-												<div class="ticketpriority">
-													<u>{ticket.TicketPriority__c}</u>
-												</div>
-											</div>
-										</div>
-									</template>
+				<div class="scrollablesdiv">
+					<template if:true={fieldsfound}>
+						<template for:each={boarddata} for:item="field" for:index="index">
+							<div class="fields" data-id={field.field.Id} key={field.field.Id} ondrop={dropzone}
+								ondragover={dragover}>
+								<div class="fieldheader">
+									<div class="fieldname">{field.field.Name}</div>
 								</div>
+								<div class="fieldbody">
+									<div class="scrollableclass">
+										<template for:each={field.ticket} for:item="ticket">
+											<div class="ticket" data-id={ticket.Id} data-fieldid={ticket.Field__c}
+												draggable="true" key={ticket.Id} ondragstart={dragstart}
+												onclick={openticket}>
+												<div class="ticketheader">
+													<div class="ticketnumber">
+														<div>
+															{ticket.TicketNumber__c}
+														</div>
+														<div class="ticketstartdate">
+															<lightning-formatted-date-time
+																value={ticket.CreatedDate}></lightning-formatted-date-time>
+														</div>
+													</div>
+													<div class="ticketname">
+														{ticket.Name}
+													</div>
+												</div>
+												<div class="ticketfooter">
+													<div class="ticketuser" data-type="delete">
+														<lightning-button-icon onclick={openclosedeletepopup}
+															data-type="delete" data-name={ticket.Name}
+															data-id={ticket.Id} variant="base" size="medium"
+															icon-name="utility:delete"
+															alternative-text="delete"></lightning-button-icon>
+													</div>
+													<div class="ticketpriority">
+														<u>{ticket.TicketPriority__c}</u>
+													</div>
+												</div>
+											</div>
+										</template>
+									</div>
+								</div>
+							</div>
+						</template>
+					</template>
+					<template if:false={fieldsfound}>
+						<div class="norecordfound">
+							<div class="desertImg" aria-hidden="true">
+								<img src="/img/chatter/Desert.svg" class="imgclass" alt="test" />
+								<h3 class="slds-text-heading_medium h3class">No Fields found</h3>
 							</div>
 						</div>
 					</template>
-				</template>
-				<template if:false={fieldsfound}>
-					<div class="norecordfound">
-						<div class="desertImg" aria-hidden="true">
-							<img src="/img/chatter/Desert.svg" class="imgclass" alt="test"/>
-							<h3 class="slds-text-heading_medium h3class">No Fields found</h3>
-						</div>
-					</div>
-				</template>
+				</div>
 			</div>
 		</div>
 	</template>
 	<template if:true={deletemodal}>
-		<c-deletepopup boardid={ticketId} boardname={ticketName} type="ticket" onclosedelete={deleteticket}>
+		<c-deletepopup boardid={ticketId} boardname={ticketName} type="ticket" onclosedeletepopup={openclosedeletepopup}
+			ontemporarydeleteticket={handletemporarydeleteticket}>
 		</c-deletepopup>
 	</template>
 	<template if:true={isRecyclemodal}>
-		<c-recyclepopup recyclelist={deletedticketlist} oncloserecycle={recycleaction} onrestoreticket={restoreticket}
-			type="Ticket">
+		<c-recyclepopup recyclelist={deletedticketlist} oncloserecycle={opencloserecyclepopup}
+			onrestoreticket={restoreticket} onpermanentdeleteticket={permanentdeleteticket} type="Ticket">
 		</c-recyclepopup>
 	</template>
 	<template if:true={openticketmodal}>
@@ -96,9 +100,8 @@
 		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
 			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
 			<div class="slds-modal__container">
-				<template if:true={toast2}>
-					<c-toast></c-toast>
-				</template>
+				<c-toast oncompleteonetoast={toastprocess}></c-toast>
+				
 				<!-- modal header start -->
 				<div class="ctfullpopup">
 					<!-- modal header start -->

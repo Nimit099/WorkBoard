@@ -18,7 +18,7 @@ public with sharing class HomePage {
         try{
 
             List<Board__c> boards = [SELECT Id,Name,DeletedDate__c,CreatedDate,Description__c FROM Board__c WITH SECURITY_ENFORCED order by LastModifiedDate asc];
-            List<Ticket__c> tickets = [SELECT Id, Name, TicketPriority__c,CreatedDate,LastModifiedDate, Field__c, Field__r.Name,Color__c, Description__c, DeletedDate__c, CompletedPercentage__c,StartDate__c,EndDate__c,TicketNumber__c FROM Ticket__c WHERE DeletedDate__c < LAST_N_DAYS:15 WITH SECURITY_ENFORCED order by LastModifiedDate asc ];
+            List<Ticket__c> tickets = [SELECT Id, DeletedDate__c FROM Ticket__c WHERE DeletedDate__c < LAST_N_DAYS:15 WITH SECURITY_ENFORCED ORDER BY LastModifiedDate asc ];
 
             // List<Fields__c> fields = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c ORDER BY OrderNumber__c ASC];
             // List<Comment__c> comments = [SELECT Id, Name,Comments__c,Ticket__c FROM Comment__c];

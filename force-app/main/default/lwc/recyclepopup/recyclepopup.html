@@ -41,7 +41,8 @@
 	</section>
 	<template if:true={deletepopup}>
 		<c-deletepopup onpermanentdeleteboard={handlepermanentdeleteaction} onclosedeletepopup={openclosedeletepopup}
-			boardname={boardname} type={deletetype}></c-deletepopup>
+			onpermanentdeleteticket={handlepermanentdeleteticket} boardname={boardname}
+			type={deletetype}></c-deletepopup>
 	</template>
 	<div class="slds-backdrop slds-backdrop_open"></div>
 </template>

@@ -6,9 +6,11 @@
 			<div class="bodypopup">
 				<lightning-icon icon-name="action:delete" alternative-text="Doc image"
 					class="slds-icon_small deleteicon" size="small"></lightning-icon>
-				<div class="deletetext">Do you want to delete the<span class="deleteboardname"> {boardname} </span>{showtype}</div>
+				<div class="deletetext">Do you want to delete the<span class="deleteboardname"> {boardname}
+					</span>{showtype}</div>
 				<template if:true={notes}>
-					<div class="deletetext notes"> <span style="font-weight:bold;">Note:</span> You can Restore {showtype} from
+					<div class="deletetext notes"> <span style="font-weight:bold;">Note:</span> You can Restore
+						{showtype} from
 						Recycle Bin within 15 days </div>
 				</template>
 			</div>
