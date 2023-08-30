@@ -449,6 +449,17 @@ lightning-button-icon {
     font-style: italic;
 }
 
-.notes {
-    margin-top: 0%;
+.recycle {
+    height: 35%;
+    width: 13%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+lightning-button-menu {
+    --lwc-colorTextIconDefault: white;
+}
+lightning-menu-item{
+    --lwc-colorTextIconDefault: black;
 }

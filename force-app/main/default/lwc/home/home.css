@@ -379,11 +379,7 @@ label{
     display: flex;
     align-items: center;
 }
-lightning-button-menu {
-    --lwc-colorTextIconDefault: white;
-    /* z-index: 9001; */
-    /* position: sticky; */
-}
+
 .menu-item{
     z-index: 9001;
     width: fit-content;

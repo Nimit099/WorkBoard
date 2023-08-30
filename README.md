@@ -38,4 +38,22 @@ The `sfdx-project.json` file contains useful configuration information for your 
 
 ## NEXT PHASE OF HOMEPAGE
 
-Use sessionstorage for the search functionality to remove query. After completing task delete this.
+- Use sessionstorage for the search functionality to remove query. After completing task delete this.
+- User can open edit board.
+- User can open Reports(Icon Name - calculated_insights) of the board in RecordList.
+
+## 27-2 WEEKLY SPRINT 
+- Able to see the field and ticket. (Completed) [ViewBoard ViewBoard.cls, Home, HomePage.cls]
+- Able to see the color of ticket. (Completed) [ ViewBoard ]
+- Able to do Delete, Restore Ticket, Permanently delete ticket. (Completed) [ViewBoard, RecyclePopup, DeletePopup]
+- Give Dropdown button from where user can go to recycle and go back to the homepage.
+- Able to Create ticket with fields such as Name, Number, Field, Description, StartDate, EndDate, Ticket Priority and yes create new LWC component called CreateticketPopup.
+-Able to see ticket Data by opening the ticket.
+
+## 3-9 WEEKLY SPRINT
+- Able to update the ticket data.
+
+## 10-16 WEEKLY SPRINT
+- Able to create field. Create new LWC compoenent EditBoard.
+- Able to edit field Name from the fieldheader.
+- Able to drag and drop field to change order.

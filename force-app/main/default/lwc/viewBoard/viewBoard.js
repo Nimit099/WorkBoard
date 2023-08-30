@@ -394,8 +394,30 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
+    opendropdown(event) {
+        if (event.detail.value == 'recycle') {
+            console.log(event.detail.value);
+            this.isRecyclemodal = !this.isRecyclemodal;
+        } else {
+            let cmpDef = {
+                componentDef: "c:home"
+            };
+            let encodedDef = btoa(JSON.stringify(cmpDef));
+            this[NavigationMixin.Navigate]({
+                type: "standard__webPage",
+                attributes: {
+                    url: "/one/one.app#" + encodedDef
+                }
+            });
+        }
+    }
+
     opencloserecyclepopup() {
-        this.isRecyclemodal = !this.isRecyclemodal;
+        try {
+            this.isRecyclemodal = !this.isRecyclemodal;
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     permanentdeleteticket(event) {

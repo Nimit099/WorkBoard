@@ -16,8 +16,18 @@
 				<div class="headerbutton">
 					<div class="createbutton" onclick={createticket}></span> Create Ticket</div>
 					<div class="usericon recycle">
-						<lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
-							alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon>
+						<lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
+							menu-alignment="top-right" onselect={opendropdown}>
+
+							<lightning-menu-item value="recycle" label="Recycle Bin" size="large"
+								prefix-icon-name="standard:recycle_bin"></lightning-menu-item>
+							<lightning-menu-item value="home" label="Back" size="large"
+								prefix-icon-name="action:back"></lightning-menu-item>
+							<!-- <lightning-menu-item value="menuItemThree" label="Menu Item Three"></lightning-menu-item> -->
+
+						</lightning-button-menu>
+						<!-- <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
+							alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon> -->
 					</div>
 				</div>
 			</div>
@@ -101,7 +111,7 @@
 			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
 			<div class="slds-modal__container">
 				<c-toast oncompleteonetoast={toastprocess}></c-toast>
-				
+
 				<!-- modal header start -->
 				<div class="ctfullpopup">
 					<!-- modal header start -->
