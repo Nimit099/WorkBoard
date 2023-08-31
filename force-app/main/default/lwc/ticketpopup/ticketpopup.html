@@ -8,37 +8,18 @@
 					<div class="ticket-details">
 						<div class="ticket-number-priority">
 							<template if:false={isupdateticketNumber}>
-								<div class="ticket-number" data-name="ticketNumber" ondblclick={updatingTicket}>
+								<div class="ticket-number" data-name="ticketNumber" >
 									{ticketNumber}</div>
 							</template>
-							<template if:true={isupdateticketNumber}>
-								<div class="ticket-number ticket-number-input">
-									<lightning-input type="text" variant="standard" name="name"
-										placeholder="Enter New Ticket Number"></lightning-input>
-								</div>
-							</template>
+
 							<div class="ticket-priority">
 								<div class="priority-key">Priority -</div>
-								<!-- <template if:false={isupdateticketPriority}> -->
-								<div class="priority-value" data-name="ticketPriority" ondblclick={updatingTicket}>
+								<div class="priority-value" data-name="ticketPriority" >
 									{ticketPriority}</div>
-								<!-- </template>
-								<template if:true={isupdateticketPriority}>
-									<div class="priority-value">
-										<lightning-input type="text" variant="standard" name="name"
-											placeholder="Enter New Ticket Number"></lightning-input>
-									</div>
-								</template> -->
 							</div>
 						</div>
 						<template if:false={isupdateticketName}>
-							<div class="ticket-name" data-name="ticketName" ondblclick={updatingTicket}>{ticketName}
-							</div>
-						</template>
-						<template if:true={isupdateticketName}>
-							<div class="ticket-name">
-								<lightning-input type="text" variant="standard" name="name"
-									placeholder="Enter New Ticket Name"></lightning-input>
+							<div class="ticket-name" data-name="ticketName" >{ticketName}
 							</div>
 						</template>
 						<div class="ticket-description-attachment">
@@ -46,15 +27,12 @@
 								<lightning-tab label="Description" value="description">
 									<template if:false={isupdateticketDescription}>
 										<div class="ticket-description" data-name="ticketDescription"
-											ondblclick={updatingTicket}>
+											>
 											<div class="ticket-description-scroll">
-												{ticketDescription}
+												<lightning-formatted-rich-text
+													value={ticketDescription}></lightning-formatted-rich-text>
 											</div>
 										</div>
-									</template>
-									<template if:true={isupdateticketDescription}>
-										<lightning-textarea name="inputname" placeholder="Enter Your Description..."
-											value=""></lightning-textarea>
 									</template>
 								</lightning-tab>
 								<lightning-tab label="Attachment" value="attachment">
@@ -145,62 +123,33 @@
 							<div class="key">Field</div>
 							<div class="value">{ticketFieldName}</div>
 						</div>
-						<div class="ticket-setting-user ticket-setting">
-							<div class="key">User</div>
-							<div class="value">{ticketUser}</div>
-						</div>
 						<div class="ticket-setting-startdate ticket-setting">
 							<div class="key">Start Date</div>
 							<template if:false={isupdateticketStartDate}>
-								<div class="value" ondblclick={updatingTicket} data-name="ticketStartDate">
+								<div class="value"  data-name="ticketStartDate">
 									<lightning-formatted-date-time
 										value={ticketStartDate}></lightning-formatted-date-time>
 								</div>
-							</template>
-							<template if:true={isupdateticketStartDate}>
-								<lightning-input type="Date" variant="standard" name="name"
-									class="slds-input-has-icon slds-input__icon" placeholder="Start Date">
-								</lightning-input>
 							</template>
 						</div>
 						<div class="ticket-setting-enddate ticket-setting">
 							<div class="key">End Date</div>
 							<template if:false={isupdateticketEndDate}>
-								<div class="value" ondblclick={updatingTicket} data-name="ticketEndDate">
+								<div class="value"  data-name="ticketEndDate">
 									<lightning-formatted-date-time
 										value={ticketEndDate}></lightning-formatted-date-time>
 								</div>
-							</template>
-							<template if:true={isupdateticketEndDate}>
-								<lightning-input type="Date" variant="standard" name="name"
-									class="slds-input-has-icon slds-input__icon" placeholder="End Date">
-								</lightning-input>
 							</template>
 						</div>
 						<div class="ticket-setting-progress ticket-setting">
 							<div class="key">Progress</div>
 							<template if:false={isupdateticketCompletedPercentage}>
 								<div>{ticketCompletedPercentage}%</div>
-								<div class="value" ondblclick={updatingTicket} data-name="ticketCompletedPercentage">
+								<div class="value"  data-name="ticketCompletedPercentage">
 									<lightning-progress-bar value={ticketCompletedPercentage} size="medium"
 										variant="circular">
 									</lightning-progress-bar>
 								</div>
-							</template>
-							<template if:true={isupdateticketCompletedPercentage}>
-								<lightning-input type="number" variant="standard" name="name"
-									placeholder="Enter Progress Percentage"></lightning-input>
-							</template>
-						</div>
-						<div class="ticket-setting-color ticket-setting">
-							<div class="key">Color</div>
-							<template if:false={isupdateticketColor}>
-								<div class="value" ondblclick={updatingTicket} data-name="ticketColor">{ticketColor}
-								</div>
-							</template>
-							<template if:true={isupdateticketColor}>
-								<lightning-input type="color" variant="standard" name="name" placeholder="Color">
-								</lightning-input>
 							</template>
 						</div>
 						<div class="ticket-setting-createddate ticket-setting">
@@ -224,7 +173,7 @@
 						Cancel
 					</div>
 					<div class="createbutton popupbutton" data-type={type} data-name="deleteyes" data-id="deleteyes"
-						onclick={saveticketpopup}></span> Save
+						onclick={saveticketpopup}></span> Edit
 					</div>
 				</div>
 			</div>

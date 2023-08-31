@@ -14,25 +14,19 @@
 				<div class="headerlogo">
 				</div>
 				<div class="headerbutton">
-					<div class="createbutton" onclick={createticket}></span> Create Ticket</div>
+					<div class="createbutton" onclick={openclosecreateticket}></span> Create Ticket</div>
 					<div class="usericon recycle">
 						<lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
-							menu-alignment="top-right" onselect={opendropdown}>
-
+							menu-alignment="top-right" onselect={selectdropdown}>
 							<lightning-menu-item value="recycle" label="Recycle Bin" size="large"
 								prefix-icon-name="standard:recycle_bin"></lightning-menu-item>
 							<lightning-menu-item value="home" label="Back" size="large"
 								prefix-icon-name="action:back"></lightning-menu-item>
-							<!-- <lightning-menu-item value="menuItemThree" label="Menu Item Three"></lightning-menu-item> -->
-
 						</lightning-button-menu>
-						<!-- <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
-							alternative-text='recycle_bin' size='large' title='recycle_bin'></lightning-icon> -->
 					</div>
 				</div>
 			</div>
 			<!-- header ends -->
-			<!-- <div class="scrollablesdiv"> -->
 			<div class="body">
 				<div class="scrollablesdiv">
 					<template if:true={fieldsfound}>
@@ -93,6 +87,7 @@
 			</div>
 		</div>
 	</template>
+
 	<template if:true={deletemodal}>
 		<c-deletepopup boardid={ticketId} boardname={ticketName} type="ticket" onclosedeletepopup={openclosedeletepopup}
 			ontemporarydeleteticket={handletemporarydeleteticket}>
@@ -104,90 +99,10 @@
 		</c-recyclepopup>
 	</template>
 	<template if:true={openticketmodal}>
-		<c-ticketpopup oncloseticketpopup={openticket} ticketpopupdata={ticketpopupdata}></c-ticketpopup>
+		<c-ticketpopup oncloseticketpopup={openticket} ticketid ={ticketId}></c-ticketpopup>
 	</template>
-	<template if:true={isShowModal}>
-		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-			<div class="slds-modal__container">
-				<c-toast oncompleteonetoast={toastprocess}></c-toast>
-
-				<!-- modal header start -->
-				<div class="ctfullpopup">
-					<!-- modal header start -->
-					<div class="ctheaderpopup"> Create Ticket</div>
-					<div class="ctbodypopups">
-						<div class="ctbodypopup">
-							<div class="ctfields">
-								<label><span style="color:red; ">*</span>Ticket Number</label>
-								<div class="ctpopufields">
-									<lightning-input type="text" variant="standard" value={number} data-name="Number"
-										onchange={handleinputaction} placeholder="Ticket Number"></lightning-input>
-								</div>
-							</div>
-							<div class="ctfields">
-								<label><span style="color:red; ">*</span>Ticket Name</label>
-								<div class="ctpopufields">
-									<lightning-input type="text" variant="standard" data-name="Name"
-										onchange={handleinputaction} value={name} placeholder="Ticket Name">
-									</lightning-input>
-								</div>
-							</div>
-							<div class="ctfields">
-								<label>Description</label>
-								<div class="ctpopufields">
-									<lightning-textarea type="text" variant="standard" value={description}
-										data-name="Description" onchange={handleinputaction}
-										placeholder="Ticket Description"></lightning-textarea>
-								</div>
-							</div>
-						</div>
-
-						<div class="ctbodypopup">
-							<div class="ctfields">
-								<label>Start Date</label>
-								<div class="ctpopufields">
-									<lightning-input type="Date" variant="standard" value={startdate}
-										data-name="StartDate" onchange={handleinputaction} placeholder="Start Date">
-									</lightning-input>
-								</div>
-							</div>
-							<div class="ctfields">
-								<label>End Date</label>
-								<div class="ctpopufields">
-									<lightning-input type="Date" variant="standard" data-name="EndDate"
-										onchange={handleinputaction} value={enddate} placeholder="End Date">
-									</lightning-input>
-								</div>
-							</div>
-							<div class="ctfields">
-								<label>Priority</label>
-								<div class="ctpopufields">
-									<lightning-combobox data-name="Priority" value={priority}
-										placeholder="Select Priortiy" options={options} onchange={handleinputaction}>
-									</lightning-combobox>
-								</div>
-							</div>
-						</div>
-					</div>
-
-
-					<div class="ctfooterpopup">
-						<div class="ctcreatebutton ctpopupbutton" data-name="Cancel" onclick={handleticketaction}>
-							Cancel
-						</div>
-						<div class="ctcreatebutton ctpopupbutton" data-name="Save" onclick={handleticketaction}>
-							Save
-						</div>
-						<div class="ctcreatebutton ctpopupbutton" data-name="SaveNew" onclick={handleticketaction}>
-							Save &
-							New
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-		<div class="slds-backdrop slds-backdrop_open"></div>
+	<template if:true={createticketmodal}>
+		<c-createticketpopup fields={fieldlist} onsaveticket={saveticket} onsavenewticket={saveandnewticket} oncloseticket={openclosecreateticket}></c-createticketpopup>
 	</template>
 	<!-- modal end -->
 

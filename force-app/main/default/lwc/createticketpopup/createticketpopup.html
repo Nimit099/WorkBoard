@@ -1,86 +1,123 @@
 <template>
 	<!-- modal start -->
-	<template if:true={isShowModal}>
-		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-			<div class="slds-modal__container">
-				<!-- modal header start -->
-				<div class="fullpopup">
-					<!-- modal header start -->
-					<div class="headerpopup"> Create Ticket</div>
-					<c-toast oncompleteonetoast={toastprocess}></c-toast>
-					<div class="bodypopups">
-						<div class="bodypopup">
-							<div class="fields">
-								<label><span style="color:red; ">*</span>Ticket Number</label>
-								<div class="popufields">
-									<lightning-input type="text" variant="standard" value={number} data-name="Number"
-										onchange={handleinputaction} placeholder="Ticket Number"></lightning-input>
+	<!-- <template if:true={isShowModal}> -->
+	<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+		aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container">
+			<c-toast oncompleteonetoast={toastprocess}></c-toast>
+			<!-- modal header start -->
+			<div class="ctfullpopup">
+				<div class="ctheader">
+					<label> Create Ticket</label>
+				</div>
+				<div class="ctbody">
+					<div class="ctupperfields">
+						<div class="ctleftfields">
+							<div class="">	
+								<div class="ctfieldname">
+									Number <span class="star">*</span>
+								</div>
+								<div class="">
+									<lightning-input variant="label-hidden" data-name="number" value={number}
+										onchange={handleinput}></lightning-input>
 								</div>
 							</div>
-							<div class="fields">
-								<label><span style="color:red; ">*</span>Ticket Name</label>
-								<div class="popufields">
-									<lightning-input type="text" variant="standard" data-name="Name"
-										onchange={handleinputaction} value={name} placeholder="Ticket Name">
-									</lightning-input>
+							<div class="">
+								<div class="ctfieldname">
+									Name <span class="star">*</span>
+								</div>
+								<div class="">
+									<lightning-input variant="label-hidden" data-name="name" value={name}
+										onchange={handleinput}></lightning-input>
 								</div>
 							</div>
-							<div class="fields">
-								<label>Description</label>
-								<div class="popufields">
-									<lightning-textarea type="text" variant="standard" value={description}
-										data-name="Description" onchange={handleinputaction}
-										placeholder="Ticket Description"></lightning-textarea>
+							<div class="">
+								<div class="ctfieldname">
+									Start Date
+								</div>
+								<div class="">
+									<lightning-input variant="label-hidden" data-name="startdate" value={startdate}
+										type="date" onchange={handleinput}></lightning-input>
+								</div>
+							</div>
+							<div class="">
+								<div class="ctfieldname">
+									End Date
+								</div>
+								<div class="">
+									<lightning-input variant="label-hidden" data-name="enddate" value={enddate}
+										type="date" onchange={handleinput}></lightning-input>
 								</div>
 							</div>
 						</div>
-
-						<div class="bodypopup">
-							<div class="fields">
-								<label>Start Date</label>
-								<div class="popufields">
-									<lightning-input type="Date" variant="standard" value={startdate}
-										data-name="StartDate" onchange={handleinputaction}
-										placeholder="Start Date"></lightning-input>
+						<div class="ctrightfields">
+							<div class="">
+								<div class="ctfieldname">
+									Field <span class="star">*</span>
+								</div>
+								<div class="">
+									<lightning-combobox value={field} data-name="field" onchange={handleinput}
+										placeholder="Select Field" variant="label-hidden"
+										options={fieldList}></lightning-combobox>
 								</div>
 							</div>
-							<div class="fields">
-								<label>End Date</label>
-								<div class="popufields">
-									<lightning-input type="Date" variant="standard" data-name="EndDate"
-										onchange={handleinputaction} value={enddate}
-										placeholder="End Date"></lightning-input>
+							<div class="">
+								<div class="ctfieldname">
+									Priority
+								</div>
+								<div class="">
+									<lightning-combobox data-name="priority" value={priority} onchange={handleinput}
+										placeholder="Select Priority" variant="label-hidden" options={options}>
+									</lightning-combobox>
 								</div>
 							</div>
-							<div class="fields">
-								<label>Priority</label>
-								<div class="popufields">
-									<lightning-combobox data-name="Priority" value={priority}
-										placeholder="Select Priortiy" options={options}
-										onchange={handleinputaction}></lightning-combobox>
+							<div class="">
+								<div class="ctfieldname">
+									Progress
+								</div>
+								<div class="">
+									<lightning-input variant="label-hidden" value={progress} data-name="progress"
+										type="number" onchange={handleinput}></lightning-input>
+								</div>
+							</div>
+							<div class="">
+								<div class="ctfieldname">
+									Color
+								</div>
+								<div class="">
+									<lightning-input variant="label-hidden" value={color} data-name="color" type="color"
+										onchange={handleinput}></lightning-input>
 								</div>
 							</div>
 						</div>
 					</div>
-
-
-					<div class="footerpopup">
-						<div class="createbutton popupbutton" data-name="Cancel" onclick={handleticketaction}></span>
-							Cancel
+					<div class="">
+						<div class="ctfieldname">
+							Description
 						</div>
-						<div class="createbutton popupbutton" data-name="Save" onclick={handleticketaction}></span> Save
-						</div>
-						<div class="createbutton popupbutton" data-name="SaveNew" onclick={handleticketaction}></span>
-							Save &
-							New
+						<div class="">
+							<lightning-input-rich-text data-name="description" value={description}
+								onchange={handleinput}></lightning-input-rich-text>
 						</div>
 					</div>
 				</div>
+				<div class="ctfooter">
+					<div class="ctcreatebutton" data-name="Cancel" onclick={closeticket}>
+						Cancel
+					</div>
+					<div class="ctcreatebutton" data-name="Save" onclick={saveticket}>
+						Save
+					</div>
+					<div class="ctcreatebutton" data-name="SaveNew" onclick={saveticket}>
+						Save &
+						New
+					</div>
+				</div>
 			</div>
-		</section>
-		<div class="slds-backdrop slds-backdrop_open"></div>
-	</template>
+		</div>
+	</section>
+	<div class="slds-backdrop slds-backdrop_open"></div>
+	<!-- </template> -->
 	<!-- modal end -->
 
-	/</template>
+</template>

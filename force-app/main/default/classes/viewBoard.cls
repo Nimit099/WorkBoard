@@ -4,7 +4,7 @@ public class viewBoard {
     public static FieldTicketwrapper getBoardData(Id boardId){
         try {
             List<Fields__c> fieldList = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c  WHERE Board__c =: boardId WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
-            List<Ticket__c> ticketList = [SELECT Id, Name, TicketNumber__c, TicketPriority__c, DeletedDate__c, Field__c, Color__c, CreatedDate FROM Ticket__c WHERE Field__c IN: fieldList WITH SECURITY_ENFORCED];
+            List<Ticket__c> ticketList = [SELECT Id, Name, TicketNumber__c,  TicketPriority__c, DeletedDate__c, Field__c, Color__c,CreatedDate FROM Ticket__c WHERE Field__c IN: fieldList WITH SECURITY_ENFORCED];
 
             FieldTicketwrapper ftw = new FieldTicketwrapper();
             ftw.fieldList = fieldList;
@@ -20,7 +20,7 @@ public class viewBoard {
     @AuraEnabled
     public static Ticket__c createticket(Ticket__c newticket){
         try{
-            Ticket__c ticket = new Ticket__c (TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c);
+            Ticket__c ticket = new Ticket__c (TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c, CompletedPercentage__c = newticket.CompletedPercentage__c);
             insert ticket;
             return ticket;
         } catch(Exception e){
@@ -65,6 +65,17 @@ public class viewBoard {
             Database.delete(ticketId);
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);   
+        }
+    }
+
+    @AuraEnabled
+    public static Ticket__c getTicket(Id ticketId){
+        try {
+            Ticket__c ticketList = [SELECT Id, Name, TicketNumber__c,  TicketPriority__c, Field__r.Name, StartDate__c,EndDate__c,Description__c, CompletedPercentage__c, Field__c, Color__c,CreatedDate, LastModifiedDate FROM Ticket__c WHERE Id =: ticketId WITH SECURITY_ENFORCED];
+            return ticketList;
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null; 
         }
     }
 
