@@ -99,7 +99,7 @@
 		</c-recyclepopup>
 	</template>
 	<template if:true={openticketmodal}>
-		<c-ticketpopup oncloseticketpopup={openticket} ticketid ={ticketId}></c-ticketpopup>
+		<c-ticketpopup oncloseticketpopup={openticket} fields={fieldlist} ticketid ={ticketId}></c-ticketpopup>
 	</template>
 	<template if:true={createticketmodal}>
 		<c-createticketpopup fields={fieldlist} onsaveticket={saveticket} onsavenewticket={saveandnewticket} oncloseticket={openclosecreateticket}></c-createticketpopup>

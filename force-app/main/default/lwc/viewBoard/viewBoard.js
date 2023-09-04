@@ -219,7 +219,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             createticket({ newticket: ticket })
                 .then(result => {
                     ticket.Id = result.Id;
-                    ticket.CreatedDate = this.today;
                     this.ticketlist.push(ticket);
                     this.search(null);
                 }).catch(error => {

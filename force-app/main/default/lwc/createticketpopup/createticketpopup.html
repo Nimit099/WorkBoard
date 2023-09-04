@@ -8,12 +8,17 @@
 			<!-- modal header start -->
 			<div class="ctfullpopup">
 				<div class="ctheader">
-					<label> Create Ticket</label>
+					<template if:true={isupdateticket}>
+						<label> Update Ticket</label>
+					</template>
+					<template if:false={isupdateticket}>
+						<label> Create Ticket</label>
+					</template>
 				</div>
 				<div class="ctbody">
 					<div class="ctupperfields">
 						<div class="ctleftfields">
-							<div class="">	
+							<div class="">
 								<div class="ctfieldname">
 									Number <span class="star">*</span>
 								</div>
@@ -55,10 +60,11 @@
 								<div class="ctfieldname">
 									Field <span class="star">*</span>
 								</div>
-								<div class="">
-									<lightning-combobox value={field} data-name="field" onchange={handleinput}
-										placeholder="Select Field" variant="label-hidden"
-										options={fieldList}></lightning-combobox>
+								<div>
+									<!-- Do not remove classes -->
+									<lightning-combobox value={field} class="fielddata" data-name="field"
+										onchange={handleinput} placeholder="Select Field" variant="label-hidden"
+										options={fieldList} ></lightning-combobox>
 								</div>
 							</div>
 							<div class="">
@@ -108,10 +114,13 @@
 					<div class="ctcreatebutton" data-name="Save" onclick={saveticket}>
 						Save
 					</div>
-					<div class="ctcreatebutton" data-name="SaveNew" onclick={saveticket}>
-						Save &
-						New
-					</div>
+					<template if:false={isupdateticket}>
+						<div class="ctcreatebutton" data-name="SaveNew" onclick={saveticket}>
+							Save &
+							New
+						</div>
+					</template>
+
 				</div>
 			</div>
 		</div>

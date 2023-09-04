@@ -30,6 +30,19 @@ public class viewBoard {
         }
     }
 
+    //It is call when someone update ticket
+    @AuraEnabled
+    public static void updateticket(Ticket__c newticket){
+        try{
+            Ticket__c ticket = new Ticket__c (Id = newticket.Id, TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c, CompletedPercentage__c = newticket.CompletedPercentage__c);
+            update ticket;
+        } catch(Exception e){
+            System.debug(e);
+            HandleExceptions eh = new HandleExceptions(e); 
+        }
+    }
+    
+
     // It is call when someone drag and drop ticket
     @AuraEnabled
     public static void updateticketfield(Id ticketId, Id fieldId){

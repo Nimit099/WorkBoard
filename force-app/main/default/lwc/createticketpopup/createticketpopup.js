@@ -8,19 +8,21 @@ export default class Createticketpopup extends LightningElement {
         ];
     }
 
-    @track name = '';
-    @track number = '';
-    @track description;
-    @track enddate;
-    @track startdate;
-    @track priority;
-    @track field = '';
-    @track color;
-    @track progress;
+    @api name = '';
+    @api number = '';
+    @api description;
+    @api enddate;
+    @api startdate;
+    @api priority;
+    @api field;
+    @api color;
+    @api progress;
+    @api fields;
+    @api isupdateticket = false;
+    @track today;
 
     @track fieldList = [];
 
-    @api fields;
 
     // This variables use in Toast
     @track enqueueToast = [];
@@ -28,9 +30,16 @@ export default class Createticketpopup extends LightningElement {
 
     connectedCallback() {
         try {
+
             this.fields.forEach(field => {
-                this.fieldList.push({ label: field.Name, value: field.Id })
+                this.fieldList.push({ label: field.Name, value: field.Id });
             });
+
+            this.today = new Date();
+            var dd = String(this.today.getDate()).padStart(2, '0');
+            var mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = this.today.getFullYear();
+            this.today = yyyy + '-' + mm + '-' + dd;
         } catch (error) {
             console.error(error.message);
         }
@@ -74,40 +83,51 @@ export default class Createticketpopup extends LightningElement {
             ticketrecord['Field__c'] = this.field;
             ticketrecord['Color__c'] = this.color;
             ticketrecord['CompletedPercentage__c'] = this.progress;
-            ticketrecord['CreatedDate'] = '';
+            if (this.isupdateticket) {
+                ticketrecord['LastModifiedDate'] = this.today;
+            } else {
+                ticketrecord['CreatedDate'] = this.today;
+            }
 
-            if ((this.number != '' || this.number.trim() != '') && (this.name != '' || this.name.trim() != '')
-                && (this.field != '' || this.field.trim() != '')) {
+            if (!this.isupdateticket) {
+                if ((this.number != '' || this.number.trim() != '') && (this.name != '' || this.name.trim() != '')
+                    && (this.field != '' || this.field.trim() != '')) {
 
-                if (event.currentTarget.dataset.name == 'Save') {
+                    if (event.currentTarget.dataset.name == 'Save') {
 
-                    const dispatch = new CustomEvent("saveticket", {
-                        detail: ticketrecord
-                    })
-                    this.dispatchEvent(dispatch);
+                        const dispatch = new CustomEvent("saveticket", {
+                            detail: ticketrecord
+                        })
+                        this.dispatchEvent(dispatch);
 
-                } else if (event.currentTarget.dataset.name == 'SaveNew') {
+                    } else if (event.currentTarget.dataset.name == 'SaveNew') {
 
-                    const dispatch = new CustomEvent("savenewticket", {
-                        detail: ticketrecord
-                    })
-                    this.dispatchEvent(dispatch);
-                    this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+                        const dispatch = new CustomEvent("savenewticket", {
+                            detail: ticketrecord
+                        })
+                        this.dispatchEvent(dispatch);
+                        this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+                        this.toastprocess(null);
+                    }
+
+                    this.number = '';
+                    this.name = '';
+                    this.description = '';
+                    this.color = '';
+                    this.startdate = '';
+                    this.enddate = '';
+                    this.field = '';
+                    this.priority = '';
+                    this.progress = '';
+                } else {
+                    this.enqueueToast.push({ status: 'error', message: 'FILL REQUIRED FIELD' });
                     this.toastprocess(null);
                 }
-
-                this.number = '';
-                this.name = '';
-                this.description = '';
-                this.color = '';
-                this.startdate = '';
-                this.enddate = '';
-                this.field = '';
-                this.priority = '';
-                this.progress = '';
             } else {
-                this.enqueueToast.push({ status: 'error', message: 'FILL REQUIRED FIELD' });
-                this.toastprocess(null);
+                const updateticket = new CustomEvent("updateticket", {
+                    detail: ticketrecord
+                })
+                this.dispatchEvent(updateticket);
             }
 
         } catch (error) {
@@ -117,20 +137,23 @@ export default class Createticketpopup extends LightningElement {
     }
 
     closeticket() {
-        this.number = '';
-        this.name = '';
-        this.description = '';
-        this.color = '';
-        this.startdate = '';
-        this.enddate = '';
-        this.field = '';
-        this.priority = '';
-        this.progress = '';
-        const dispatch = new CustomEvent("closeticket", {
-            detail: 'onetoastdone'
-        })
-        this.dispatchEvent(dispatch);
-
+        try {
+            this.number = '';
+            this.name = '';
+            this.description = '';
+            this.color = '';
+            this.startdate = '';
+            this.enddate = '';
+            this.field = '';
+            this.priority = '';
+            this.progress = '';
+            const dispatch = new CustomEvent("closeticket", {
+                detail: 'onetoastdone'
+            })
+            this.dispatchEvent(dispatch);
+        } catch (error) {
+            console.error(error.message);
+        }
     }
 
     // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
