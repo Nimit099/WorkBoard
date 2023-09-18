@@ -10,7 +10,7 @@
             <div class="headerlogo">
             </div>
             <div class="headerbutton">
-                <div class="createbutton" onclick={openclosecreateticket}></span> Create Field</div>
+                <div class="createbutton" onclick={openclosecreatefield}></span> Create Field</div>
                 <div class="usericon recycle">
                     <lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
                         menu-alignment="top-right" onselect={selectdropdown}>
@@ -26,15 +26,14 @@
         <div class="body">
             <div class="scrollablesdiv">
                 <template if:true={fieldsfound}>
-                    <template for:each={boarddata} for:item="field" for:index="index">
-                        <div class="fields" data-id={field.field.Id} key={field.field.Id} ondrop={dropzone}
-                            ondragover={dragover}>
+                    <template for:each={fielddata} for:item="field" for:index="index">
+                        <div class="fields" data-id={field.Id} key={field.Id}>
                             <div class="fieldheader">
-                                <div class="fieldname">{field.field.Name}</div>
+                                <div class="fieldname">{field.Name}</div>
                             </div>
                             <div class="fieldbody">
-                                <div class="scrollableclass">
-                                </div>
+                                <!-- <div class="scrollableclass">
+                                </div> -->
                             </div>
                         </div>
                     </template>
@@ -51,4 +50,8 @@
         </div>
     </div>
     <!-- modal end -->
+
+    <template if:true={createField}>
+        <c-create-field boardid={boardid} onsaveandnewfield={saveandnewfield} onsavefield={savefield} onclosefield={openclosecreatefield}></c-create-field>
+    </template>
 </template>
