@@ -32,8 +32,6 @@
                                 <div class="fieldname">{field.Name}</div>
                             </div>
                             <div class="fieldbody">
-                                <!-- <div class="scrollableclass">
-                                </div> -->
                             </div>
                         </div>
                     </template>
@@ -52,6 +50,7 @@
     <!-- modal end -->
 
     <template if:true={createField}>
-        <c-create-field boardid={boardid} onsaveandnewfield={saveandnewfield} onsavefield={savefield} onclosefield={openclosecreatefield}></c-create-field>
+        <c-create-field boardid={boardid} onsaveandnewfield={saveandnewfield} onsavefield={savefield}
+            onclosefield={openclosecreatefield}></c-create-field>
     </template>
 </template>

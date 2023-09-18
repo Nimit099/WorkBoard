@@ -74,6 +74,8 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     if (this.fieldlist.length > 0) {
                         this.fieldsfound = true;
                     }
+                }).catch(error => {
+                    console.error(error.message);
                 });
         } catch (error) {
             console.error('OUTPUT viewBoard connected: ', error.message);

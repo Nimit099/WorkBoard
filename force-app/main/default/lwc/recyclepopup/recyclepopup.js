@@ -93,7 +93,7 @@ export default class Recyclepopup extends LightningElement {
         } catch (error) {
             console.error(error);
         }
-        
+
     }
 
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to permanently delete the ticket
@@ -156,6 +156,8 @@ export default class Recyclepopup extends LightningElement {
                         detail: this.boardid
                     });
                     this.dispatchEvent(closerecycle);
+                }).catch(error => {
+                    console.error(error.message);
                 });
         } catch (error) {
             console.error(error.message);
@@ -176,8 +178,12 @@ export default class Recyclepopup extends LightningElement {
                     this.toastprocess(null);
                     const closerecycle = new CustomEvent("restoreticket", {
                         detail: ticketId
+                    }).catch(error => {
+                        console.error(error.message);
                     });
                     this.dispatchEvent(closerecycle);
+                }).catch(error => {
+                    console.error(error.message);
                 });
         } catch (error) {
             console.error(error.message);

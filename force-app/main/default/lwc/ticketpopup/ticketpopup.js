@@ -28,7 +28,9 @@ export default class Ticketpopup extends LightningElement {
                     this.ticketpopupdata = result;
                     this.assignvalue();
                     console.log(['getticket']);
-                });
+                }) .catch(error =>{
+                    console.error(error.message);
+                })
         } catch (error) {
             console.error(error.message);
         }
@@ -48,7 +50,7 @@ export default class Ticketpopup extends LightningElement {
             let ticket = JSON.parse(JSON.stringify(event.detail));
             ticket.Id = this.ticketid;
             updateticket({ newticket: ticket })
-                .then(result => {
+                .then(() => {
                     this.ticketpopupdata = ticket;
                     this.assignvalue();
                     this.editticketpopup();

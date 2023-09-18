@@ -2,36 +2,41 @@
     <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
         aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
         <div class="slds-modal__container">
-            <div class="headerpopup">Create Field</div>
-            <div class="bodypopup">
-                <div class="fieldData">
-                    <div class="fieldName"> Name <span class="redstar"> * </span></div>
-                    <div>
-                        <lightning-input variant="label-hidden" data-name="fieldname" value={fieldName}
-                            onchange={handleinput}></lightning-input>
+            <c-toast oncompleteonetoast={toastprocess}></c-toast>
+            <div class="fullpopup">
+
+                <div class="headerpopup">Create Field</div>
+                <div class="bodypopup">
+                    <div class="fieldData">
+                        <div class="fieldName"> Name <span class="redstar"> * </span></div>
+                        <div>
+                            <lightning-input variant="label-hidden" data-name="fieldname" value={fieldName}
+                                onchange={handleinput}></lightning-input>
+                        </div>
+                    </div>
+                    <div class="fieldData">
+                        <div class="fieldOrder"> Order Number </div>
+                        <div>
+                            <lightning-input variant="label-hidden" type="number" data-name="fieldorder"
+                                value={fieldOrder} onchange={handleinput}></lightning-input>
+                        </div>
                     </div>
                 </div>
-                <div class="fieldData">
-                    <div class="fieldOrder"> Order Number </div>
-                    <div>
-                        <lightning-input variant="label-hidden" type="number" data-name="fieldorder" value={fieldOrder}
-                            onchange={handleinput}></lightning-input>
+                <div class="footerpopup">
+                    <div class="ctcreatebutton" data-name="Cancel" onclick={closeField}>
+                        Cancel
                     </div>
-                </div>
-            </div>
-            <div class="footerpopup">
-                <div class="ctcreatebutton" data-name="Cancel" onclick={closeField}>
-                    Cancel
-                </div>
-                <div class="ctcreatebutton" data-name="Save" onclick={createField}>
-                    Save
-                </div>
-                <div class="ctcreatebutton" data-name="SaveNew" onclick={saveandnewfield}>
-                    Save &amp;
-                    New
+                    <div class="ctcreatebutton" data-name="Save" onclick={createField}>
+                        Save
+                    </div>
+                    <div class="ctcreatebutton" data-name="SaveNew" onclick={saveandnewfield}>
+                        Save &amp;
+                        New
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+
     <div class="slds-backdrop slds-backdrop_open"></div>
 </template>
