@@ -430,6 +430,7 @@ export default class Home extends NavigationMixin(LightningElement) {
         attributes: {
           boardid: this.boardid,
           boardname: this.boardname,
+          home: true
         }
       };
       let encodedDef = btoa(JSON.stringify(cmpDef));

@@ -3,6 +3,8 @@ import permanentdeleteticket from '@salesforce/apex/viewBoard.permanentdeletetic
 import permanentdeleteboard from '@salesforce/apex/HomePage.permanentdeleteboard';
 import restoreticket from '@salesforce/apex/viewBoard.restoreticket';
 import restoreboard from '@salesforce/apex/HomePage.restoreboard';
+import permanentdeletefield from '@salesforce/apex/fieldController.permanentdeletefield';
+
 export default class Recyclepopup extends LightningElement {
     @api recyclelist = [];
     @api type;
@@ -26,6 +28,8 @@ export default class Recyclepopup extends LightningElement {
                 this.handlepermanentdeleteboard();
             } else if (this.type == 'Ticket') {
                 this.handlepermanentdeleteticket();
+            } else if (this.type == 'Field') {
+                this.handlepermanentdeletefield();
             }
         } catch (error) {
             console.error('OUTPUT handlepermanentdeleteaction: ', error.message);
@@ -44,8 +48,10 @@ export default class Recyclepopup extends LightningElement {
             if (this.deletepopup) {
                 if (this.type == 'Board') {
                     this.deletetype = "permanentdeleteboard";
+                } else if (this.type = 'Field') {
+                    this.deletetype = "permanentdeletefield";
                 } else {
-                    this.deletetype = "permanentdeleteticket"; // left with the work of ticket.
+                    this.deletetype = "permanentdeleteticket";
                 }
                 this.boardname = event.currentTarget.dataset.name;
                 this.boardid = event.currentTarget.dataset.id;
@@ -77,7 +83,7 @@ export default class Recyclepopup extends LightningElement {
     handlepermanentdeleteboard() {
         try {
             permanentdeleteboard({ boardId: this.boardid })
-                .then(result => {
+                .then(() => {
                     const permanentdeleted = new CustomEvent("permanentdeleteboard", {
                         detail: this.boardid
                     });
@@ -100,10 +106,10 @@ export default class Recyclepopup extends LightningElement {
     // UPDATION - --
     // CONDITION - Cleaned code
     // STATUS - WORKING
-    handlepermanentdeleteticket(event) {
+    handlepermanentdeleteticket() {
         try {
             permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
-                .then(result => {
+                .then(() => {
                     this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
                     const permanentdeleted = new CustomEvent("permanentdeleteticket", {
@@ -188,6 +194,23 @@ export default class Recyclepopup extends LightningElement {
         } catch (error) {
             console.error(error.message);
         }
+    }
+
+    handlepermanentdeletefield() {
+        console.log('permanentdeletefield recylcepopup');
+        console.log(this.boardid);
+        permanentdeletefield({ fieldid: this.boardid }) // boardid is field id here
+            .then(() => {
+                this.enqueueToast.push({ status: 'success', message: 'FIELD DELETED SUCCESSFULLY' });
+                this.toastprocess(null);
+                const permanentdeleted = new CustomEvent("permanentdeletefield", {
+                    detail: this.boardid
+                });
+                this.dispatchEvent(permanentdeleted);
+            }).catch(error => {
+                console.error('handlepermanentdeleteaction apex error :', JSON.stringify(error.message));
+            });
+        this.openclosedeletepopup();
     }
 
     // 21/8/2023 Created By Nimit Shah

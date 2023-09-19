@@ -1,24 +1,23 @@
 <template>
     <c-toast oncompleteonetoast={toastprocess}></c-toast>
-    <div class="viewboard">
+    <div class="viewfield">
         <!-- header -->
         <div class="header">
-            <div class="headerinput">
-                <lightning-input type="search" variant="standard" name="name" value={searchkey} onchange={search}
-                    placeholder="Search here..."></lightning-input>
+            <div class="headerbutton">
+                <template if:true={home}>
+                    <div class="createbutton" onclick={backhome}></span> Home</div>
+                </template>
+                <template if:false={home}>
+                    <div class="createbutton" onclick={backhome}></span> Borad</div>
+                </template>
             </div>
             <div class="headerlogo">
             </div>
             <div class="headerbutton">
                 <div class="createbutton" onclick={openclosecreatefield}></span> Create Field</div>
                 <div class="usericon recycle">
-                    <lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
-                        menu-alignment="top-right" onselect={selectdropdown}>
-                        <lightning-menu-item value="recycle" label="Recycle Bin" size="large"
-                            prefix-icon-name="standard:recycle_bin"></lightning-menu-item>
-                        <lightning-menu-item value="home" label="Back" size="large"
-                            prefix-icon-name="action:back"></lightning-menu-item>
-                    </lightning-button-menu>
+                    <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup} alternative-text='recycle'
+                        size='large' title='recycle'></lightning-icon>
                 </div>
             </div>
         </div>
@@ -32,6 +31,14 @@
                                 <div class="fieldname">{field.Name}</div>
                             </div>
                             <div class="fieldbody">
+                                <div class="deletebox usericon" onclick={openclosedeletepopup} data-name={field.Name}
+                                    data-id={field.Id}>
+                                    <lightning-icon icon-name='action:delete' alternative-text='delete' size='medium'
+                                        title='delete'></lightning-icon>
+                                </div>
+                                <div>
+                                    Click on Delete Icon to delete the field.
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -52,5 +59,15 @@
     <template if:true={createField}>
         <c-create-field boardid={boardid} onsaveandnewfield={saveandnewfield} onsavefield={savefield}
             onclosefield={openclosecreatefield}></c-create-field>
+    </template>
+    <template if:true={deletemodal}>
+        <c-deletepopup boardid={fieldid} boardname={fieldname} type="field" onclosedeletepopup={openclosedeletepopup}
+            ontemporarydeletefield={handletemporarydeletefield}>
+        </c-deletepopup>
+    </template>
+    <template if:true={isRecyclemodal}>
+        <c-recyclepopup recyclelist={deletedfield} oncloserecycle={opencloserecyclepopup}
+            onrestoreticket={restoreticket} onpermanentdeletefield={permanentdeletefield} type="Field">
+        </c-recyclepopup>
     </template>
 </template>
