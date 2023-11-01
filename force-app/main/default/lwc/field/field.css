@@ -121,6 +121,7 @@ lightning-input {
     color: antiquewhite;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 .fieldbody {
@@ -171,4 +172,27 @@ lightning-button-icon {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.fieldeditname {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+}
+
+lightning-input {
+    --lwc-colorBorderInput: rgb(0, 0, 0);
+    --slds-c-input-radius-border: 10px;
+    --lwc-heightInput: 30px;
+    font-size: 14px;
+    width: 90% !important;
+    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --lwc-squareIconMediumContentAlt: 16px;
+    color: black;
+}
+
+.renamenote{
+    display: none;
+    font-size: 11px;
 }

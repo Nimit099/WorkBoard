@@ -278,7 +278,7 @@ export default class Home extends NavigationMixin(LightningElement) {
   openclosedeletepopup(event) {
     try {
       this.deletemodal = !this.deletemodal;
-      if (this.deletemodal) {
+      if (this.deletemodal && event != null) {
         this.boardname = event.currentTarget.dataset.name;
         this.boardid = event.currentTarget.dataset.id;
       }

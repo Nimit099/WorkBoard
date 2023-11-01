@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import updateticketfield from '@salesforce/apex/viewBoard.updateticketfield';
-import createticket from '@salesforce/apex/viewBoard.createticket';
+import createtickets from '@salesforce/apex/viewBoard.createticket';
 import getBoardData from '@salesforce/apex/viewBoard.getBoardData';
 import temporarydeleteticket from '@salesforce/apex/viewBoard.temporarydeleteticket';
 
@@ -218,7 +218,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
     createticket(ticket) {
         try {
-            createticket({ newticket: ticket })
+            createtickets({ newticket: ticket })
                 .then(result => {
                     ticket.Id = result.Id;
                     this.ticketlist.push(ticket);

@@ -2,7 +2,9 @@ import { LightningElement, api, track } from 'lwc';
 import getFields from '@salesforce/apex/fieldController.getFields';
 import createfield from '@salesforce/apex/fieldController.createfield';
 import temporarydeletefield from '@salesforce/apex/fieldController.temporarydeletefield';
-
+import restoreFields from '@salesforce/apex/fieldController.restoreFields';
+import fieldPositionchange from '@salesforce/apex/fieldController.fieldPositionchange';
+import renamefield from '@salesforce/apex/fieldController.renamefield';
 
 import { NavigationMixin } from "lightning/navigation";
 
@@ -21,6 +23,11 @@ export default class Field extends NavigationMixin(LightningElement) {
     @track allfields = [];
     @track today;
     @track isRecyclemodal = false;
+    @track dragfieldId;
+    @track newname;
+    @track noteditname = true;
+    outsideClick;
+    @track editfieldId;
 
     // This variables use in Toast
     @track enqueueToast = [];
@@ -40,17 +47,8 @@ export default class Field extends NavigationMixin(LightningElement) {
                 .then(result => {
 
                     this.allfields = result;
+                    this.fieldformatter();
 
-                    this.allfields.forEach(element => {
-                        if (element.DeletedDate__c == undefined) {
-                            this.fielddata.push(element);
-                        } else {
-                            this.deletedfield.push(element);
-                        }
-                    });
-                    if (this.fielddata.length > 0) {
-                        this.fieldsfound = true;
-                    }
                 }).catch(error => {
                     console.error(error.message);
                 });
@@ -82,18 +80,8 @@ export default class Field extends NavigationMixin(LightningElement) {
 
             createfield({ field: field, boardid: this.boardid })
                 .then(result => {
-                    console.log(JSON.parse(JSON.stringify(result)));
                     this.allfields = result;
-                    this.fielddata = [];
-                    this.deletedfield = [];
-
-                    this.allfields.forEach(element => {
-                        if (element.DeletedDate__c == undefined) {
-                            this.fielddata.push(element);
-                        } else {
-                            this.deletedfield.push(element);
-                        }
-                    });
+                    this.fieldformatter();
                 }).catch(error => {
                     console.error('Method execution failed ' + error.message);
                 });
@@ -139,18 +127,10 @@ export default class Field extends NavigationMixin(LightningElement) {
             temporarydeletefield({ fieldid: this.fieldid, boardid: this.boardid })
                 .then(result => {
 
-                    this.fielddata = [];
-                    this.deletedfield = [];
-
                     this.allfields = result;
-                    this.allfields.forEach(element => {
-                        if (element.DeletedDate__c == undefined) {
-                            this.fielddata.push(element);
-                        } else {
-                            this.deletedfield.push(element);
-                        }
-                    });
+                    this.fieldformatter();
                     this.openclosedeletepopup(null);
+
                 }).catch(error => {
                     console.error(error.message);
                 });
@@ -164,22 +144,18 @@ export default class Field extends NavigationMixin(LightningElement) {
     }
 
     permanentdeletefield(event) {
-        console.log('permanentdeletefield ' + event.detail);
-        this.fielddata = [];
-        this.deletedfield = [];
-        this.allfields.forEach((element, index) => {
-            if (element.Id != event.detail) {
-                if (element.DeletedDate__c == undefined) {
-                    this.fielddata.push(element);
-                } else {
-                    this.deletedfield.push(element);
+        try {
+            let i = 0;
+            this.allfields.forEach((element, index) => {
+                if (element.Id == event.detail) {
+                    i = index;
                 }
-            } else {
-                this.allfields.splice(index, 1);
-            }
-        });
-        console.log(JSON.parse(JSON.stringify(this.allfields)));
-        console.log(JSON.parse(JSON.stringify(this.deletedfield)));
+            });
+            this.allfields.splice(i, 1);
+            this.fieldformatter();
+        } catch (error) {
+            console.error(error.message);
+        }
 
     }
     // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
@@ -204,5 +180,134 @@ export default class Field extends NavigationMixin(LightningElement) {
         } catch (error) {
             console.error(error.message);
         }
+    }
+
+    fieldformatter() {
+
+        this.fielddata = [];
+        this.deletedfield = [];
+        this.allfields.forEach(element => {
+            if (element.DeletedDate__c == undefined) {
+                this.fielddata.push(element);
+            } else {
+                this.deletedfield.push(element);
+            }
+        });
+        if (this.fielddata.length > 0) {
+            this.fieldsfound = true;
+        } else {
+            this.fieldsfound = false;
+        }
+    }
+
+    restorefield(event) {
+        try {
+            let fieldId = event.detail;
+            restoreFields({ fieldId: fieldId, boardId: this.boardid })
+                .then(result => {
+                    this.allfields = result;
+                    this.fieldformatter();
+                }).catch(error => {
+                    console.error('Method execution failed ' + error.message);
+                });
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    dragstart(event) {
+        this.dragfieldId = event.currentTarget.dataset.id;
+    }
+
+    dragover(event) {
+        event.preventDefault();
+    }
+
+    dropzone(event) {
+        try {
+            let droppedfieldId = event.currentTarget.dataset.id;
+            fieldPositionchange({ dragfieldId: this.dragfieldId, dropfieldId: droppedfieldId, boardId: this.boardid })
+                .then(result => {
+                    this.allfields = result;
+                    this.fieldformatter();
+                }).catch(error => {
+                    console.error(error);
+                });
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    namechange(event) {
+        try {
+            if (event.keyCode == 27) {
+                this.cancelRenameField();
+            } else if (event.keyCode == 13) {
+                renamefield({ fieldId: this.editfieldId, newName: this.newname })
+                    .then(() => {
+                        this.allfields.forEach(element => {
+                            if (element.Id == this.editfieldId) {
+                                element.Name = this.newname;
+                            }
+                        });
+                        this.fieldformatter();
+                        this.cancelRenameField();
+                    }).catch(error => {
+                        console.error(error);
+                    });
+            } else {
+                this.newname = event.target.value;
+            }
+        } catch (error) {
+            console.error(error);
+            console.error(error.message);
+        }
+    }
+
+    cancelRenameField() {
+        try {
+            if (this.editfieldId != null) {
+                this.newname = '';
+                this.noteditname = true;
+                let deletenote = this.template.querySelectorAll("div[data-delete =" + this.editfieldId + "]");
+                deletenote.forEach(element => {
+                    element.style.display = 'flex';
+                });
+                this.template.querySelector("span[data-rename =" + this.editfieldId + "]").style.display = 'none';
+                this.template.querySelector("span[data-name =" + this.editfieldId + "]").style.display = 'flex';
+                this.template.querySelector("div[data-name =" + this.editfieldId + "]").style.display = 'none';
+                document.removeEventListener('click', this.outsideClick);
+                this.editfieldId = null;
+            }
+        } catch (error) {
+            console.error(error + 'cancelrenamefield');
+            console.error(error.message);
+        }
+    }
+
+    editnamefunc(event) {
+        try {
+            this.cancelRenameField();
+            this.editfieldId = event.currentTarget.dataset.name;
+            let deletenote = this.template.querySelectorAll("div[data-delete =" + this.editfieldId + "]");
+            deletenote.forEach(element => {
+                element.style.display = 'none';
+            });
+            this.template.querySelector("span[data-rename =" + this.editfieldId + "]").style.display = 'block';
+            this.template.querySelector("span[data-name =" + this.editfieldId + "]").style.display = 'none';
+            this.template.querySelector("div[data-name =" + this.editfieldId + "]").style.display = 'flex';
+            document.addEventListener('click', this.outsideClick = this.cancelRenameField.bind(this));
+            event.stopPropagation();
+            return false;
+        } catch (error) {
+            console.error(error + 'editnamefunc');
+            console.error(error.message);
+        }
+    }
+
+    insideClick(event) {
+        event.stopPropagation();
+        return false;
     }
 }

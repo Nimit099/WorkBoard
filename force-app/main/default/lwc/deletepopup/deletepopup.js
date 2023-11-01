@@ -26,6 +26,7 @@ export default class Deletepopup extends LightningElement {
                 this.notes = false;
             } else if (this.type == 'field') {
                 this.showtype = 'Field';
+                this.notes = true;
             } else if (this.type == 'permanentdeletefield') {
                 this.showtype = 'Field';
             }
@@ -43,7 +44,7 @@ export default class Deletepopup extends LightningElement {
                 this.handledeleteboard(event);
             } else if (this.showtype == 'Ticket') {
                 this.handledeleteticket(event);
-            } else if (this.showtype = 'Field') {
+            } else if (this.showtype == 'Field') {
                 this.handledeletefield(event);
             }
 
@@ -99,7 +100,6 @@ export default class Deletepopup extends LightningElement {
     }
 
     handledeletefield(event) {
-        console.log(event.currentTarget.dataset.type + ' handledeletefield');
         if (event.currentTarget.dataset.type == "field") {
 
             const deleted = new CustomEvent("temporarydeletefield", {

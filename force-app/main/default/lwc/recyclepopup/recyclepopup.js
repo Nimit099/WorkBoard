@@ -17,6 +17,9 @@ export default class Recyclepopup extends LightningElement {
     @track enqueueToast = [];
     @track ongoingtoast;
 
+    connectedCallback() {
+        console.log('recyclepopup.. ' + this.type);
+    }
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to check who is calling and
     //  call function accordingly to permanently delete the board 
     // UPDATION - --
@@ -48,11 +51,14 @@ export default class Recyclepopup extends LightningElement {
             if (this.deletepopup) {
                 if (this.type == 'Board') {
                     this.deletetype = "permanentdeleteboard";
-                } else if (this.type = 'Field') {
+                } else if (this.type == 'Field') {
                     this.deletetype = "permanentdeletefield";
-                } else {
+                } else if (this.type == 'Ticket') {
                     this.deletetype = "permanentdeleteticket";
                 }
+                console.log('openclose >..' + this.deletetype);
+                console.log('openclosetype >..' + this.type);
+
                 this.boardname = event.currentTarget.dataset.name;
                 this.boardid = event.currentTarget.dataset.id;
             }
@@ -132,6 +138,7 @@ export default class Recyclepopup extends LightningElement {
     // STATUS - DONE
     handlerestore(event) {
         try {
+            console.log('restoration ' + this.type);
             if (this.type == 'Board') {
                 /****************** This is use to restore the board ******************/
                 this.handlerestoreboard(event);
@@ -139,6 +146,9 @@ export default class Recyclepopup extends LightningElement {
             } else if (this.type == 'Ticket') {
                 /****************** This is use to restore the ticket ******************/
                 this.handlerestoreticket(event);
+            } else if (this.type == 'Field') {
+                /****************** This is use to restore the field ******************/
+                this.handlerestorefield(event);
             }
         }
         catch (error) {
@@ -196,9 +206,19 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
+    handlerestorefield(event) {
+        try {
+            let fieldId = event.currentTarget.dataset.id;
+            const closerecycle = new CustomEvent("restorefield", {
+                detail: fieldId
+            })
+            this.dispatchEvent(closerecycle);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
     handlepermanentdeletefield() {
-        console.log('permanentdeletefield recylcepopup');
-        console.log(this.boardid);
         permanentdeletefield({ fieldid: this.boardid }) // boardid is field id here
             .then(() => {
                 this.enqueueToast.push({ status: 'success', message: 'FIELD DELETED SUCCESSFULLY' });

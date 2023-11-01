@@ -16,8 +16,8 @@
             <div class="headerbutton">
                 <div class="createbutton" onclick={openclosecreatefield}></span> Create Field</div>
                 <div class="usericon recycle">
-                    <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup} alternative-text='recycle'
-                        size='large' title='recycle'></lightning-icon>
+                    <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
+                        alternative-text='recycle' size='large' title='recycle'></lightning-icon>
                 </div>
             </div>
         </div>
@@ -26,19 +26,28 @@
             <div class="scrollablesdiv">
                 <template if:true={fieldsfound}>
                     <template for:each={fielddata} for:item="field" for:index="index">
-                        <div class="fields" data-id={field.Id} key={field.Id}>
+                        <div class="fields" data-id={field.Id} key={field.Id} draggable="true" ondragover={dragover}
+                            ondrop={dropzone} ondragstart={dragstart}>
                             <div class="fieldheader">
-                                <div class="fieldname">{field.Name}</div>
+                                <span class="fieldname" data-name={field.Id} onclick={editnamefunc}>{field.Name}</span>
+                                <div class="fieldname fieldeditname" data-name={field.Id}>
+                                    <lightning-input variant="standard" name="name" value={newname} onkeyup={namechange}
+                                        onclick={insideClick} data-name={field.Id}
+                                        placeholder="Edit Name"></lightning-input>
+                                </div>
                             </div>
-                            <div class="fieldbody">
+                            <div class="fieldbody" data-id={field.Id}>
                                 <div class="deletebox usericon" onclick={openclosedeletepopup} data-name={field.Name}
-                                    data-id={field.Id}>
+                                    data-delete={field.Id} data-id={field.Id}>
                                     <lightning-icon icon-name='action:delete' alternative-text='delete' size='medium'
                                         title='delete'></lightning-icon>
                                 </div>
-                                <div>
+                                <div data-delete={field.Id}>
                                     Click on Delete Icon to delete the field.
                                 </div>
+                                <span class="renamenote" data-rename={field.Id}>
+                                    Press enter to save or click anywhere to not save.
+                                </span>
                             </div>
                         </div>
                     </template>
@@ -66,8 +75,8 @@
         </c-deletepopup>
     </template>
     <template if:true={isRecyclemodal}>
-        <c-recyclepopup recyclelist={deletedfield} oncloserecycle={opencloserecyclepopup}
-            onrestoreticket={restoreticket} onpermanentdeletefield={permanentdeletefield} type="Field">
+        <c-recyclepopup recyclelist={deletedfield} oncloserecycle={opencloserecyclepopup} onrestorefield={restorefield}
+            onpermanentdeletefield={permanentdeletefield} type="Field">
         </c-recyclepopup>
     </template>
 </template>
