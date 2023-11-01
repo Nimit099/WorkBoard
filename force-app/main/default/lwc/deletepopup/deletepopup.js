@@ -4,6 +4,8 @@ export default class Deletepopup extends LightningElement {
     @api boardname;
     @api ticketid;
     @api ticketname;
+    @api fieldid;
+    @api fieldname
     @api type;
     @track showtype;
     @track notes;
@@ -17,13 +19,19 @@ export default class Deletepopup extends LightningElement {
                 this.showtype = "Board";
                 this.notes = false;
             } else if (this.type == 'ticket') {
-                this.showtype = 'Ticket'
+                this.showtype = 'Ticket';
                 this.notes = true;
-            }
-            else if (this.type == 'permanentdeleteticket') {
-                this.showtype = 'Ticket'
+            } else if (this.type == 'permanentdeleteticket') {
+                this.showtype = 'Ticket';
                 this.notes = false;
+            } else if (this.type == 'field') {
+                this.showtype = 'Field';
+                this.notes = true;
+            } else if (this.type == 'permanentdeletefield') {
+                this.showtype = 'Field';
             }
+            console.log(this.type);
+            console.log(this.showtype);
         } catch (error) {
             console.error('OUTPUT : ', error.message);
         }
@@ -36,6 +44,8 @@ export default class Deletepopup extends LightningElement {
                 this.handledeleteboard(event);
             } else if (this.showtype == 'Ticket') {
                 this.handledeleteticket(event);
+            } else if (this.showtype == 'Field') {
+                this.handledeletefield(event);
             }
 
         } catch (error) {
@@ -83,6 +93,23 @@ export default class Deletepopup extends LightningElement {
         } else if (event.currentTarget.dataset.type == "permanentdeleteticket") {
 
             const deleted = new CustomEvent("permanentdeleteticket", {
+                detail: "deleteyes"
+            });
+            this.dispatchEvent(deleted);
+        }
+    }
+
+    handledeletefield(event) {
+        if (event.currentTarget.dataset.type == "field") {
+
+            const deleted = new CustomEvent("temporarydeletefield", {
+                detail: "deleteyes"
+            });
+            this.dispatchEvent(deleted);
+
+        } else if (event.currentTarget.dataset.type == "permanentdeletefield") {
+
+            const deleted = new CustomEvent("permanentdeletefield", {
                 detail: "deleteyes"
             });
             this.dispatchEvent(deleted);

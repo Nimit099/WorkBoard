@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import updateticketfield from '@salesforce/apex/viewBoard.updateticketfield';
-import createticket from '@salesforce/apex/viewBoard.createticket';
+import createtickets from '@salesforce/apex/viewBoard.createticket';
 import getBoardData from '@salesforce/apex/viewBoard.getBoardData';
 import temporarydeleteticket from '@salesforce/apex/viewBoard.temporarydeleteticket';
 
@@ -74,6 +74,8 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     if (this.fieldlist.length > 0) {
                         this.fieldsfound = true;
                     }
+                }).catch(error => {
+                    console.error(error.message);
                 });
         } catch (error) {
             console.error('OUTPUT viewBoard connected: ', error.message);
@@ -216,7 +218,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
     createticket(ticket) {
         try {
-            createticket({ newticket: ticket })
+            createtickets({ newticket: ticket })
                 .then(result => {
                     ticket.Id = result.Id;
                     this.ticketlist.push(ticket);

@@ -1,24 +1,23 @@
 <template>
     <c-toast oncompleteonetoast={toastprocess}></c-toast>
-    <div class="viewboard">
+    <div class="viewfield">
         <!-- header -->
         <div class="header">
-            <div class="headerinput">
-                <lightning-input type="search" variant="standard" name="name" value={searchkey} onchange={search}
-                    placeholder="Search here..."></lightning-input>
+            <div class="headerbutton">
+                <template if:true={home}>
+                    <div class="createbutton" onclick={backhome}></span> Home</div>
+                </template>
+                <template if:false={home}>
+                    <div class="createbutton" onclick={backhome}></span> Borad</div>
+                </template>
             </div>
             <div class="headerlogo">
             </div>
             <div class="headerbutton">
-                <div class="createbutton" onclick={openclosecreateticket}></span> Create Field</div>
+                <div class="createbutton" onclick={openclosecreatefield}></span> Create Field</div>
                 <div class="usericon recycle">
-                    <lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
-                        menu-alignment="top-right" onselect={selectdropdown}>
-                        <lightning-menu-item value="recycle" label="Recycle Bin" size="large"
-                            prefix-icon-name="standard:recycle_bin"></lightning-menu-item>
-                        <lightning-menu-item value="home" label="Back" size="large"
-                            prefix-icon-name="action:back"></lightning-menu-item>
-                    </lightning-button-menu>
+                    <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
+                        alternative-text='recycle' size='large' title='recycle'></lightning-icon>
                 </div>
             </div>
         </div>
@@ -26,15 +25,29 @@
         <div class="body">
             <div class="scrollablesdiv">
                 <template if:true={fieldsfound}>
-                    <template for:each={boarddata} for:item="field" for:index="index">
-                        <div class="fields" data-id={field.field.Id} key={field.field.Id} ondrop={dropzone}
-                            ondragover={dragover}>
+                    <template for:each={fielddata} for:item="field" for:index="index">
+                        <div class="fields" data-id={field.Id} key={field.Id} draggable="true" ondragover={dragover}
+                            ondrop={dropzone} ondragstart={dragstart}>
                             <div class="fieldheader">
-                                <div class="fieldname">{field.field.Name}</div>
-                            </div>
-                            <div class="fieldbody">
-                                <div class="scrollableclass">
+                                <span class="fieldname" data-name={field.Id} onclick={editnamefunc}>{field.Name}</span>
+                                <div class="fieldname fieldeditname" data-name={field.Id}>
+                                    <lightning-input variant="standard" name="name" value={newname} onkeyup={namechange}
+                                        onclick={insideClick} data-name={field.Id}
+                                        placeholder="Edit Name"></lightning-input>
                                 </div>
+                            </div>
+                            <div class="fieldbody" data-id={field.Id}>
+                                <div class="deletebox usericon" onclick={openclosedeletepopup} data-name={field.Name}
+                                    data-delete={field.Id} data-id={field.Id}>
+                                    <lightning-icon icon-name='action:delete' alternative-text='delete' size='medium'
+                                        title='delete'></lightning-icon>
+                                </div>
+                                <div data-delete={field.Id}>
+                                    Click on Delete Icon to delete the field.
+                                </div>
+                                <span class="renamenote" data-rename={field.Id}>
+                                    Press enter to save or click anywhere to not save.
+                                </span>
                             </div>
                         </div>
                     </template>
@@ -51,4 +64,19 @@
         </div>
     </div>
     <!-- modal end -->
+
+    <template if:true={createField}>
+        <c-create-field boardid={boardid} onsaveandnewfield={saveandnewfield} onsavefield={savefield}
+            onclosefield={openclosecreatefield}></c-create-field>
+    </template>
+    <template if:true={deletemodal}>
+        <c-deletepopup boardid={fieldid} boardname={fieldname} type="field" onclosedeletepopup={openclosedeletepopup}
+            ontemporarydeletefield={handletemporarydeletefield}>
+        </c-deletepopup>
+    </template>
+    <template if:true={isRecyclemodal}>
+        <c-recyclepopup recyclelist={deletedfield} oncloserecycle={opencloserecyclepopup} onrestorefield={restorefield}
+            onpermanentdeletefield={permanentdeletefield} type="Field">
+        </c-recyclepopup>
+    </template>
 </template>

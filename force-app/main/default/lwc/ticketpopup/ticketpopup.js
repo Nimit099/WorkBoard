@@ -1,6 +1,6 @@
 import { LightningElement, api, track } from 'lwc';
 import getTicket from '@salesforce/apex/viewBoard.getTicket';
-import updateticket from '@salesforce/apex/viewBoard.updateticket';
+import updatetickets from '@salesforce/apex/viewBoard.updateticket';
 
 export default class Ticketpopup extends LightningElement {
 
@@ -28,7 +28,9 @@ export default class Ticketpopup extends LightningElement {
                     this.ticketpopupdata = result;
                     this.assignvalue();
                     console.log(['getticket']);
-                });
+                }) .catch(error =>{
+                    console.error(error.message);
+                })
         } catch (error) {
             console.error(error.message);
         }
@@ -47,8 +49,8 @@ export default class Ticketpopup extends LightningElement {
         try {
             let ticket = JSON.parse(JSON.stringify(event.detail));
             ticket.Id = this.ticketid;
-            updateticket({ newticket: ticket })
-                .then(result => {
+            updatetickets({ newticket: ticket })
+                .then(() => {
                     this.ticketpopupdata = ticket;
                     this.assignvalue();
                     this.editticketpopup();

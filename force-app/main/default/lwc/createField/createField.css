@@ -1,0 +1,98 @@
+.fullpopup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.footerpopup {
+    height: 12%;
+    width: 35%;
+    background: lightgray;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerpopup {
+    height: 12%;
+    width: 35%;
+    background: lightgrey;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.bodypopup {
+    height: 35%;
+    width: 35%;
+    gap: 15%;
+    padding: 0px 3%;
+    display: flex;
+    background: white;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.slds-modal__container {
+    margin: 0 auto;
+    width: 100% !important;
+    max-width: 100% !important
+}
+
+.redstar {
+    color: red;
+}
+
+.fieldData {
+    display: flex;
+    flex-direction: column;
+}
+
+.fieldName,
+.fieldOrder {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+lightning-input {
+    --lwc-colorBorderInput: rgb(0, 0, 0);
+    --slds-c-input-radius-border: 10px;
+    --lwc-heightInput: 45px;
+    font-size: 16px;
+    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --lwc-squareIconMediumContentAlt: 16px;
+}
+
+/* createbutton css */
+
+.ctcreatebutton {
+    width: 20%;
+    height: 50%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+}
+
+.ctcreatebutton:active {
+    cursor: progress;
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    transform: translateY(4px);
+}
+
+/* createbutton css end  */

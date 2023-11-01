@@ -157,7 +157,7 @@ export default class Home extends NavigationMixin(LightningElement) {
   // STATUS - FATAL --- Need to change code in viewBoard.
   openboard(event) {
     try {
-      
+
       this.boardid = event.currentTarget.dataset.id;
       this.boardname = event.currentTarget.dataset.name;
 
@@ -278,7 +278,7 @@ export default class Home extends NavigationMixin(LightningElement) {
   openclosedeletepopup(event) {
     try {
       this.deletemodal = !this.deletemodal;
-      if (this.deletemodal) {
+      if (this.deletemodal && event != null) {
         this.boardname = event.currentTarget.dataset.name;
         this.boardid = event.currentTarget.dataset.id;
       }
@@ -415,6 +415,32 @@ export default class Home extends NavigationMixin(LightningElement) {
 
     } catch (error) {
       this.spinnertable = false;
+      console.error(error.message);
+    }
+  }
+
+  opencloseeditboard(event) {
+    try {
+      
+      this.boardid = event.currentTarget.dataset.id;
+      this.boardname = event.currentTarget.dataset.name;
+  
+      let cmpDef = {
+        componentDef: "c:field",
+        attributes: {
+          boardid: this.boardid,
+          boardname: this.boardname,
+          home: true
+        }
+      };
+      let encodedDef = btoa(JSON.stringify(cmpDef));
+      this[NavigationMixin.Navigate]({
+        type: "standard__webPage",
+        attributes: {
+          url: "/one/one.app#" + encodedDef
+        }
+      });
+    } catch (error) {
       console.error(error.message);
     }
   }

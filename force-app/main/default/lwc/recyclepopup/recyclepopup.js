@@ -3,6 +3,8 @@ import permanentdeleteticket from '@salesforce/apex/viewBoard.permanentdeletetic
 import permanentdeleteboard from '@salesforce/apex/HomePage.permanentdeleteboard';
 import restoreticket from '@salesforce/apex/viewBoard.restoreticket';
 import restoreboard from '@salesforce/apex/HomePage.restoreboard';
+import permanentdeletefield from '@salesforce/apex/fieldController.permanentdeletefield';
+
 export default class Recyclepopup extends LightningElement {
     @api recyclelist = [];
     @api type;
@@ -15,6 +17,9 @@ export default class Recyclepopup extends LightningElement {
     @track enqueueToast = [];
     @track ongoingtoast;
 
+    connectedCallback() {
+        console.log('recyclepopup.. ' + this.type);
+    }
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to check who is calling and
     //  call function accordingly to permanently delete the board 
     // UPDATION - --
@@ -26,6 +31,8 @@ export default class Recyclepopup extends LightningElement {
                 this.handlepermanentdeleteboard();
             } else if (this.type == 'Ticket') {
                 this.handlepermanentdeleteticket();
+            } else if (this.type == 'Field') {
+                this.handlepermanentdeletefield();
             }
         } catch (error) {
             console.error('OUTPUT handlepermanentdeleteaction: ', error.message);
@@ -44,9 +51,14 @@ export default class Recyclepopup extends LightningElement {
             if (this.deletepopup) {
                 if (this.type == 'Board') {
                     this.deletetype = "permanentdeleteboard";
-                } else {
-                    this.deletetype = "permanentdeleteticket"; // left with the work of ticket.
+                } else if (this.type == 'Field') {
+                    this.deletetype = "permanentdeletefield";
+                } else if (this.type == 'Ticket') {
+                    this.deletetype = "permanentdeleteticket";
                 }
+                console.log('openclose >..' + this.deletetype);
+                console.log('openclosetype >..' + this.type);
+
                 this.boardname = event.currentTarget.dataset.name;
                 this.boardid = event.currentTarget.dataset.id;
             }
@@ -77,7 +89,7 @@ export default class Recyclepopup extends LightningElement {
     handlepermanentdeleteboard() {
         try {
             permanentdeleteboard({ boardId: this.boardid })
-                .then(result => {
+                .then(() => {
                     const permanentdeleted = new CustomEvent("permanentdeleteboard", {
                         detail: this.boardid
                     });
@@ -93,17 +105,17 @@ export default class Recyclepopup extends LightningElement {
         } catch (error) {
             console.error(error);
         }
-        
+
     }
 
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to permanently delete the ticket
     // UPDATION - --
     // CONDITION - Cleaned code
     // STATUS - WORKING
-    handlepermanentdeleteticket(event) {
+    handlepermanentdeleteticket() {
         try {
             permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
-                .then(result => {
+                .then(() => {
                     this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
                     const permanentdeleted = new CustomEvent("permanentdeleteticket", {
@@ -126,6 +138,7 @@ export default class Recyclepopup extends LightningElement {
     // STATUS - DONE
     handlerestore(event) {
         try {
+            console.log('restoration ' + this.type);
             if (this.type == 'Board') {
                 /****************** This is use to restore the board ******************/
                 this.handlerestoreboard(event);
@@ -133,6 +146,9 @@ export default class Recyclepopup extends LightningElement {
             } else if (this.type == 'Ticket') {
                 /****************** This is use to restore the ticket ******************/
                 this.handlerestoreticket(event);
+            } else if (this.type == 'Field') {
+                /****************** This is use to restore the field ******************/
+                this.handlerestorefield(event);
             }
         }
         catch (error) {
@@ -156,6 +172,8 @@ export default class Recyclepopup extends LightningElement {
                         detail: this.boardid
                     });
                     this.dispatchEvent(closerecycle);
+                }).catch(error => {
+                    console.error(error.message);
                 });
         } catch (error) {
             console.error(error.message);
@@ -176,12 +194,43 @@ export default class Recyclepopup extends LightningElement {
                     this.toastprocess(null);
                     const closerecycle = new CustomEvent("restoreticket", {
                         detail: ticketId
+                    }).catch(error => {
+                        console.error(error.message);
                     });
                     this.dispatchEvent(closerecycle);
+                }).catch(error => {
+                    console.error(error.message);
                 });
         } catch (error) {
             console.error(error.message);
         }
+    }
+
+    handlerestorefield(event) {
+        try {
+            let fieldId = event.currentTarget.dataset.id;
+            const closerecycle = new CustomEvent("restorefield", {
+                detail: fieldId
+            })
+            this.dispatchEvent(closerecycle);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    handlepermanentdeletefield() {
+        permanentdeletefield({ fieldid: this.boardid }) // boardid is field id here
+            .then(() => {
+                this.enqueueToast.push({ status: 'success', message: 'FIELD DELETED SUCCESSFULLY' });
+                this.toastprocess(null);
+                const permanentdeleted = new CustomEvent("permanentdeletefield", {
+                    detail: this.boardid
+                });
+                this.dispatchEvent(permanentdeleted);
+            }).catch(error => {
+                console.error('handlepermanentdeleteaction apex error :', JSON.stringify(error.message));
+            });
+        this.openclosedeletepopup();
     }
 
     // 21/8/2023 Created By Nimit Shah
