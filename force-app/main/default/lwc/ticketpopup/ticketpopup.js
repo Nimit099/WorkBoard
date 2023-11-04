@@ -1,6 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
 import getTicket from '@salesforce/apex/viewBoard.getTicket';
 import updatetickets from '@salesforce/apex/viewBoard.updateticket';
+import uploadFile from '@salesforce/apex/viewBoard.uploadFile';
+import retrieveFiles from '@salesforce/apex/viewBoard.retrieveFiles';
+import deletefile from '@salesforce/apex/viewBoard.deletefile';
+
 
 export default class Ticketpopup extends LightningElement {
 
@@ -19,7 +23,12 @@ export default class Ticketpopup extends LightningElement {
     @track ticketColor;
     @track ticketCompletedPercentage = 0;
     @track ticketLastmodifieddate = '';
-    @api fields;
+    @api fields = 'There is no Attachments';
+    @track deletemodal = false;
+    @track fileId;
+    @track files;
+    @track activetab = 'description';
+    @track filescount = false;
 
     connectedCallback() {
         try {
@@ -27,10 +36,10 @@ export default class Ticketpopup extends LightningElement {
                 .then(result => {
                     this.ticketpopupdata = result;
                     this.assignvalue();
-                    console.log(['getticket']);
-                }) .catch(error =>{
+                }).catch(error => {
                     console.error(error.message);
                 })
+            this.getfiles();
         } catch (error) {
             console.error(error.message);
         }
@@ -65,7 +74,7 @@ export default class Ticketpopup extends LightningElement {
     closeticketpopup() {
         try {
             const closeticketpopup = new CustomEvent("closeticketpopup", {
-                detail: 'close'                                                
+                detail: 'close'
             });
             this.dispatchEvent(closeticketpopup);
         } catch (error) {
@@ -112,4 +121,115 @@ export default class Ticketpopup extends LightningElement {
             console.error(error.message);
         }
     }
+
+    openfileUpload(event) {
+        try {
+            const file = event.target.files[0];
+            var reader = new FileReader()
+            reader.onload = () => {
+                var base64 = reader.result.split(',')[1];
+
+                uploadFile({ base64: base64, filename: file.name, ticketId: this.ticketid }).then(result => {
+                    this.prepareFileRows(result);
+                }).catch(error => {
+                    console.error(error.message);
+                });
+            }
+            reader.readAsDataURL(file)
+        } catch (error) {
+            console.error(error.message);
+            console.error(error);
+        }
+    }
+
+    getfiles() {
+        try {
+            retrieveFiles({ ticketId: this.ticketid }).then(result => {
+                this.prepareFileRows(result);
+            }).catch(error => {
+                console.error(error.message);
+            });
+        } catch (error) {
+            console.error(error.message);
+            console.error(error);
+        }
+    }
+
+    prepareFileRows(data) {
+        try {
+            if (data.length > 0) {
+                this.filescount = true;
+                this.files = []; //initialize the array
+                //extract file data and prepare files array with converted information
+                data.map(element => {
+                    let fSize = this.formatFileSize(element.ContentSize);
+                    let fDate = this.formatDateString((element.CreatedDate).slice(0, 10));
+                    this.files =
+                        [...this.files,
+                        {
+                            fileId: element.Id,
+                            fileName: element.Title,
+                            filePath: element.PathOnClient,
+                            fileType: element.FileType,
+                            fileExtn: element.FileExtension,
+                            fileSize: fSize,
+                            fileDate: fDate,
+                            fileDocId: element.ContentDocumentId,
+                            thumbnailPath: '/sfc/servlet.shepherd/version/renditionDownload?rendition=thumb120by90&versionId='
+                                + element.Id + '&operationContext=CHATTER&contentId=' + element.ContentDocumentId,
+                            downloadUrl: '/sfc/servlet.shepherd/document/download/' + element.ContentDocumentId,
+                            viewUrl: '/lightning/r/ContentDocument/' + element.ContentDocumentId + '/view'
+                        }
+                        ]
+                });
+            } else {
+                this.filescount = false;
+            }
+        } catch (error) {
+            console.error(error.message);
+            console.error(error);
+        }
+    }
+
+    //This method is used to prepare date as May 16, 2021 which usally comes as YYYY-MM-DD format
+    formatDateString(dateStr) {
+        const dt = new Date(dateStr);
+        const year = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(dt);
+        const month = new Intl.DateTimeFormat('en', { month: 'short' }).format(dt);
+        const day = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(dt);
+        return month + ' ' + day + ', ' + year;
+    }
+
+    //This method prepare file size to be displayed in MB or KB
+    formatFileSize(fileSize) {
+        let f = Math.abs(fileSize / 1024);
+        return (f > 1024 ? Math.abs(fileSize / (1024 * 1024)).toFixed(2) + ' MB'
+            : Math.round(f) + ' KB');
+    }
+
+    openclosedeletepopup(event) {
+        try {
+            this.deletemodal = !this.deletemodal;
+            this.activetab = 'attachment';
+            if (event != null) {
+                this.fileId = event.currentTarget.dataset.id;
+            }
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    deletefiles() {
+        try {
+            deletefile({ contentDocId: this.fileId, ticketId: this.ticketid }).then(result => {
+                this.prepareFileRows(result);
+                this.openclosedeletepopup(null);
+            }).catch(error => {
+                console.error(error.message);
+            });
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
 }
