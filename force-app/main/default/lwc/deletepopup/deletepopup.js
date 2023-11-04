@@ -29,9 +29,10 @@ export default class Deletepopup extends LightningElement {
                 this.notes = true;
             } else if (this.type == 'permanentdeletefield') {
                 this.showtype = 'Field';
+            } else if (this.type == 'File') {
+                this.showtype = 'File';
             }
-            console.log(this.type);
-            console.log(this.showtype);
+            console.log(this.boardid);
         } catch (error) {
             console.error('OUTPUT : ', error.message);
         }
@@ -46,6 +47,8 @@ export default class Deletepopup extends LightningElement {
                 this.handledeleteticket(event);
             } else if (this.showtype == 'Field') {
                 this.handledeletefield(event);
+            } else if (this.showtype == 'File') {
+                this.handledeletefile(event);
             }
 
         } catch (error) {
@@ -113,6 +116,17 @@ export default class Deletepopup extends LightningElement {
                 detail: "deleteyes"
             });
             this.dispatchEvent(deleted);
+        }
+    }
+
+    handledeletefile() {
+        try {
+            const deleted = new CustomEvent("deletefiles", {
+                detail: "deleteyes"
+            });
+            this.dispatchEvent(deleted);
+        } catch (error) {
+            console.error(error.message);
         }
     }
 }

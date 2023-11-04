@@ -146,6 +146,10 @@
     height: 230px;
     padding: 0% 3%;
     border: 1px dashed;
+    display: flex;
+    align-items: center;
+    gap: 2%;
+    overflow: scroll;
 }
 
 .ticket-description-scroll {
@@ -192,4 +196,46 @@
 lightning-textarea {
     --sds-c-textarea-sizing-min-height: 230px;
     margin-top: -5%;
+}
+
+.uploadbutton {
+    display: flex;
+    padding-top: 1%;
+    justify-content: flex-end;
+}
+
+.image-box {
+    height: 75%;
+}
+
+.figurecaption {
+    border: 1px solid lightgrey;
+    background: lightgrey;
+}
+
+.url-link {
+    display: inline-block;
+    width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ticket-attachment::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.url-bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+lightning-button-icon {
+    --lwc-borderWidthThin: 0px;
+}
+
+.slds-file {
+    height: 102px;
+    width: 182px;
 }

@@ -98,4 +98,53 @@ public class viewBoard {
         @AuraEnabled
         public List<Ticket__c> ticketList {get; set;}
     }
+
+    @AuraEnabled
+    public static List<ContentVersion> uploadFile(String base64, String filename, String ticketId) {
+        try {
+            ContentVersion cv = new ContentVersion();
+            cv.VersionData = EncodingUtil.base64Decode(base64);
+            cv.Title = filename;
+            cv.PathOnClient = filename;
+            insert as User cv; 
+            
+            ContentDocumentLink cdl = new ContentDocumentLink();
+            cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+            cdl.LinkedEntityId = ticketId;
+            cdl.ShareType = 'V';
+            insert as User cdl;
+
+            return retrieveFiles(ticketId);
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null;
+        }
+    }
+
+    @AuraEnabled
+    public static List<ContentVersion> retrieveFiles(String ticketId){
+        try {
+            List<ContentDocumentLink> cdlList = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ticketId];
+            List<Id> cdIds = new List<Id>();
+            for(ContentDocumentLink obj: cdlList){
+                cdIds.add(obj.ContentDocumentId);
+            }
+            List<ContentVersion> cvList = [SELECT Id, ContentDocumentId, ContentUrl, VersionNumber, Title, PathOnClient, FileType, FileExtension, ContentSize, CreatedDate FROM ContentVersion WHERE ContentDocumentId IN:cdIds];
+            return cvList;        
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null;
+        }
+    }    
+
+    @AuraEnabled
+    public static List<ContentVersion> deletefile( String contentDocId, String ticketId){
+        try {
+            Database.delete(contentDocId);
+            return retrieveFiles(ticketId);
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null;
+        }
+    }
 }
