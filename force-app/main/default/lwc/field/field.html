@@ -23,6 +23,20 @@
         </div>
         <!-- header ends -->
         <div class="body">
+            <!-- spinner -->
+			<template if:true={spinnertable}>
+				<div class="spinnerbody">
+					<div class="box">
+					</div>
+					<div class="box">
+					</div>
+					<div class="box">
+					</div>
+					<div class="box">
+					</div>
+				</div>
+			</template>
+			<!-- spinner ends -->
             <div class="scrollablesdiv">
                 <template if:true={fieldsfound}>
                     <template for:each={fielddata} for:item="field" for:index="index">
