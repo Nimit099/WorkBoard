@@ -252,8 +252,9 @@ lightning-button-icon {
 
 lightning-button-menu {
     --lwc-colorTextIconDefault: white;
-    --lwc-borderWidthThin:0px
+    --lwc-borderWidthThin: 0px
 }
-lightning-menu-item{
+
+lightning-menu-item {
     --lwc-colorTextIconDefault: black;
 }
