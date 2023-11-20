@@ -25,13 +25,88 @@
 									</div>
 								</template>
 								<div class="ticket-description-attachment">
-									<lightning-tabset active-tab-value={activetab}>
+									<lightning-tabset>
 										<lightning-tab label="Description" value="description">
 											<div class="ticket-description" data-name="ticketDescription">
 												<div class="ticket-description-scroll">
 													<lightning-formatted-rich-text
 														value={ticketDescription}></lightning-formatted-rich-text>
 												</div>
+											</div>
+										</lightning-tab>
+									</lightning-tabset>
+								</div>
+								<div class="ticket-comments">
+									<lightning-tabset active-tab-value={activetab}>
+										<lightning-tab label="Comments" value="comment">
+											<div class="ticket-description">
+												<div class="ticket-description-scroll">
+													<template if:false={commentdeleting}>
+														<template if:false={commentediting}>
+															<template for:each={comments} for:item="comment">
+																<lightning-card key={comment.Id}>
+																	<div class="tic-comments">
+																		<div class="comment-head">
+																			<div class="user-comment">
+																				{comment.CreatedBy.Name}
+																				<lightning-formatted-date-time
+																					value={comment.CreatedDate}></lightning-formatted-date-time>
+																			</div>
+																			<div class="edit-comment">
+																				<lightning-button-icon
+																					onclick={editcomment}
+																					data-id={comment.Id} variant="base"
+																					size="medium"
+																					icon-name="utility:edit"
+																					alternative-text="delete"></lightning-button-icon>
+																			</div>
+																			<div class="delete-comment">
+																				<lightning-button-icon
+																					onclick={commentdeletebutton}
+																					data-type="delete" variant="base"
+																					size="medium" data-id={comment.Id}
+																					icon-name="utility:delete"
+																					alternative-text="delete"></lightning-button-icon>
+																			</div>
+																		</div>
+																		<div class="comment-body">
+																			<lightning-formatted-rich-text
+																				value={comment.Comments__c}></lightning-formatted-rich-text>
+																		</div>
+																	</div>
+																</lightning-card>
+															</template>
+														</template>
+													</template>
+													<template if:true={commentediting}>
+														<lightning-input-rich-text data-name="description"
+															value={newcomment}
+															onchange={commentinput}></lightning-input-rich-text>
+													</template>
+													<template if:true={commentdeleting}>
+														<div class="deletecomment">
+															Do you want to delete the Comment?
+															<div class="commentdeletebutton">
+																<div class="createbutton" data-name="Cancel"
+																	onclick={commentdelete}>
+																	No
+																</div>
+																<div class="createbutton" data-name="delete"
+																	onclick={commentdelete}>
+																	Yes
+																</div>
+															</div>
+														</div>
+													</template>
+												</div>
+											</div>
+											<div class="uploadbutton">
+												<template if:true={commentediting}>
+													<lightning-button label='Cancel Comment'
+														onclick={cancelcomment}></lightning-button>
+												</template>
+												<lightning-button label={buttonlabel}
+													onclick={commentbutton}></lightning-button>
 											</div>
 										</lightning-tab>
 										<lightning-tab label="Attachment" value="attachment" onclick={getfiles}>
@@ -78,136 +153,6 @@
 											<div class="uploadbutton">
 												<lightning-input variant="label-hidden" onchange={openfileUpload}
 													type="File"></lightning-input>
-											</div>
-										</lightning-tab>
-									</lightning-tabset>
-								</div>
-								<div class="ticket-comments">
-									<lightning-tabset active-tab-value="comment">
-										<lightning-tab label="Comments" value="comment">
-											<div class="ticket-description">
-												<div class="ticket-description-scroll">
-													Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-													eiusmod
-													tempor incididunt ut labore et dolore magna aliqua. Et pharetra
-													pharetra
-													massa massa ultricies. Amet justo donec enim diam. Id leo in vitae
-													turpis
-													massa sed elementum tempus egestas. Praesent semper feugiat nibh sed
-													pulvinar proin gravida hendrerit. Non tellus orci ac auctor augue.
-													Etiam
-													tempor orci eu lobortis elementum nibh. Facilisis mauris sit amet
-													massa
-													vitae tortor condimentum lacinia quis. Neque aliquam vestibulum
-													morbi
-													blandit cursus risus. Rhoncus aenean vel elit scelerisque mauris.
-													Lobortis
-													mattis aliquam faucibus purus. Nisl pretium fusce id velit. Quam
-													lacus
-													suspendisse faucibus interdum posuere. Convallis a cras semper
-													auctor.
-													Sagittis vitae et leo duis.
-
-													Arcu felis bibendum ut tristique et egestas quis ipsum suspendisse.
-													Felis
-													eget nunc lobortis mattis aliquam faucibus purus. Fames ac turpis
-													egestas
-													integer eget aliquet nibh. Diam volutpat commodo sed egestas. Nec
-													ullamcorper sit amet risus. Donec enim diam vulputate ut pharetra
-													sit
-													amet.
-													Integer vitae justo eget magna fermentum. Pellentesque nec nam
-													aliquam
-													sem
-													et tortor consequat id. Et egestas quis ipsum suspendisse ultrices.
-													Imperdiet proin fermentum leo vel orci porta non pulvinar. Quis enim
-													lobortis scelerisque fermentum dui faucibus in. Pulvinar proin
-													gravida
-													hendrerit lectus a. Tincidunt id aliquet risus feugiat. Id aliquet
-													lectus
-													proin nibh. Bibendum est ultricies integer quis auctor elit sed
-													vulputate
-													mi. A erat nam at lectus urna. Hendrerit gravida rutrum quisque non
-													tellus
-													orci ac auctor augue. A iaculis at erat pellentesque. Vivamus at
-													augue
-													eget
-													arcu dictum varius duis at. Tellus in hac habitasse platea dictumst
-													vestibulum rhoncus est pellentesque.
-
-													Risus pretium quam vulputate dignissim suspendisse in. Sollicitudin
-													ac
-													orci
-													phasellus egestas tellus rutrum tellus pellentesque eu. Tristique
-													senectus
-													et netus et malesuada fames ac turpis. Ligula ullamcorper malesuada
-													proin
-													libero nunc consequat interdum varius. Felis donec et odio
-													pellentesque
-													diam
-													volutpat commodo sed. Tellus rutrum tellus pellentesque eu tincidunt
-													tortor
-													aliquam nulla. Quisque id diam vel quam elementum pulvinar. Et
-													molestie
-													ac
-													feugiat sed lectus. Volutpat diam ut venenatis tellus in metus
-													vulputate.
-													Duis at tellus at urna condimentum mattis. Varius vel pharetra vel
-													turpis
-													nunc eget lorem.
-
-													Urna et pharetra pharetra massa massa ultricies mi quis. Pulvinar
-													mattis
-													nunc sed blandit libero volutpat. Vitae tempus quam pellentesque nec
-													nam
-													aliquam sem. Semper viverra nam libero justo laoreet sit. Diam ut
-													venenatis
-													tellus in metus vulputate. Vestibulum sed arcu non odio euismod.
-													Pretium
-													fusce id velit ut. Sagittis nisl rhoncus mattis rhoncus urna.
-													Vestibulum
-													rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt
-													lobortis.
-													Pharetra et ultrices neque ornare aenean euismod elementum.
-													Condimentum
-													vitae sapien pellentesque habitant morbi tristique senectus et
-													netus.
-													Fringilla phasellus faucibus scelerisque eleifend. Nulla malesuada
-													pellentesque elit eget. Augue lacus viverra vitae congue eu
-													consequat ac
-													felis donec. Pretium viverra suspendisse potenti nullam. Est lorem
-													ipsum
-													dolor sit amet consectetur adipiscing elit pellentesque. Risus
-													pretium
-													quam
-													vulputate dignissim. Pretium viverra suspendisse potenti nullam ac
-													tortor
-													vitae purus faucibus. Amet mauris commodo quis imperdiet massa
-													tincidunt
-													nunc pulvinar.
-
-													Purus in massa tempor nec feugiat nisl pretium fusce. Amet purus
-													gravida
-													quis blandit turpis cursus in hac. Pharetra magna ac placerat
-													vestibulum.
-													Consectetur a erat nam at lectus. Vulputate odio ut enim blandit
-													volutpat
-													maecenas volutpat blandit. Ultrices neque ornare aenean euismod
-													elementum
-													nisi quis. Vulputate ut pharetra sit amet aliquam. Amet consectetur
-													adipiscing elit duis tristique sollicitudin. Tristique senectus et
-													netus
-													et
-													malesuada. Malesuada fames ac turpis egestas integer eget. Mauris
-													rhoncus
-													aenean vel elit. Eget velit aliquet sagittis id. Vitae aliquet nec
-													ullamcorper sit amet risus nullam eget felis. Enim neque volutpat ac
-													tincidunt vitae semper quis lectus. Posuere morbi leo urna molestie
-													at
-													elementum. Arcu cursus vitae congue mauris rhoncus aenean. Et netus
-													et
-													malesuada fames ac turpis egestas.
-												</div>
 											</div>
 										</lightning-tab>
 									</lightning-tabset>
