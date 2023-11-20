@@ -65,7 +65,7 @@ export default class Field extends NavigationMixin(LightningElement) {
         try {
             this.saveandnewfield(event);
             this.openclosecreatefield();
-            this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+            this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
             this.toastprocess(null);
 
         } catch (error) {
@@ -130,6 +130,8 @@ export default class Field extends NavigationMixin(LightningElement) {
                     this.allfields = result;
                     this.fieldformatter();
                     this.openclosedeletepopup(null);
+                    this.enqueueToast.push({ status: 'success', message: 'FIELD DELETED SUCCESSFULLY' });
+                    this.toastprocess(null);
 
                 }).catch(error => {
                     console.error(error.message);
@@ -253,6 +255,8 @@ export default class Field extends NavigationMixin(LightningElement) {
                         });
                         this.fieldformatter();
                         this.cancelRenameField();
+                        this.enqueueToast.push({ status: 'success', message: 'FIELD EDITED SUCCESSFULLY' });
+                        this.toastprocess(null);
                     }).catch(error => {
                         console.error(error);
                     });

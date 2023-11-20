@@ -207,6 +207,8 @@ export default class Recyclepopup extends LightningElement {
     handlerestorefield(event) {
         try {
             let fieldId = event.currentTarget.dataset.id;
+            this.enqueueToast.push({ status: 'success', message: 'FIELD RESTORED SUCCESSFULLY' });
+            this.toastprocess(null);
             const closerecycle = new CustomEvent("restorefield", {
                 detail: fieldId
             })
