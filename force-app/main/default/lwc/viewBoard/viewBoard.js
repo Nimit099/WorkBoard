@@ -55,7 +55,15 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             var mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = this.today.getFullYear();
             this.today = yyyy + '-' + mm + '-' + dd;
+            this.getboardfieldandticket();
 
+        } catch (error) {
+            console.error('OUTPUT viewBoard connected: ', error.message);
+        }
+    }
+
+    getboardfieldandticket() {
+        try {
             getBoardData({ boardId: this.boardid })
                 .then(result => {
 
@@ -78,10 +86,11 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     console.error(error.message);
                 });
         } catch (error) {
-            console.error('OUTPUT viewBoard connected: ', error.message);
+            console.error(error);
+            console.error(error.message);
         }
-    }
 
+    }
     // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to color the tickets.
     // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
     // CONDITION - Cleaned code
@@ -338,6 +347,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             if (this.deletemodal == false) {                             // Keep it so while click on delete it will not open ticketpopup
                 if (!this.openticketmodal) {
                     this.ticketId = event.currentTarget.dataset.id;
+                } else {
+                    this.ticketlist = [];
+                    this.getboardfieldandticket();
                 }
                 this.openticketmodal = !this.openticketmodal;
             }
