@@ -41,13 +41,16 @@ export default class Ticketpopup extends LightningElement {
     // This variables use in Toast
     @track enqueueToast = [];
     @track ongoingtoast;
+    @track spinnertable = false;
 
     connectedCallback() {
         try {
+            this.spinnertable = true;
             getTicket({ ticketId: this.ticketid })
                 .then(result => {
                     this.ticketpopupdata = result;
                     this.assignvalue();
+                    this.spinnertable = false;
                 }).catch(error => {
                     console.error(error.message);
                 })
@@ -69,6 +72,7 @@ export default class Ticketpopup extends LightningElement {
 
     updateticket(event) {
         try {
+            this.spinnertable = true;
             let ticket = JSON.parse(JSON.stringify(event.detail));
             ticket.Id = this.ticketid;
             updatetickets({ newticket: ticket })
@@ -76,6 +80,7 @@ export default class Ticketpopup extends LightningElement {
                     this.ticketpopupdata = ticket;
                     this.assignvalue();
                     this.editticketpopup();
+                    this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATED SUCCESSFULLY' });
                     this.toastprocess(null);
                 }).catch(error => {
@@ -139,6 +144,7 @@ export default class Ticketpopup extends LightningElement {
 
     openfileUpload(event) {
         try {
+            this.spinnertable = true;
             const file = event.target.files[0];
             var reader = new FileReader()
             reader.onload = () => {
@@ -146,6 +152,7 @@ export default class Ticketpopup extends LightningElement {
 
                 uploadFile({ base64: base64, filename: file.name, ticketId: this.ticketid }).then(result => {
                     this.prepareFileRows(result);
+                    this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'FILE UPLOADED SUCCESSFULLY' });
                     this.toastprocess(null);
 
@@ -239,8 +246,10 @@ export default class Ticketpopup extends LightningElement {
 
     deletefiles() {
         try {
+            this.spinnertable = true;
             deletefile({ contentDocId: this.fileId, ticketId: this.ticketid }).then(result => {
                 this.prepareFileRows(result);
+                this.spinnertable = false;
                 this.openclosedeletepopup(null);
                 this.enqueueToast.push({ status: 'success', message: 'FILE DELETED SUCCESSFULLY' });
                 this.toastprocess(null);
@@ -285,17 +294,17 @@ export default class Ticketpopup extends LightningElement {
 
     commentbutton() {
         try {
-            console.log('commentbutton');
             if (this.buttonlabel == 'Add Comment') {
                 this.buttonlabel = 'Save Comment';
                 this.commentediting = true;
             } else {
+                this.spinnertable = true;
                 this.buttonlabel = 'Add Comment';
                 this.commentediting = false;
-                console.log(this.commentId, 'commentId');
                 saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
                     this.comments = result;
                     this.newcomment = '';
+                    this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'COMMENT ADDED!' });
                     this.toastprocess(null);
                 }).catch(error => {
@@ -334,11 +343,13 @@ export default class Ticketpopup extends LightningElement {
 
     commentdelete(event) {
         try {
+            this.spinnertable = true
             this.commentdeleting = false;
             if (event.currentTarget.dataset.name == 'delete') {
                 deleteComment({ commentId: this.commentId, ticketId: this.ticketid }).then(result => {
                     this.commentId = null;
                     this.comments = result;
+                    this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'COMMENT DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
                 }).catch(error => {

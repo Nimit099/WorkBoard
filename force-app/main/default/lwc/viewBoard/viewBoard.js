@@ -23,7 +23,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     // This variables use in Toast
     @track enqueueToast = [];
     @track ongoingtoast;
-
+    @track spinnertable = false;
 
     @track isRecyclemodal = false;
     @track openticketmodal = false
@@ -55,7 +55,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             var mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = this.today.getFullYear();
             this.today = yyyy + '-' + mm + '-' + dd;
+            this.spinnertable = true;
             this.getboardfieldandticket();
+
 
         } catch (error) {
             console.error('OUTPUT viewBoard connected: ', error.message);
@@ -66,7 +68,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         try {
             getBoardData({ boardId: this.boardid })
                 .then(result => {
-
+                    this.spinnertable = false;
                     this.fieldlist = result.fieldList;
 
                     result.ticketList.forEach(ticket => {

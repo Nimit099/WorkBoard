@@ -6,6 +6,20 @@
 				<c-toast oncompleteonetoast={toastprocess}></c-toast>
 				<div class="slds-modal__container">
 					<div class="fullpopup">
+					<!-- spinner -->
+					<template if:true={spinnertable}>
+						<div class="spinnerbody">
+							<div class="box">
+							</div>
+							<div class="box">
+							</div>
+							<div class="box">
+							</div>
+							<div class="box">
+							</div>
+						</div>
+					</template>
+					<!-- spinner ends -->
 						<div class="headerpopup"> Ticket </div>
 						<div class="bodypopup">
 							<div class="ticket-details">
