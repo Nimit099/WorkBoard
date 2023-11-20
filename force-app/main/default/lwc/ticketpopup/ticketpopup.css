@@ -239,3 +239,52 @@ lightning-button-icon {
     height: 102px;
     width: 182px;
 }
+
+.tic-comments {
+    /* border: 1px solid black;  */
+    width: 100%;
+    padding: 2%;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-head {
+    display: flex;
+}
+
+.user-comment {
+    width: 90%;
+    display: flex;
+    gap: 15px;
+}
+
+.delete-comment {
+    width: 5%;
+}
+
+.edit-comment {
+    width: 5%;
+}
+
+.comment-body {
+    width: 100%;
+    height: fit-content;
+}
+
+.deletecomment {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5%;
+}
+
+.commentdeletebutton {
+    display: flex;
+    width: 44%;
+    height: 50%;
+    gap: 2%;
+}

@@ -4,6 +4,9 @@ import updatetickets from '@salesforce/apex/viewBoard.updateticket';
 import uploadFile from '@salesforce/apex/viewBoard.uploadFile';
 import retrieveFiles from '@salesforce/apex/viewBoard.retrieveFiles';
 import deletefile from '@salesforce/apex/viewBoard.deletefile';
+import getTicektsComment from '@salesforce/apex/viewBoard.getTicektsComment';
+import saveComment from '@salesforce/apex/viewBoard.saveComment';
+import deleteComment from '@salesforce/apex/viewBoard.deleteComment';
 
 
 export default class Ticketpopup extends LightningElement {
@@ -27,8 +30,14 @@ export default class Ticketpopup extends LightningElement {
     @track deletemodal = false;
     @track fileId;
     @track files;
-    @track activetab = 'description';
+    @track activetab = 'comment';
     @track filescount = false;
+    @track comments = [];
+    @track commentediting = false;
+    @track newcomment;
+    @track buttonlabel = 'Add Comment';
+    @track commentId;
+    @track commentdeleting = false;
 
     connectedCallback() {
         try {
@@ -40,6 +49,7 @@ export default class Ticketpopup extends LightningElement {
                     console.error(error.message);
                 })
             this.getfiles();
+            this.getTicketComments();
         } catch (error) {
             console.error(error.message);
         }
@@ -232,4 +242,95 @@ export default class Ticketpopup extends LightningElement {
         }
     }
 
+    getTicketComments() {
+        try {
+            getTicektsComment({ ticketId: this.ticketid }).then(result => {
+                this.comments = result;
+            }).catch(error => {
+                console.error(error);
+            });
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    commentinput(event) {
+        this.newcomment = event.target.value;
+    }
+
+    editcomment(event) {
+        try {
+            this.commentId = event.currentTarget.dataset.id;
+            this.comments.forEach(element => {
+                if (element.Id == this.commentId) {
+                    this.newcomment = element.Comments__c;
+                }
+            });
+            this.commentbutton();
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+    commentbutton() {
+        try {
+            if (this.buttonlabel == 'Add Comment') {
+                this.buttonlabel = 'Save Comment';
+                this.commentediting = true;
+            } else {
+                this.buttonlabel = 'Add Comment';
+                this.commentediting = false;
+                saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
+                    this.comments = result;
+                    this.newcomment = '';
+                }).catch(error => {
+                    console.error(error);
+                });
+            }
+
+        } catch (error) {
+            console.error(error.message);
+            console.error(error);
+
+        }
+    }
+
+    cancelcomment() {
+        try {
+            this.buttonlabel = 'Add Comment';
+            this.commentediting = false;
+            this.newcomment = '';
+        } catch (error) {
+            console.error(error);
+            console.error(error.message);
+        }
+    }
+
+    commentdeletebutton(event) {
+        try {
+            this.commentdeleting = true;
+            this.commentId = event.currentTarget.dataset.id;
+        } catch (error) {
+            console.error(error);
+            console.error(error.message);
+
+        }
+    }
+
+    commentdelete(event) {
+        try {
+            this.commentdeleting = false;
+            if (event.currentTarget.dataset.name == 'delete') {
+                deleteComment({ commentId: this.commentId, ticketId: this.ticketid }).then(result => {
+                    this.comments = result;
+                }).catch(error => {
+                    console.error(error);
+                });
+            }
+        } catch (error) {
+            console.error(error);
+            console.error(error.message);
+        }
+    }
 }

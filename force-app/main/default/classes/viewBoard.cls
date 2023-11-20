@@ -147,4 +147,37 @@ public class viewBoard {
             return null;
         }
     }
+
+    @AuraEnabled
+    public static List<Comment__c> getTicektsComment(Id ticketId){
+        try {
+            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null;
+        }
+    }
+
+    @AuraEnabled
+    public static List<Comment__c> saveComment(Id commentId, Id ticketId, String comment){
+        try {
+            upsert as User ( new Comment__c (Id = commentId, Ticket__c = ticketId, Comments__c = comment));
+            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null;
+        }
+    }
+
+    @AuraEnabled
+    public static List<Comment__c> deleteComment(Id commentId, Id ticketId){
+        try {
+            Database.delete(commentId);
+            System.debug([SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ]);
+            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);  
+            return null;
+        }
+    }
 }
