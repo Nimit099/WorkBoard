@@ -194,8 +194,6 @@ export default class Recyclepopup extends LightningElement {
                     this.toastprocess(null);
                     const closerecycle = new CustomEvent("restoreticket", {
                         detail: ticketId
-                    }).catch(error => {
-                        console.error(error.message);
                     });
                     this.dispatchEvent(closerecycle);
                 }).catch(error => {

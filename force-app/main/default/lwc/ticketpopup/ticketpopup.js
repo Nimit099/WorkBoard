@@ -38,6 +38,9 @@ export default class Ticketpopup extends LightningElement {
     @track buttonlabel = 'Add Comment';
     @track commentId;
     @track commentdeleting = false;
+    // This variables use in Toast
+    @track enqueueToast = [];
+    @track ongoingtoast;
 
     connectedCallback() {
         try {
@@ -73,6 +76,8 @@ export default class Ticketpopup extends LightningElement {
                     this.ticketpopupdata = ticket;
                     this.assignvalue();
                     this.editticketpopup();
+                    this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATED SUCCESSFULLY' });
+                    this.toastprocess(null);
                 }).catch(error => {
                     console.error('updateticketmethodcall', error);
                 });
@@ -141,6 +146,9 @@ export default class Ticketpopup extends LightningElement {
 
                 uploadFile({ base64: base64, filename: file.name, ticketId: this.ticketid }).then(result => {
                     this.prepareFileRows(result);
+                    this.enqueueToast.push({ status: 'success', message: 'FILE UPLOADED SUCCESSFULLY' });
+                    this.toastprocess(null);
+
                 }).catch(error => {
                     console.error(error.message);
                 });
@@ -234,6 +242,8 @@ export default class Ticketpopup extends LightningElement {
             deletefile({ contentDocId: this.fileId, ticketId: this.ticketid }).then(result => {
                 this.prepareFileRows(result);
                 this.openclosedeletepopup(null);
+                this.enqueueToast.push({ status: 'success', message: 'FILE DELETED SUCCESSFULLY' });
+                this.toastprocess(null);
             }).catch(error => {
                 console.error(error.message);
             });
@@ -275,15 +285,19 @@ export default class Ticketpopup extends LightningElement {
 
     commentbutton() {
         try {
+            console.log('commentbutton');
             if (this.buttonlabel == 'Add Comment') {
                 this.buttonlabel = 'Save Comment';
                 this.commentediting = true;
             } else {
                 this.buttonlabel = 'Add Comment';
                 this.commentediting = false;
+                console.log(this.commentId, 'commentId');
                 saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
                     this.comments = result;
                     this.newcomment = '';
+                    this.enqueueToast.push({ status: 'success', message: 'COMMENT ADDED!' });
+                    this.toastprocess(null);
                 }).catch(error => {
                     console.error(error);
                 });
@@ -291,7 +305,7 @@ export default class Ticketpopup extends LightningElement {
 
         } catch (error) {
             console.error(error.message);
-            console.error(error);
+            console.error(error + 'commentbutton');
 
         }
     }
@@ -323,13 +337,42 @@ export default class Ticketpopup extends LightningElement {
             this.commentdeleting = false;
             if (event.currentTarget.dataset.name == 'delete') {
                 deleteComment({ commentId: this.commentId, ticketId: this.ticketid }).then(result => {
+                    this.commentId = null;
                     this.comments = result;
+                    this.enqueueToast.push({ status: 'success', message: 'COMMENT DELETED SUCCESSFULLY' });
+                    this.toastprocess(null);
                 }).catch(error => {
                     console.error(error);
                 });
             }
         } catch (error) {
-            console.error(error);
+            console.error(error + 'commentdelete');
+            console.error(error.message);
+        }
+    }
+
+    // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
+    // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
+    // CONDITION - Cleaned code
+    // STATUS - DONE
+    toastprocess(event) {
+        try {
+            if (event != null) {
+                this.ongoingtoast = !this.ongoingtoast;
+            }
+
+            if (this.enqueueToast.length > 0) {
+                if (!this.ongoingtoast) {
+                    this.ongoingtoast = !this.ongoingtoast;
+                    let toastdata = this.enqueueToast.splice(0, 1);
+                    setTimeout(() => {
+                        this.template.querySelector('c-toast').showToast(toastdata[0].status, toastdata[0].message);
+                    }, 1);
+                }
+            }
+
+        } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
