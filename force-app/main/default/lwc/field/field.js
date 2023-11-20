@@ -28,6 +28,7 @@ export default class Field extends NavigationMixin(LightningElement) {
     @track noteditname = true;
     outsideClick;
     @track editfieldId;
+    @track spinnertable = false;
 
     // This variables use in Toast
     @track enqueueToast = [];
@@ -35,7 +36,7 @@ export default class Field extends NavigationMixin(LightningElement) {
 
     connectedCallback() {
         try {
-
+            this.spinnertable = true;
             // This is use to get todays date 
             this.today = new Date();
             var dd = String(this.today.getDate()).padStart(2, '0');
@@ -45,7 +46,7 @@ export default class Field extends NavigationMixin(LightningElement) {
 
             getFields({ boardId: this.boardid })
                 .then(result => {
-
+                    this.spinnertable = false;
                     this.allfields = result;
                     this.fieldformatter();
 
@@ -63,6 +64,7 @@ export default class Field extends NavigationMixin(LightningElement) {
 
     savefield(event) {
         try {
+            this.spinnertable = true;
             this.saveandnewfield(event);
             this.openclosecreatefield();
             this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
@@ -80,6 +82,7 @@ export default class Field extends NavigationMixin(LightningElement) {
 
             createfield({ field: field, boardid: this.boardid })
                 .then(result => {
+                    this.spinnertable = false;
                     this.allfields = result;
                     this.fieldformatter();
                 }).catch(error => {
@@ -123,13 +126,13 @@ export default class Field extends NavigationMixin(LightningElement) {
 
     handletemporarydeletefield(event) {
         try {
-
+            this.spinnertable = true;
+            this.openclosedeletepopup(null);
             temporarydeletefield({ fieldid: this.fieldid, boardid: this.boardid })
                 .then(result => {
-
                     this.allfields = result;
                     this.fieldformatter();
-                    this.openclosedeletepopup(null);
+                    this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'FIELD DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
 
