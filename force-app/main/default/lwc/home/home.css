@@ -14,7 +14,7 @@
 	display: flex;
 }
 .body{
-	height: 71.5vh;
+	height: 72vh;
     width: 100%;
 	border-radius: 10px;
     background-color: white;
@@ -290,7 +290,7 @@ label{
 .spinnerbody {
     position: fixed;
     z-index: 9001;
-    height: 70%;
+    height: 72%;
     width: 99%;
     display: flex;
     flex-direction: row;
