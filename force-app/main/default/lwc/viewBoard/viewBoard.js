@@ -229,11 +229,13 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
     createticket(ticket) {
         try {
+            this.spinnertable = true;
             createtickets({ newticket: ticket })
                 .then(result => {
                     ticket.Id = result.Id;
                     this.ticketlist.push(ticket);
                     this.search(null);
+                    this.spinnertable = false;
                 }).catch(error => {
                     console.error(error.message);
                 });
