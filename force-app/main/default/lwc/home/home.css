@@ -1,4 +1,4 @@
-.workboardhome{
+.workboardhome {
     position: fixed;
     display: flex;
     flex-direction: column;
@@ -6,46 +6,53 @@
     height: 100%;
     width: 99%;
 }
-.header{
-	height: 15%;
+
+.header {
+    height: 15%;
     width: 100%;
-	border-radius: 10px;
+    border-radius: 10px;
     background-color: white;
-	display: flex;
+    display: flex;
 }
-.body{
-	height: 72vh;
+
+.body {
+    height: 72vh;
     width: 100%;
-	border-radius: 10px;
+    border-radius: 10px;
     background-color: white;
 }
-.headerinput{
-	width: 25%;
+
+.headerinput {
+    width: 25%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.headerlogo{
-	width: 50%;
+
+.headerlogo {
+    width: 50%;
 }
-.headerbutton{
-	width: 20%;
-	display: flex;
-	align-items: center;
+
+.headerbutton {
+    width: 20%;
+    display: flex;
+    align-items: center;
     justify-content: flex-end;
     gap: 10px;
 }
-.input{
-      width: 90%;
+
+.input {
+    width: 90%;
     height: 25%;
     border-radius: 10px;
     font-size: 23px;
     padding-left: 25px;
 }
- /* createbutton css */
+
+/* createbutton css */
 
 .createbutton {
-    background-color: black;
+    background-color: #00203FFF;
     display: flex;
     flex-direction: row;
     height: 35%;
@@ -53,82 +60,92 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     outline: none;
-    color: #fff;
-    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+    color: #ADEFD1FF;
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 1);
 }
-    
+
 .createbutton:active {
     cursor: progress;
-    box-shadow:7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
     transform: translateY(4px);
 }
+
 /* createbutton css end */
 
-.headerheight{
+.headerheight {
     height: 100%;
 }
-.tableheader{
+
+.tableheader {
     width: 100%;
     height: 65px;
     font-size: 23px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     display: flex;
-    background-color: black;
-    color: white;
+    background-color: #00203FFF;
+    color: #ADEFD1FF;
     text-align: center;
     align-items: center;
     position: sticky;
-    /* z-index: 1; */
     top: 0;
 }
-.number{
+
+.number {
     width: 10%;
     border-right: 1px solid white;
 }
-.name{
+
+.name {
     width: 46%;
     border-right: 1px solid white;
     display: flex;
     padding-left: 10%;
 }
-.description{
+
+.description {
     width: 20%;
     border-right: 1px solid white;
 }
- .user, .edit{
+
+.user,
+.edit {
     width: 9%;
     border-right: 1px solid white;
 }
-.delete{
+
+.delete {
     width: 9%;
 }
-.cardview{
+
+.cardview {
     gap: 5px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap
 }
-.tablebody{
+
+.tablebody {
     height: 59.88px;
     font-size: 20px;
-    /* font-weight: 600; */
     display: flex;
     align-items: center;
     text-align: center;
     border: 1px solid black;
     border-radius: 8px;
-    box-shadow: 1px 2px 9px 0px rgba(0, 0, 0, 1);
+    box-shadow: 1px 0px 1px 0px rgba(0, 0, 0, 1);
 }
+
 .tablebody:active {
     cursor: progress;
-    box-shadow:7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
     transform: translateY(1px);
 }
-.index{
+
+.index {
     width: 10%;
     cursor: pointer;
     height: inherit;
@@ -136,8 +153,9 @@
     justify-content: center;
     align-items: center;
 }
-.names{
-     width: 46%;
+
+.names {
+    width: 46%;
     cursor: pointer;
     height: inherit;
     display: flex;
@@ -145,7 +163,8 @@
     align-items: center;
     padding-left: 10%;
 }
-.desc{
+
+.desc {
     width: 20%;
     font-size: 20px;
     height: inherit;
@@ -154,27 +173,34 @@
     align-items: center;
     cursor: pointer;
 }
-.table::-webkit-scrollbar , .desc::-webkit-scrollbar {
+
+.table::-webkit-scrollbar,
+.desc::-webkit-scrollbar {
     width: 0;
     background: transparent;
 }
-.actionbutton{
+
+.actionbutton {
     width: 9%;
     display: flex;
     justify-content: center;
 }
- .tablebody:nth-child(odd) {
+
+.tablebody:nth-child(odd) {
     background: lightgray;
-    color:black;
+    color: black;
 }
-.table{
+
+.table {
     height: 100%;
     border-radius: 10px;
     overflow-y: scroll;
 }
-.slds-button_icon-border{
-    --lwc-squareIconMediumBoundary: 50px; 
+
+.slds-button_icon-border {
+    --lwc-squareIconMediumBoundary: 50px;
 }
+
 lightning-input {
     --lwc-colorBorderInput: rgb(0, 0, 0);
     --slds-c-input-radius-border: 10px;
@@ -182,41 +208,47 @@ lightning-input {
     font-size: 16px;
     width: 80% !important;
     --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-    --lwc-squareIconMediumContentAlt:16px;
+    --lwc-squareIconMediumContentAlt: 16px;
 }
-lightning-textarea{
+
+lightning-textarea {
     --lwc-colorBorderInput: rgb(0, 0, 0);
     --slds-c-input-radius-border: 10px;
     --lwc-heightInput: 45px;
     font-size: 16px;
     width: 80% !important;
     --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-    --lwc-squareIconMediumContentAlt:16px;
+    --lwc-squareIconMediumContentAlt: 16px;
 }
-.usericon{
+
+.usericon {
     cursor: pointer;
-        --sds-c-icon-color-background: transparent;
-        background: black;
-        border-radius: 10px;
-        box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+    --sds-c-icon-color-background: transparent;
+    background: #00203FFF;
+    border-radius: 10px;
+    box-shadow: 1px 0px 5px 0px rgba(0, 0, 0, 1);
 }
-    
+
 .usericon:active {
     cursor: progress;
-    box-shadow:7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
     transform: translateY(4px);
 }
-.names:active  {
+
+.names:active {
     cursor: progress;
 }
- .desc:active  {
+
+.desc:active {
     cursor: progress;
 }
- .index:active {
+
+.index:active {
     cursor: progress;
 }
-.footerpopup{
-        height: 12%;
+
+.footerpopup {
+    height: 12%;
     width: 112%;
     background: lightgray;
     border-bottom-left-radius: 20px;
@@ -226,8 +258,9 @@ lightning-textarea{
     justify-content: center;
     align-items: center;
 }
-.headerpopup{
-      height: 12%;
+
+.headerpopup {
+    height: 12%;
     width: 112%;
     background: lightgrey;
     border-top-left-radius: 20px;
@@ -238,7 +271,8 @@ lightning-textarea{
     font-size: 40px;
     font-weight: 700;
 }
-.bodypopup{
+
+.bodypopup {
     height: 28%;
     width: 112%;
     gap: 6%;
@@ -246,35 +280,43 @@ lightning-textarea{
     background: white;
     flex-direction: column;
 }
-.popupbutton{
+
+.popupbutton {
     width: 25%;
     height: 55%;
 }
-.slds-button_icon-more{
+
+.slds-button_icon-more {
     --lwc-squareIconMediumBoundary: 3rem;
     border-color: black;
 }
-.fields{
-       display: flex;
+
+.fields {
+    display: flex;
     align-items: center;
     justify-content: space-around;
 }
-label{
+
+label {
     font-size: 20px;
     font-weight: 800;
 }
-.popufields{
+
+.popufields {
     width: 60%;
 }
+
 .imgclass {
     height: 29vh;
 }
-.norecordfound{
+
+.norecordfound {
     margin: auto;
     margin-top: 5%;
 
 }
-.desertImg{
+
+.desertImg {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -282,10 +324,12 @@ label{
     font-size: 20px;
     font-weight: 700;
 }
-.spinnerclass{
+
+.spinnerclass {
     position: absolute;
-    height:inherit;
+    height: inherit;
 }
+
 /* spinner */
 .spinnerbody {
     position: fixed;
@@ -300,78 +344,88 @@ label{
     opacity: 0.7;
     border-radius: 10px;
 }
+
 .box {
     z-index: 9001;
-  width: 50px;
-  height: 50px;
-  border-radius: 20px;
-  color: #00136c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s ease-in-out;
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    color: #00136c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s ease-in-out;
 }
 
 .box:first-child {
-  background-color: gray;
-  animation: loader 2s infinite;
+    background-color: gray;
+    animation: loader 2s infinite;
 }
 
 .box:nth-child(2) {
-  background-color: grey;
-  animation: loader 3s infinite;
+    background-color: grey;
+    animation: loader 3s infinite;
 }
 
 .box:nth-child(3) {
-  background-color: gray;
-  animation: loader 4s infinite;
+    background-color: gray;
+    animation: loader 4s infinite;
 }
 
 .box:last-child {
-  background-color: gray;
-  animation: loader 5s infinite;
+    background-color: gray;
+    animation: loader 5s infinite;
 }
 
 @keyframes loader {
-  0% {
-    rotate: 0deg;
-  }
-  25% {
-    rotate: y 90deg;
-    scale: 0.5;
-  }
-  50% {
-    rotate: 180deg;
-  }
-  75% {
-    rotate: x 270deg;
-    border-radius: 50%;
-  }
-  100% {
-    rotate: 360deg;
-  }
+    0% {
+        rotate: 0deg;
+    }
+
+    25% {
+        rotate: y 90deg;
+        scale: 0.5;
+    }
+
+    50% {
+        rotate: 180deg;
+    }
+
+    75% {
+        rotate: x 270deg;
+        border-radius: 50%;
+    }
+
+    100% {
+        rotate: 360deg;
+    }
 }
 
 @supports not (rotate: 0deg) {
-  @keyframes loader {
-    0% {
-      transform: rotate(0deg);
+    @keyframes loader {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: scale(0.5) rotateY(90deg);
+        }
+
+        50% {
+            transfrom: rotate(180deg);
+        }
+
+        75% {
+            transform: rotateX(270deg);
+            border-radius: 50%;
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
-    25% {
-      transform: scale(0.5) rotateY(90deg);
-    }
-    50% {
-      transfrom: rotate(180deg);
-    }
-    75% {
-      transform: rotateX(270deg);
-      border-radius: 50%;
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 }
+
 /* spiner ends */
 .slds-modal__container {
     margin: 0 auto;
@@ -380,7 +434,7 @@ label{
     align-items: center;
 }
 
-.menu-item{
+.menu-item {
     z-index: 9001;
     width: fit-content;
     left: 81%;
