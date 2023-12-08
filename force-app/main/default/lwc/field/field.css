@@ -1,219 +1,220 @@
 .viewfield {
-    position: fixed;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 1%;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
 }
 
 .header {
-    height: 15%;
-    width: 99%;
-    border-radius: 10px;
-    background-color: white;
-    display: flex;
+  height: 15%;
+  width: 99%;
+  border-radius: 10px;
+  background-color: white;
+  display: flex;
 }
 
 .headerlogo {
-    width: 60%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .headerbutton {
-    width: 20%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 lightning-input {
-    --lwc-colorBorderInput: rgb(0, 0, 0);
-    --slds-c-input-radius-border: 10px;
-    --lwc-heightInput: 45px;
-    font-size: 16px;
-    width: 80% !important;
-    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-    --lwc-squareIconMediumContentAlt: 16px;
+  --lwc-colorBorderInput: rgb(0, 0, 0);
+  --slds-c-input-radius-border: 10px;
+  --lwc-heightInput: 45px;
+  font-size: 16px;
+  width: 80% !important;
+  --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  --lwc-squareIconMediumContentAlt: 16px;
 }
 
 /* createbutton css */
 
 .createbutton {
-    background-color: black;
-    display: flex;
-    flex-direction: row;
-    height: 35%;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    outline: none;
-    color: #fff;
-    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+  background-color: #00203FFF;
+  display: flex;
+  flex-direction: row;
+  height: 35%;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  outline: none;
+  color: #ADEFD1FF;
+  box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 1);
 }
 
 .createbutton:active {
-    cursor: progress;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-    transform: translateY(4px);
+  cursor: progress;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  transform: translateY(4px);
 }
 
 /* createbutton css end */
 .usericon {
-    cursor: pointer;
-    --sds-c-icon-color-background: transparent;
-    background: black;
-    border-radius: 10px;
-    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+  cursor: pointer;
+  --sds-c-icon-color-background: transparent;
+  background: #00203FFF;
+  border-radius: 10px;
+  box-shadow: 1px 0px 5px 0px rgba(0, 0, 0, 1);
 }
 
 .usericon:active {
-    cursor: progress;
-    box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
-    transform: translateY(4px);
+  cursor: progress;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  transform: translateY(4px);
 }
 
 .body {
-    height: 72.5%;
-    width: 99%;
-    background-color: white;
-    border-radius: 10px;
-    overflow: hidden
+  height: 72.5%;
+  width: 99%;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden
 }
 
 .fields {
-    height: 98%;
-    border-radius: 10px;
-    margin: 0% 0.5% 0% 0.5%;
-    box-shadow: 1px 10px 14px 0px rgba(0, 0, 0, 1)
+  height: 98%;
+  border-radius: 10px;
+  margin: 0% 0.5% 0% 0.5%;
+  box-shadow: 1px 3px 4px 0px rgba(0, 0, 0, 1)
 }
 
 .scrollablesdiv {
-    display: flex;
-    align-items: center;
-    height: 100%;
-    overflow-x: scroll;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  overflow-x: scroll;
 }
 
 .scrollablesdiv::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .fieldheader {
-    height: 10%;
-    width: 252px;
-    border-bottom: 1px solid black
+  height: 10%;
+  width: 252px;
+  border-bottom: 1px solid black
 }
 
 .fieldname {
-    width: 100%;
-    height: 100%;
-    font-size: 17px;
-    border-radius: 10px 10px 0px 0px;
-    background-color: black;
-    display: flex;
-    color: antiquewhite;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+  width: 100%;
+  height: 100%;
+  font-size: 17px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #00203FFF;
+  display: flex;
+  color: #ADEFD1FF;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .fieldbody {
-    height: 63vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
+  height: 63vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .norecordfound {
-    margin: auto;
-    margin-top: 5%;
+  margin: auto;
+  margin-top: 5%;
 }
 
 .desertImg {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 9px;
-    font-size: 20px;
-    font-weight: 700;
-    width: 95vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  font-size: 20px;
+  font-weight: 700;
+  width: 95vh;
 }
 
 lightning-button-icon {
-    --lwc-borderWidthThin: 0px;
+  --lwc-borderWidthThin: 0px;
 }
 
 .slds-icon_small {
-    --lwc-squareIconSmallBoundary: 70%;
+  --lwc-squareIconSmallBoundary: 70%;
 }
 
 .recycle {
-    height: 35%;
-    width: 13%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  height: 35%;
+  width: 13%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .deletebox {
-    border: 2px dashed black;
-    width: 75px;
-    height: 75px;
-    opacity: 0.3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  border: 2px dashed black;
+  width: 75px;
+  height: 75px;
+  opacity: 0.3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .fieldeditname {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 20px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 20px;
 }
 
 lightning-input {
-    --lwc-colorBorderInput: rgb(0, 0, 0);
-    --slds-c-input-radius-border: 10px;
-    --lwc-heightInput: 30px;
-    font-size: 14px;
-    width: 90% !important;
-    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
-    --lwc-squareIconMediumContentAlt: 16px;
-    color: black;
+  --lwc-colorBorderInput: rgb(0, 0, 0);
+  --slds-c-input-radius-border: 10px;
+  --lwc-heightInput: 30px;
+  font-size: 14px;
+  width: 90% !important;
+  --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+  --lwc-squareIconMediumContentAlt: 16px;
+  color: black;
 }
 
-.renamenote{
-    display: none;
-    font-size: 11px;
+.renamenote {
+  display: none;
+  font-size: 11px;
 }
 
 
 /* spinner */
 .spinnerbody {
-    position: fixed;
-    z-index: 9001;
-    height: 73%;
-    width: 99%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    background: black;
-    opacity: 0.7;
-    border-radius: 10px;
+  position: fixed;
+  z-index: 9001;
+  height: 73%;
+  width: 99%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  opacity: 0.7;
+  border-radius: 10px;
 }
+
 .box {
-    z-index: 9001;
+  z-index: 9001;
   width: 50px;
   height: 50px;
   border-radius: 20px;
@@ -248,17 +249,21 @@ lightning-input {
   0% {
     rotate: 0deg;
   }
+
   25% {
     rotate: y 90deg;
     scale: 0.5;
   }
+
   50% {
     rotate: 180deg;
   }
+
   75% {
     rotate: x 270deg;
     border-radius: 50%;
   }
+
   100% {
     rotate: 360deg;
   }
@@ -269,19 +274,24 @@ lightning-input {
     0% {
       transform: rotate(0deg);
     }
+
     25% {
       transform: scale(0.5) rotateY(90deg);
     }
+
     50% {
       transfrom: rotate(180deg);
     }
+
     75% {
       transform: rotateX(270deg);
       border-radius: 50%;
     }
+
     100% {
       transform: rotate(360deg);
     }
   }
 }
+
 /* spiner ends */

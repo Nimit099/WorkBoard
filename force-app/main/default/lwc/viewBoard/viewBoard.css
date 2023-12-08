@@ -58,7 +58,7 @@ lightning-input {
 /* createbutton css */
 
 .createbutton {
-    background-color: black;
+    background-color: #00203FFF;
     display: flex;
     flex-direction: row;
     height: 35%;
@@ -66,11 +66,11 @@ lightning-input {
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
     outline: none;
-    color: #fff;
-    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+    color: #ADEFD1FF;
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 1);
 }
 
 .createbutton:active {
@@ -83,9 +83,9 @@ lightning-input {
 .usericon {
     cursor: pointer;
     --sds-c-icon-color-background: transparent;
-    background: black;
+    background: #00203FFF;
     border-radius: 10px;
-    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+    box-shadow: 1px 0px 5px 0px rgba(0, 0, 0, 1);
 }
 
 .usericon:active {
@@ -106,7 +106,7 @@ lightning-input {
     height: 98%;
     border-radius: 10px;
     margin: 0% 0.5% 0% 0.5%;
-    box-shadow: 1px 10px 14px 0px rgba(0, 0, 0, 1)
+    box-shadow: 1px 3px 4px 0px rgba(0, 0, 0, 1)
 }
 
 .scrollablesdiv {
@@ -131,9 +131,9 @@ lightning-input {
     height: 100%;
     font-size: 17px;
     border-radius: 10px 10px 0px 0px;
-    background-color: black;
+    background-color: #00203FFF;
     display: flex;
-    color: antiquewhite;
+    color: #ADEFD1FF;
     justify-content: center;
     align-items: center;
 }
@@ -152,7 +152,7 @@ lightning-input {
     margin: 3% auto;
     border: 1px solid;
     border-radius: 10px;
-    box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 1);
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 1);
     background-color: white;
     cursor: all-scroll;
     display: flex;
@@ -273,76 +273,86 @@ lightning-menu-item {
     opacity: 0.7;
     border-radius: 10px;
 }
+
 .box {
     z-index: 9001;
-  width: 50px;
-  height: 50px;
-  border-radius: 20px;
-  color: #00136c;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: 0.5s ease-in-out;
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+    color: #00136c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.5s ease-in-out;
 }
 
 .box:first-child {
-  background-color: gray;
-  animation: loader 2s infinite;
+    background-color: gray;
+    animation: loader 2s infinite;
 }
 
 .box:nth-child(2) {
-  background-color: grey;
-  animation: loader 3s infinite;
+    background-color: grey;
+    animation: loader 3s infinite;
 }
 
 .box:nth-child(3) {
-  background-color: gray;
-  animation: loader 4s infinite;
+    background-color: gray;
+    animation: loader 4s infinite;
 }
 
 .box:last-child {
-  background-color: gray;
-  animation: loader 5s infinite;
+    background-color: gray;
+    animation: loader 5s infinite;
 }
 
 @keyframes loader {
-  0% {
-    rotate: 0deg;
-  }
-  25% {
-    rotate: y 90deg;
-    scale: 0.5;
-  }
-  50% {
-    rotate: 180deg;
-  }
-  75% {
-    rotate: x 270deg;
-    border-radius: 50%;
-  }
-  100% {
-    rotate: 360deg;
-  }
+    0% {
+        rotate: 0deg;
+    }
+
+    25% {
+        rotate: y 90deg;
+        scale: 0.5;
+    }
+
+    50% {
+        rotate: 180deg;
+    }
+
+    75% {
+        rotate: x 270deg;
+        border-radius: 50%;
+    }
+
+    100% {
+        rotate: 360deg;
+    }
 }
 
 @supports not (rotate: 0deg) {
-  @keyframes loader {
-    0% {
-      transform: rotate(0deg);
+    @keyframes loader {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        25% {
+            transform: scale(0.5) rotateY(90deg);
+        }
+
+        50% {
+            transfrom: rotate(180deg);
+        }
+
+        75% {
+            transform: rotateX(270deg);
+            border-radius: 50%;
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
-    25% {
-      transform: scale(0.5) rotateY(90deg);
-    }
-    50% {
-      transfrom: rotate(180deg);
-    }
-    75% {
-      transform: rotateX(270deg);
-      border-radius: 50%;
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
 }
+
 /* spiner ends */

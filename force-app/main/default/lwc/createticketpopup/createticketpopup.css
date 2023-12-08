@@ -90,14 +90,14 @@ lightning-combobox {
 .ctcreatebutton {
     width: 15%;
     height: 50%;
-    background-color: black;
+    background-color: #00203FFF;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    color: #fff;
+    color: #ADEFD1FF;
     box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
 }
 
