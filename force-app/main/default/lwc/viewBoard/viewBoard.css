@@ -27,6 +27,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 80px;
+    font-family: fantasy;
 }
 
 .headerbutton {
@@ -356,3 +358,11 @@ lightning-menu-item {
 }
 
 /* spiner ends */
+
+.darkblue {
+    color: #00203FFF;
+}
+
+.lightblue {
+    color: #ADEFD1FF;
+}

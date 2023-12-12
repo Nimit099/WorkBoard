@@ -12,8 +12,10 @@
                 </template>
             </div>
             <div class="headerlogo">
+                <span class="darkblue">{firstPart} </span>
+                <span class="lightblue"> {secondPart}</span>
             </div>
-            <div class="headerbutton">
+            <div class="headerbuttons">
                 <div class="createbutton" onclick={openclosecreatefield}></span> Create Field</div>
                 <div class="usericon recycle">
                     <lightning-icon icon-name='standard:recycle_bin' onclick={opencloserecyclepopup}
@@ -24,19 +26,19 @@
         <!-- header ends -->
         <div class="body">
             <!-- spinner -->
-			<template if:true={spinnertable}>
-				<div class="spinnerbody">
-					<div class="box">
-					</div>
-					<div class="box">
-					</div>
-					<div class="box">
-					</div>
-					<div class="box">
-					</div>
-				</div>
-			</template>
-			<!-- spinner ends -->
+            <template if:true={spinnertable}>
+                <div class="spinnerbody">
+                    <div class="box">
+                    </div>
+                    <div class="box">
+                    </div>
+                    <div class="box">
+                    </div>
+                    <div class="box">
+                    </div>
+                </div>
+            </template>
+            <!-- spinner ends -->
             <div class="scrollablesdiv">
                 <template if:true={fieldsfound}>
                     <template for:each={fielddata} for:item="field" for:index="index">

@@ -16,14 +16,17 @@
 }
 
 .headerlogo {
-  width: 60%;
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 80px;
+  font-family: fantasy;
+  cursor: pointer;
 }
 
 .headerbutton {
-  width: 20%;
+  width: 25%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -295,3 +298,19 @@ lightning-input {
 }
 
 /* spiner ends */
+
+.darkblue {
+  color: #00203FFF;
+}
+
+.lightblue {
+  color: #ADEFD1FF;
+}
+
+.headerbuttons{
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
