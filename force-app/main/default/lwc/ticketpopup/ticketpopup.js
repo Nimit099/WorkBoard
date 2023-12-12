@@ -38,6 +38,7 @@ export default class Ticketpopup extends LightningElement {
     @track buttonlabel = 'Add Comment';
     @track commentId;
     @track commentdeleting = false;
+    @track commentscount = false;
     // This variables use in Toast
     @track enqueueToast = [];
     @track ongoingtoast;
@@ -265,6 +266,11 @@ export default class Ticketpopup extends LightningElement {
         try {
             getTicektsComment({ ticketId: this.ticketid }).then(result => {
                 this.comments = result;
+                if (this.comments.length > 0) {
+                    this.commentscount = true;
+                } else {
+                    this.commentscount = false;
+                }
             }).catch(error => {
                 console.error(error);
             });
@@ -303,6 +309,11 @@ export default class Ticketpopup extends LightningElement {
                 this.commentediting = false;
                 saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
                     this.comments = result;
+                    if (this.comments.length > 0) {
+                        this.commentscount = true;
+                    } else {
+                        this.commentscount = false;
+                    }
                     this.newcomment = '';
                     this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'COMMENT ADDED!' });
@@ -349,6 +360,11 @@ export default class Ticketpopup extends LightningElement {
                 deleteComment({ commentId: this.commentId, ticketId: this.ticketid }).then(result => {
                     this.commentId = null;
                     this.comments = result;
+                    if (this.comments.length > 0) {
+                        this.commentscount = true;
+                    } else {
+                        this.commentscount = false;
+                    }
                     this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'COMMENT DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
