@@ -445,6 +445,22 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
+  navigateToBoardreport(event) {
+    try {
+      const recordId = event.currentTarget.dataset.id;
+      
+      this[NavigationMixin.Navigate]({
+          type: 'standard__recordPage',
+          attributes: {
+              recordId: recordId,
+              actionName: 'view'
+          }
+      });
+    } catch (error) {
+      console.error(error.message);
+      console.error(error + ' >> In Navigating report');
+    }
+}
   // CREATION - Created By Nimit Shah on 21/08/2023
   // This function is use to remove the enqueueToast 
   disconnectedCallback() {
