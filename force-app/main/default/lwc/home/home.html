@@ -7,6 +7,8 @@
 					placeholder="Search here..."></lightning-input>
 			</div>
 			<div class="headerlogo">
+				<span class="darkblue">Work </span>
+				<span class="lightblue"> Board</span>
 			</div>
 			<div class="headerbutton">
 				<div class="createbutton" onclick={opencloseCreateBoardPopup}></span> Create Board</div>
@@ -105,7 +107,7 @@
 					<div class="fields">
 						<label><span style="color:red; ">*</span>Board Name</label>
 						<div class="popufields">
-							<lightning-input type="text" variant="standard" value={name} data-name="name"
+							<lightning-input type="text" variant="label-hidden" value={name} data-name="name"
 								onchange={popupinput} placeholder="Name"></lightning-input>
 						</div>
 					</div>

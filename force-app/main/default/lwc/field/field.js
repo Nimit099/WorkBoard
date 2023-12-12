@@ -29,6 +29,8 @@ export default class Field extends NavigationMixin(LightningElement) {
     outsideClick;
     @track editfieldId;
     @track spinnertable = false;
+    @track firstPart;
+    @track secondPart;
 
     // This variables use in Toast
     @track enqueueToast = [];
@@ -43,6 +45,16 @@ export default class Field extends NavigationMixin(LightningElement) {
             var mm = String(this.today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = this.today.getFullYear();
             this.today = yyyy + '-' + mm + '-' + dd;
+
+            if (this.boardname.includes(' ')) {
+                var words = this.boardname.split(' ');
+                this.firstPart = words[0];
+                this.secondPart = words.slice(1).join(' ')
+            } else {
+                let midpoint = Math.ceil(this.boardname.length / 2);
+                this.firstPart = this.boardname.slice(0, midpoint);
+                this.secondPart = this.boardname.slice(midpoint);
+            }
 
             getFields({ boardId: this.boardid })
                 .then(result => {

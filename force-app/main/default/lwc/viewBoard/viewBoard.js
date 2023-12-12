@@ -31,6 +31,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     @track fieldsfound = false;
     @track viewboard = true;
 
+    @track firstPart;
+    @track secondPart;
+
     // Create ticket variables
     get options() {
         return [
@@ -56,6 +59,17 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             var yyyy = this.today.getFullYear();
             this.today = yyyy + '-' + mm + '-' + dd;
             this.spinnertable = true;
+
+            if (this.boardname.includes(' ')) {
+                var words = this.boardname.split(' ');
+                this.firstPart = words[0];
+                this.secondPart = words.slice(1).join(' ')
+            } else {
+                let midpoint = Math.ceil(this.boardname.length / 2);
+                this.firstPart = this.boardname.slice(0, midpoint);
+                this.secondPart = this.boardname.slice(midpoint);
+            }
+
             this.getboardfieldandticket();
 
 
