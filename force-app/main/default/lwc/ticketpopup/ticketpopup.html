@@ -6,20 +6,20 @@
 				<c-toast oncompleteonetoast={toastprocess}></c-toast>
 				<div class="slds-modal__container">
 					<div class="fullpopup">
-					<!-- spinner -->
-					<template if:true={spinnertable}>
-						<div class="spinnerbody">
-							<div class="box">
+						<!-- spinner -->
+						<template if:true={spinnertable}>
+							<div class="spinnerbody">
+								<div class="box">
+								</div>
+								<div class="box">
+								</div>
+								<div class="box">
+								</div>
+								<div class="box">
+								</div>
 							</div>
-							<div class="box">
-							</div>
-							<div class="box">
-							</div>
-							<div class="box">
-							</div>
-						</div>
-					</template>
-					<!-- spinner ends -->
+						</template>
+						<!-- spinner ends -->
 						<div class="headerpopup"> Ticket </div>
 						<div class="bodypopup">
 							<div class="ticket-details">
@@ -32,7 +32,7 @@
 									<div class="ticket-priority">
 										<div class="priority-key">Priority -</div>
 										<div class="priority-value" data-name="ticketPriority">
-											{ticketPriority}</div>
+											{ticketPriority} </div>
 									</div>
 								</div>
 								<template if:false={isupdateticketName}>
@@ -58,38 +58,44 @@
 												<div class="ticket-description-scroll">
 													<template if:false={commentdeleting}>
 														<template if:false={commentediting}>
-															<template for:each={comments} for:item="comment">
-																<lightning-card key={comment.Id}>
-																	<div class="tic-comments">
-																		<div class="comment-head">
-																			<div class="user-comment">
-																				{comment.CreatedBy.Name}
-																				<lightning-formatted-date-time
-																					value={comment.CreatedDate}></lightning-formatted-date-time>
+															<template if:true={commentscount}>
+																<template for:each={comments} for:item="comment">
+																	<lightning-card key={comment.Id}>
+																		<div class="tic-comments">
+																			<div class="comment-head">
+																				<div class="user-comment">
+																					{comment.CreatedBy.Name}
+																					<lightning-formatted-date-time
+																						value={comment.CreatedDate}></lightning-formatted-date-time>
+																				</div>
+																				<div class="edit-comment">
+																					<lightning-button-icon
+																						onclick={editcomment}
+																						data-id={comment.Id}
+																						variant="base" size="medium"
+																						icon-name="utility:edit"
+																						alternative-text="delete"></lightning-button-icon>
+																				</div>
+																				<div class="delete-comment">
+																					<lightning-button-icon
+																						onclick={commentdeletebutton}
+																						data-type="delete"
+																						variant="base" size="medium"
+																						data-id={comment.Id}
+																						icon-name="utility:delete"
+																						alternative-text="delete"></lightning-button-icon>
+																				</div>
 																			</div>
-																			<div class="edit-comment">
-																				<lightning-button-icon
-																					onclick={editcomment}
-																					data-id={comment.Id} variant="base"
-																					size="medium"
-																					icon-name="utility:edit"
-																					alternative-text="delete"></lightning-button-icon>
-																			</div>
-																			<div class="delete-comment">
-																				<lightning-button-icon
-																					onclick={commentdeletebutton}
-																					data-type="delete" variant="base"
-																					size="medium" data-id={comment.Id}
-																					icon-name="utility:delete"
-																					alternative-text="delete"></lightning-button-icon>
+																			<div class="comment-body">
+																				<lightning-formatted-rich-text
+																					value={comment.Comments__c}></lightning-formatted-rich-text>
 																			</div>
 																		</div>
-																		<div class="comment-body">
-																			<lightning-formatted-rich-text
-																				value={comment.Comments__c}></lightning-formatted-rich-text>
-																		</div>
-																	</div>
-																</lightning-card>
+																	</lightning-card>
+																</template>
+															</template>
+															<template if:false={commentscount}>
+																There is no comments
 															</template>
 														</template>
 													</template>
