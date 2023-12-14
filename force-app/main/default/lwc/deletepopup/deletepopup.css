@@ -61,7 +61,7 @@
     cursor: pointer;
     outline: none;
     color: #ADEFD1FF;
-    box-shadow: 1px 2px 14px 0px rgba(0, 0, 0, 1);
+    box-shadow: 1px 1px 5px 0px rgba(0, 0, 0, 1);
 }
     
 .createbutton:active {
