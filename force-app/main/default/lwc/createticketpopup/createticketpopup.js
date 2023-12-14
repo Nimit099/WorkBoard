@@ -14,7 +14,7 @@ export default class Createticketpopup extends LightningElement {
     @api enddate;
     @api startdate;
     @api priority;
-    @api field;
+    @api field = '';
     @api color;
     @api progress;
     @api fields;
