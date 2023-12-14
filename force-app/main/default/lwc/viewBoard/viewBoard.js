@@ -171,7 +171,23 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     }
 
     dragover(event) {
-        event.preventDefault();
+        try {
+            event.preventDefault();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    dragdone() {
+        try {
+            let arr = this.template.querySelectorAll('.fieldbody');
+            for (let i = 0; i < arr.length; i++) {
+                const element = arr[i];
+                element.style = 'border:none;';
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use drop ticket on the fields and change ticket field.

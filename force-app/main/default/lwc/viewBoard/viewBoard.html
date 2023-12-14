@@ -14,8 +14,8 @@
 			<div class="headerbutton">
 				<div class="createbutton" onclick={openclosecreateticket}></span> Create Ticket</div>
 				<div class="usericon recycle">
-					<lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right" variant="bare-inverse"
-						menu-alignment="top-right" onselect={selectdropdown}>
+					<lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
+						variant="bare-inverse" menu-alignment="top-right" onselect={selectdropdown}>
 						<lightning-menu-item value="recycle" label="Recycle Bin" size="large"
 							prefix-icon-name="standard:recycle_bin"></lightning-menu-item>
 						<lightning-menu-item value="home" label="Back" size="large"
@@ -44,7 +44,7 @@
 				<template if:true={fieldsfound}>
 					<template for:each={boarddata} for:item="field" for:index="index">
 						<div class="fields" data-id={field.field.Id} key={field.field.Id} ondrop={dropzone}
-							ondragover={dragover}>
+							ondragover={dragover} ondragend={dragdone}>
 							<div class="fieldheader">
 								<div class="fieldname">{field.field.Name}</div>
 							</div>
