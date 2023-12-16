@@ -28,13 +28,13 @@
     <columns>
         <field>Board__c.Fields__r.Tickets__r$Name</field>
     </columns>
-    <format>Matrix</format>
-    <groupingsAcross>
+    <format>Summary</format>
+    <groupingsDown>
         <dateGranularity>Day</dateGranularity>
         <field>Board__c.Fields__r$Name</field>
         <sortOrder>Asc</sortOrder>
-    </groupingsAcross>
-    <name>Field Ticket Report</name>
+    </groupingsDown>
+    <name>Fields - Tickets Chart</name>
     <params>
         <name>co</name>
         <value>1</value>

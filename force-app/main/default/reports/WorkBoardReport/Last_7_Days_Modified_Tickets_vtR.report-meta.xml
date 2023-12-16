@@ -32,7 +32,7 @@
         <field>Board__c.Fields__r.Tickets__r$LastModifiedDate</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Last Modified Tickets</name>
+    <name>Modified Tickets Chart</name>
     <params>
         <name>co</name>
         <value>1</value>
