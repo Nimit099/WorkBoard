@@ -34,7 +34,7 @@
         <field>Board__c$Name</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Ticket Count report</name>
+    <name>Ticket Count Chart</name>
     <params>
         <name>co</name>
         <value>1</value>
