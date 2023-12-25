@@ -1,0 +1,35 @@
+<template>
+    <div class="workboardmanual">
+        <div class="header">
+            <div class="welcomeheader">
+                <span class="darkblue">Welcome </span> <span class="lightblue">{currentUserName}</span>
+            </div>
+            <div class="welcomenote">
+                Explore the comprehensive guide below to unleash the full potential of WorkBoard and optimize your user
+                experience.
+            </div>
+        </div>
+
+        <div class="body">
+            <div class="box">
+                <span class="arrow">
+                    <template if:true={leftarrow}>
+                        <span onclick={prev}> &#8249; </span>
+                    </template>
+                </span>
+                <div class="leftbox boxes">
+                    <!-- Content here -->
+                    <lightning-formatted-rich-text value={content}></lightning-formatted-rich-text>
+                </div>
+                <div class="rightbox boxes">
+                    <!-- img here -->
+                    <img src={images} alt="">
+                </div>
+
+                <span class="arrow">
+                    <template if:true={rightarrow}> <span onclick={next}> &#8250; </span> </template>
+                </span>
+            </div>
+        </div>
+    </div>
+</template>

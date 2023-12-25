@@ -1,0 +1,83 @@
+.workboardmanual {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    height: 100%;
+    width: 99%;
+}
+
+.header {
+    height: 15%;
+    width: 100%;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+}
+
+.body {
+    height: 72vh;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.welcomeheader {
+    font-size: xxx-large;
+    font-weight: 700;
+    margin-left: 25px;
+}
+
+.welcomenote {
+    font-size: large;
+    margin-left: 25px;
+}
+
+.darkblue {
+    color: #00203FFF;
+}
+
+.lightblue {
+    color: #ADEFD1FF;
+}
+
+.arrow {
+    font-size: 100px;
+    width: 2%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.box {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.boxes {
+    height: 100%;
+    width: 48%;
+    margin-bottom: 4%;
+    display: flex;
+    overflow: scroll;
+}
+
+.leftbox {
+    padding: 2% 4%;
+    text-align: justify;
+    font-size: 30px;
+}
+
+.rightbox {
+    padding: 3%;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.boxes::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}

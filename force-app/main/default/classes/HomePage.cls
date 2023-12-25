@@ -147,4 +147,15 @@ public with sharing class HomePage {
         }
     }
 
+    @AuraEnabled
+    public static List<WorkBoardMeta__mdt> userconfig(){
+        try {
+            return [SELECT Id, Label, ImageName__c, UserDescription__c FROM WorkBoardMeta__mdt Order By Label ASC];
+        } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);
+            System.debug(e);
+            return null;
+        }
+    }
+
 }
