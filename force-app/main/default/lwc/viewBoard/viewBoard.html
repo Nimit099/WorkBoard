@@ -4,7 +4,7 @@
 		<!-- header -->
 		<div class="header">
 			<div class="headerinput">
-				<lightning-input type="search" variant="standard" name="name" value={searchkey} onchange={search}
+				<lightning-input type="search" variant="label-hidden" name="name" value={searchkey} onchange={search}
 					placeholder="Search here..."></lightning-input>
 			</div>
 			<div class="headerlogo">
@@ -15,7 +15,7 @@
 				<div class="createbutton" onclick={openclosecreateticket}></span> Create Ticket</div>
 				<div class="usericon recycle">
 					<lightning-button-menu alternative-text="Show menu" size="large" class="slds-dropdown_right"
-						variant="bare-inverse" menu-alignment="top-right" onselect={selectdropdown}>
+						variant="bare-inverse" menu-alignment="center" onselect={selectdropdown}>
 						<lightning-menu-item value="recycle" label="Recycle Bin" size="large"
 							prefix-icon-name="standard:recycle_bin"></lightning-menu-item>
 						<lightning-menu-item value="home" label="Back" size="large"

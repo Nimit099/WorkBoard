@@ -307,10 +307,53 @@ lightning-input {
   color: #ADEFD1FF;
 }
 
-.headerbuttons{
+.headerbuttons {
   width: 20%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+}
+
+@media only screen and (max-width: 1700px) {
+  .headerlogo {
+    font-size: 75px;
+    width: 52%;
+  }
+
+  .recycle {
+    height: 42%;
+    width: 15%;
+  }
+
+  .createbutton {
+    height: 42%;
+    width: 65%;
+  }
+
+  .body {
+    height: 70vh;
+  }
+
+  .fields {
+    height: 97%;
+  }
+
+  .fieldheader {
+    width: 248px;
+  }
+
+  .headerbutton {
+    width: 25%;
+    justify-content: flex-start;
+    padding-left: 3%;
+  }
+
+  .headerbuttons {
+    width: 20%;
+  }
+
+  .homebutton {
+    width: 59%;
+  }
 }

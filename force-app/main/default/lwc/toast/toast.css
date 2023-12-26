@@ -122,3 +122,11 @@
     opacity: 0;
   }
 }
+
+@media only screen and (max-width: 1700px) {
+
+  .toastbody {
+    height: 12%;
+  }
+  
+}

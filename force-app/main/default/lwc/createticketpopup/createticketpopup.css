@@ -61,7 +61,7 @@ lightning-combobox {
     --slds-c-input-radius-border: 10px;
     --lwc-heightInput: 45px;
     font-size: 16px;
-    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --sds-c-input-shadow: 0px 2px 4px rgb(0 0 0 / 25%);
     --lwc-squareIconMediumContentAlt: 16px;
 }
 
@@ -115,6 +115,20 @@ lightning-combobox {
     max-width: 100% !important
 }
 
-.star{
+.star {
     color: red;
+}
+
+@media only screen and (max-width: 1700px) {
+    .ctfooter {
+        height: 14%;
+    }
+
+    .ctheader {
+        height: 14%;
+    }
+
+    .ctcreatebutton {
+        width: 20%;
+    }
 }
