@@ -81,3 +81,9 @@
     width: 0;
     background: transparent;
 }
+
+@media only screen and (max-width: 1700px) {
+    .welcomeheader {
+        font-size: 40px;
+    }
+}
