@@ -60,8 +60,9 @@
 								</div>
 								<div class="actionbutton">
 									<div class="usericon">
-										<lightning-icon variant="inverse" icon-name='action:record' data-id={board.Id} onclick={navigateToBoardreport}
-											alternative-text='user' size='medium' title='user'></lightning-icon>
+										<lightning-icon variant="inverse" icon-name='action:record' data-id={board.Id}
+											onclick={navigateToBoardreport} alternative-text='user' size='medium'
+											title='user'></lightning-icon>
 									</div>
 								</div>
 								<div class="actionbutton">
@@ -98,38 +99,7 @@
 
 	<!-- create popup start -->
 	<template if:true={isShowModal}>
-		<section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-			aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-			<div class="slds-modal__container">
-				<!-- modal header start -->
-				<div class="headerpopup"> Create Board</div>
-				<div class="bodypopup">
-					<div class="fields">
-						<label><span style="color:red; ">*</span>Board Name</label>
-						<div class="popufields">
-							<lightning-input type="text" variant="label-hidden" value={name} data-name="name"
-								onchange={popupinput} placeholder="Name"></lightning-input>
-						</div>
-					</div>
-					<div class="fields">
-						<label>Description</label>
-						<div class="popufields">
-							<lightning-input type="text" variant="standard" data-name="description"
-								onchange={popupinput} value={description} placeholder="Description">
-							</lightning-input>
-						</div>
-					</div>
-				</div>
-				<div class="footerpopup">
-					<div class="createbutton popupbutton" data-name="Cancel" onclick={opencloseCreateBoardPopup}></span>
-						Cancel
-					</div>
-					<div class="createbutton popupbutton" data-name="Save" onclick={saveboardaction}></span> Save
-					</div>
-				</div>
-			</div>
-		</section>
-		<div class="slds-backdrop slds-backdrop_open"></div>
+		<c-createboardpopup oncloseboard={opencloseCreateBoardPopup} onsaveboard={saveboardaction}></c-createboardpopup>
 	</template>
 	<!-- create popup end -->
 
