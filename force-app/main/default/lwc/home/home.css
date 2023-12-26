@@ -252,64 +252,9 @@ lightning-textarea {
     cursor: progress;
 }
 
-.footerpopup {
-    height: 12%;
-    width: 112%;
-    background: lightgray;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    align-items: center;
-}
-
-.headerpopup {
-    height: 12%;
-    width: 112%;
-    background: lightgrey;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 40px;
-    font-weight: 700;
-}
-
-.bodypopup {
-    height: 28%;
-    width: 112%;
-    gap: 6%;
-    display: flex;
-    background: white;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.popupbutton {
-    width: 25%;
-    height: 55%;
-}
-
 .slds-button_icon-more {
     --lwc-squareIconMediumBoundary: 3rem;
     border-color: black;
-}
-
-.fields {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-}
-
-label {
-    font-size: 20px;
-    font-weight: 800;
-}
-
-.popufields {
-    width: 60%;
 }
 
 .imgclass {
@@ -467,25 +412,5 @@ label {
 
     .body {
         height: 70vh;
-    }
-
-    .popupbutton {
-        width: 25%;
-        height: 50%;
-    }
-
-    .headerpopup {
-        height: 14%;
-        width: 100%;
-    }
-
-    .footerpopup {
-        height: 14%;
-        width: 100%;
-    }
-
-    .bodypopup {
-        height: 35%;
-        width: 100%;
     }
 }

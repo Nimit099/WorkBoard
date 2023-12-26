@@ -192,76 +192,47 @@ export default class Home extends NavigationMixin(LightningElement) {
     this.description = '';
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to take input of Board Details.
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
-  // CONDITION - Cleaned code
-  // STATUS - DONE
-  popupinput(event) {
-    try {
-
-      if (event.currentTarget.dataset.name == 'name') {
-        this.name = event.target.value;
-      } else if (event.currentTarget.dataset.name == 'description') {
-        this.description = event.target.value;
-      }
-
-    } catch (error) {
-      this.spinnertable = false;
-      console.error('OUTPUT popupinput : ', error.message);
-    }
-  }
-
   // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to save records of Boards.
   // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
   // CONDITION - Cleaned code
   // STATUS - DONE
-  saveboardaction() {
+  saveboardaction(event) {
     try {
 
       // This is use to create new board
-      if (this.name == null || this.name == undefined || this.name.trim() == '') {
 
-        this.enqueueToast.push({ status: 'error', message: 'PLEASE ENTER NAME' });
-        this.toastprocess(null);
 
-      } else {
+      this.spinnertable = true;
+      let boardrecord = JSON.parse(JSON.stringify(event.detail));
 
-        this.spinnertable = true;
-        let boardrecord = {
-          'sobjectType': 'Board__c'
-        };
-        boardrecord['Name'] = this.name;
-        boardrecord['Description__c'] = this.description;
+      createboard({ board: boardrecord })
+        .then(result => {
 
-        createboard({ board: boardrecord })
-          .then(result => {
+          this.indexval = 1;
+          let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
 
-            this.indexval = 1;
-            let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
+          if (this.searchkey == undefined || newboard[0].Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
+            this.boardlist.push(newboard[0]);
+          }
 
-            if (this.searchkey == undefined || newboard[0].Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
-              this.boardlist.push(newboard[0]);
-            }
+          this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' });
+          this.toastprocess(null);
 
-            this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' });
-            this.toastprocess(null);
+          this.spinnertable = false;
 
-            this.spinnertable = false;
+          if (this.boardlist.length > 0) {
+            this.boardfound = true;
+          } else {
+            this.boardfound = false;
+          }
 
-            if (this.boardlist.length > 0) {
-              this.boardfound = true;
-            } else {
-              this.boardfound = false;
-            }
-
-          }).catch(error => {
-            this.spinnertable = false;
-            console.error('OUTPUT handlepopupaction apex: ', error.message);
-            this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
-            this.toastprocess(null);
-          })
-        this.opencloseCreateBoardPopup();
-      }
+        }).catch(error => {
+          this.spinnertable = false;
+          console.error('OUTPUT handlepopupaction apex: ', error.message);
+          this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
+          this.toastprocess(null);
+        })
+      this.opencloseCreateBoardPopup();
 
     } catch (error) {
       this.spinnertable = false;
@@ -421,10 +392,10 @@ export default class Home extends NavigationMixin(LightningElement) {
 
   opencloseeditboard(event) {
     try {
-      
+
       this.boardid = event.currentTarget.dataset.id;
       this.boardname = event.currentTarget.dataset.name;
-  
+
       let cmpDef = {
         componentDef: "c:field",
         attributes: {
@@ -448,19 +419,19 @@ export default class Home extends NavigationMixin(LightningElement) {
   navigateToBoardreport(event) {
     try {
       const recordId = event.currentTarget.dataset.id;
-      
+
       this[NavigationMixin.Navigate]({
-          type: 'standard__recordPage',
-          attributes: {
-              recordId: recordId,
-              actionName: 'view'
-          }
+        type: 'standard__recordPage',
+        attributes: {
+          recordId: recordId,
+          actionName: 'view'
+        }
       });
     } catch (error) {
       console.error(error.message);
       console.error(error + ' >> In Navigating report');
     }
-}
+  }
   // CREATION - Created By Nimit Shah on 21/08/2023
   // This function is use to remove the enqueueToast 
   disconnectedCallback() {
