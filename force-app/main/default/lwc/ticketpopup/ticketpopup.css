@@ -389,3 +389,17 @@ lightning-button-icon {
 }
 
 /* spiner ends */
+
+@media only screen and (max-width: 1700px) {
+    .headerpopup {
+        height: 14%;
+    }
+
+    .footerpopup {
+        height: 14%;
+    }
+
+    .popupbutton {
+        width: 20%;
+    }
+}

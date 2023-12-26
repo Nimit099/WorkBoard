@@ -53,7 +53,7 @@ lightning-input {
     --lwc-heightInput: 45px;
     font-size: 16px;
     width: 80% !important;
-    --sds-c-input-shadow: 0px 4px 4px rgb(0 0 0 / 25%);
+    --sds-c-input-shadow: 0px 2px 4px rgb(0 0 0 / 25%);
     --lwc-squareIconMediumContentAlt: 16px;
 }
 
@@ -365,4 +365,42 @@ lightning-menu-item {
 
 .lightblue {
     color: #ADEFD1FF;
+}
+
+@media only screen and (max-width: 1700px) {
+    .headerlogo {
+        font-size: 75px;
+        width: 52%;
+    }
+
+    .createbutton {
+        width: 65%;
+        height: 42%;
+    }
+
+    .recycle {
+        height: 42%;
+        width: 15%;
+    }
+
+    .body {
+        height: 70vh;
+    }
+
+    .fields {
+        height: 97%;
+    }
+
+    .fieldheader {
+        width: 248px;
+    }
+
+    .fieldbody {
+        width: 100%;
+        height: 60vh;
+    }
+
+    .ticket {
+        height: 30%;
+    }
 }
