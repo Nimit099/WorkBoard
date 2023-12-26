@@ -27,7 +27,6 @@ export default class Ticketpopup extends LightningElement {
     @track ticketCompletedPercentage = 0;
     @track ticketLastmodifieddate = '';
     @api fields = 'There is no Attachments';
-    @track deletemodal = false;
     @track fileId;
     @track files;
     @track activetab = 'comment';
@@ -43,6 +42,8 @@ export default class Ticketpopup extends LightningElement {
     @track enqueueToast = [];
     @track ongoingtoast;
     @track spinnertable = false;
+
+    @track attachmentdeleting = false;
 
     connectedCallback() {
         try {
@@ -233,32 +234,37 @@ export default class Ticketpopup extends LightningElement {
             : Math.round(f) + ' KB');
     }
 
-    openclosedeletepopup(event) {
+    deletefiles(event) {
         try {
-            this.deletemodal = !this.deletemodal;
-            this.activetab = 'attachment';
-            if (event != null) {
-                this.fileId = event.currentTarget.dataset.id;
+            if (event.currentTarget.dataset.name == 'delete') {
+                this.spinnertable = true;
+                deletefile({ contentDocId: this.fileId, ticketId: this.ticketid }).then(result => {
+                    this.prepareFileRows(result);
+                    this.spinnertable = false;
+                    this.enqueueToast.push({ status: 'success', message: 'FILE DELETED SUCCESSFULLY' });
+                    this.toastprocess(null);
+                    this.attachmentdeleting = false;
+                }).catch(error => {
+                    console.error(error.message);
+                });
+            } else{
+                this.attachmentdeleting = false;
             }
         } catch (error) {
             console.error(error.message);
         }
     }
 
-    deletefiles() {
+    deleteattachment(event) {
         try {
-            this.spinnertable = true;
-            deletefile({ contentDocId: this.fileId, ticketId: this.ticketid }).then(result => {
-                this.prepareFileRows(result);
-                this.spinnertable = false;
-                this.openclosedeletepopup(null);
-                this.enqueueToast.push({ status: 'success', message: 'FILE DELETED SUCCESSFULLY' });
-                this.toastprocess(null);
-            }).catch(error => {
-                console.error(error.message);
-            });
+
+            if (event != null) {
+                this.attachmentdeleting = true;
+                this.fileId = event.currentTarget.dataset.id;
+                console.log(this.fileId);
+            }
         } catch (error) {
-            console.error(error.message);
+
         }
     }
 

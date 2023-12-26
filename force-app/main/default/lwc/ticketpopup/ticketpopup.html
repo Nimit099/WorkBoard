@@ -132,45 +132,64 @@
 										</lightning-tab>
 										<lightning-tab label="Attachment" value="attachment" onclick={getfiles}>
 											<div class="ticket-attachment">
-												<template if:true={filescount}>
-													<template for:each={files} for:item="file">
-														<div class="image-box" key={file.fileId}>
-															<div class="slds-file slds-file_card slds-has-title">
-																<figure>
-																	<a href={file.viewUrl} class="slds-file__crop"
-																		target="_blank">
-																		<img src={file.thumbnailPath}
-																			alt={file.fileName} />
-																	</a>
-																</figure>
-																<div class="figurecaption">
-																	<div class="url-link">
-																		<lightning-formatted-url
-																			value={file.downloadUrl}
-																			tooltip={file.filePath}
-																			label={file.fileName} target="_blank">
-																		</lightning-formatted-url>
-																	</div>
-																	<div class="url-bottom">
-																		<p>{file.fileSize}.{file.fileExtn} </p>
-																		<div>
-																			<lightning-button-icon
-																				onclick={openclosedeletepopup}
-																				data-type="delete"
-																				data-id={file.fileDocId} variant="base"
-																				size="medium" icon-name="utility:delete"
-																				alternative-text="delete"></lightning-button-icon>
+												<template if:false={attachmentdeleting}>
+													<template if:true={filescount}>
+														<template for:each={files} for:item="file">
+															<div class="image-box" key={file.fileId}>
+																<div class="slds-file slds-file_card slds-has-title">
+																	<figure>
+																		<a href={file.viewUrl} class="slds-file__crop"
+																			target="_blank">
+																			<img src={file.thumbnailPath}
+																				alt={file.fileName} />
+																		</a>
+																	</figure>
+																	<div class="figurecaption">
+																		<div class="url-link">
+																			<lightning-formatted-url
+																				value={file.downloadUrl}
+																				tooltip={file.filePath}
+																				label={file.fileName} target="_blank">
+																			</lightning-formatted-url>
+																		</div>
+																		<div class="url-bottom">
+																			<p>{file.fileSize}.{file.fileExtn} </p>
+																			<div>
+																				<lightning-button-icon
+																					onclick={deleteattachment}
+																					data-type="delete"
+																					data-id={file.fileDocId}
+																					variant="base" size="medium"
+																					icon-name="utility:delete"
+																					alternative-text="delete"></lightning-button-icon>
+																			</div>
 																		</div>
 																	</div>
 																</div>
 															</div>
-														</div>
+														</template>
 													</template>
 												</template>
 												<template if:false={filescount}>
-													<p style="height: 100%;">There is no Attachment</p>
+													<p style="height: 100%;">There is no attachments</p>
+												</template>
+												<template if:true={attachmentdeleting}> <!-- nimit -->
+													<div class="deletecomment">
+														Do you want to delete the Attachment?
+														<div class="commentdeletebutton">
+															<div class="createbutton" data-name="cancel"
+																onclick={deletefiles}>
+																No
+															</div>
+															<div class="createbutton" data-name="delete"
+																onclick={deletefiles}>
+																Yes
+															</div>
+														</div>
+													</div>
 												</template>
 											</div>
+
 											<div class="uploadbutton">
 												<lightning-input variant="label-hidden" onchange={openfileUpload}
 													type="File"></lightning-input>
@@ -248,10 +267,5 @@
 			enddate={ticketEndDate} startdate={ticketStartDate} priority={ticketPriority} color={ticketColor}
 			field={ticketFieldId} progress={ticketCompletedPercentage} isupdateticket={isupdateticket}
 			onupdateticket={updateticket} oncloseticket={editticketpopup}></c-createticketpopup>
-	</template>
-	<template if:true={deletemodal}>
-		<c-deletepopup type="File" boardid={fileId} ondeletefiles={deletefiles}
-			onclosedeletepopup={openclosedeletepopup}>
-		</c-deletepopup>
 	</template>
 </template>
