@@ -383,6 +383,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.ticketId = event.currentTarget.dataset.id;
                 } else {
                     this.ticketlist = [];
+                    this.deletedticketlist = [];
                     this.getboardfieldandticket();
                 }
                 this.openticketmodal = !this.openticketmodal;
