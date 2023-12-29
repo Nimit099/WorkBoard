@@ -81,6 +81,10 @@
 .recycleboardname {
     font-size: 25px;
     width: 35%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
 
 .deletedboards:nth-child(odd) {

@@ -118,7 +118,10 @@
     margin-left: 4%;
     margin-top: 1%;
     font-size: 40px;
-    display: flex;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
 
 .ticket-description-attachment {

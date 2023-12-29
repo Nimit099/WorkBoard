@@ -12,7 +12,7 @@
 				<div class="table recyclelist">
 					<template for:each={recyclelist} for:item="board">
 						<div class="deletedboards" key={board.Id}>
-							<div class="recycleboardname" title={board.Description__c}>{board.Name}</div>
+							<div class="recycleboardname" title={board.Name}>{board.Name}</div>
 							<div class="recycleboardname">
 								<lightning-formatted-date-time
 									value={board.DeletedDate__c}></lightning-formatted-date-time>
@@ -20,13 +20,13 @@
 							<div class="usericon" style="width:7%" data-name="recycle" data-id={board.Id}
 								onclick={recycleaction}>
 								<lightning-icon data-name="recycle" data-id={board.Id} onclick={handlerestore}
-									icon-name='action:refresh' alternative-text='edit' size='medium' title='edit'>
+									icon-name='action:refresh' alternative-text='Restore' size='medium' title='restore'>
 								</lightning-icon>
 							</div>
 							<div class="usericon" style="width:7%" data-name={board.Name} data-id={board.Id}
 								onclick={openclosedeletepopup}>
 								<lightning-icon data-name="delete" data-id={board.Id} icon-name='action:delete'
-									alternative-text='edit' size='medium' title='edit'>
+									alternative-text='edit' size='medium' title='delete'>
 								</lightning-icon>
 							</div>
 						</div>

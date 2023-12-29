@@ -18,12 +18,10 @@ public with sharing class HomePage {
         try{
 
             
-            List<Board__c> boards = [SELECT Id,Name,DeletedDate__c,CreatedDate,Description__c FROM Board__c WITH SECURITY_ENFORCED order by LastModifiedDate asc];
-            List<Ticket__c> tickets = [SELECT Id, DeletedDate__c FROM Ticket__c WHERE DeletedDate__c < LAST_N_DAYS:15 WITH SECURITY_ENFORCED ORDER BY LastModifiedDate asc ];
-            
-            // List<Fields__c> fields = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c ORDER BY OrderNumber__c ASC];
-            // List<Comment__c> comments = [SELECT Id, Name,Comments__c,Ticket__c FROM Comment__c];
-            
+            List<Board__c> boards = [SELECT Id,Name,DeletedDate__c,CreatedDate,Description__c FROM Board__c WITH SECURITY_ENFORCED order by CreatedDate asc];
+            List<Ticket__c> tickets = [SELECT Id, DeletedDate__c FROM Ticket__c WHERE DeletedDate__c < LAST_N_DAYS:15 WITH SECURITY_ENFORCED ];
+            List<Fields__c> fields =  [SELECT Id, DeletedDate__c FROM Fields__c WHERE DeletedDate__c < LAST_N_DAYS:15 WITH SECURITY_ENFORCED ];
+          
             // To delete the 15 day old deleted board
             List<Board__c> deleteboard = new List<Board__c>();
 
@@ -41,9 +39,9 @@ public with sharing class HomePage {
                     }
                 }
             }
-            delete deleteboard;             // To delete the 15 day old deleted board.
-            
-            delete tickets;                 // To delete the 15 day old deleted ticket.
+            delete as User deleteboard;             // To delete the 15 day old deleted board.
+            delete as User fields;                  // To delete the 15 day old deleted field.
+            delete as User tickets;                 // To delete the 15 day old deleted ticket.
             
             return boards;
         }
@@ -141,6 +139,22 @@ public with sharing class HomePage {
     public static void permanentdeleteboard(Id boardId){
         try{
                 Board__c b = new Board__c(Id = boardId);
+                List<Fields__c> fieldList = [SELECT Id FROM Fields__c WHERE Board__c =: boardId];
+                List<Ticket__c> ticketList = [SELECT Id FROM Ticket__c WHERE Field__c IN: fieldList];
+                Set<Id> cdId = new Set<Id>();
+                Set<Id> ticketId = new Set<Id>();   
+                for (Ticket__c ticket : ticketlist) {
+                    ticketId.add(ticket.Id);
+                }
+    
+                if (ticketId.size() > 0) {
+                    List<ContentDocumentLink> cdllist = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN: ticketId];
+                    for (ContentDocumentLink cdl : cdllist) {
+                        cdId.add(cdl.ContentDocumentId);
+                    }
+                    List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id IN: cdId];
+                    Database.delete(cd);
+                }
                 delete as User b;
         } catch(Exception e){
             HandleExceptions eh = new HandleExceptions(e);

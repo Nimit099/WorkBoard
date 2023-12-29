@@ -26,10 +26,18 @@
 .bodypopup {
     height: 40%;
     width: 100%;
-    gap: 6%;
     display: flex;
     background: white;
     flex-direction: column;
+}
+
+.cmpdiv {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    height: 20%;
+    align-items: center;
 }
 
 .deleteicon {
@@ -46,10 +54,11 @@
 }
 
 .deletetext {
-    margin: auto;
-    margin-top: 5%;
     font-size: 21px;
     font-weight: 500;
+    display: flex;
+    justify-content: center;
+    height: 15%;
 }
 
 /* createbutton css */
@@ -85,11 +94,12 @@
 .deleteboardname {
     font-weight: bold;
     font-style: italic;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
 }
 
-.notes {
-    margin-top: 0%;
-}
 
 @media only screen and (max-width: 1700px) {
 
@@ -107,7 +117,7 @@
         height: 14%;
     }
 
-    .deleteicon{
+    .deleteicon {
         width: 19%;
     }
 }

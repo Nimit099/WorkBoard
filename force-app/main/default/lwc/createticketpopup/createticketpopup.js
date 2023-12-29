@@ -120,7 +120,7 @@ export default class Createticketpopup extends LightningElement {
                     this.priority = '';
                     this.progress = '';
                 } else {
-                    this.enqueueToast.push({ status: 'error', message: 'FILL REQUIRED FIELD' });
+                    this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
                     this.toastprocess(null);
                 }
             } else {

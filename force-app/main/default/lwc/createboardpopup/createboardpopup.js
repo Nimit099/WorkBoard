@@ -41,6 +41,7 @@ export default class Createboardpopup extends LightningElement {
 
     createboard() {
         try {
+            console.log(this.name.length);
             let boardrecord = {
                 'sobjectType': 'Board__c'
             };
@@ -49,6 +50,9 @@ export default class Createboardpopup extends LightningElement {
 
             if (this.name == null || this.name == undefined || this.name.trim() == '') {
                 this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
+                this.toastprocess(null);
+            } else if (this.name.length > 25) {
+                this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
                 this.toastprocess(null);
             } else {
                 const dispatch = new CustomEvent("saveboard", {
