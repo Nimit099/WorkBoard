@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>12</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">Chart_2</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">Explore further insights on the detailed board page by checking out Charts 3 and 4. Chart 3 highlights the daily ticket updates, offering a snapshot of ongoing activities, while Chart 4 illustrates the daily ticket creation trend. This valuable information empowers you to gauge the daily rhythm of ticket activity, enhancing your understanding of workload dynamics and ensuring you stay on top of both creation and updates in real-time.</value>
+    </values>
+</CustomMetadata>

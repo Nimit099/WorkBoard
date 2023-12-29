@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>07</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">ViewTicket</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">Clicking on a ticket on the Board page opens up a ticket&apos;s information. Here, you can seamlessly view the ticket&apos;s data, read comments, and access any attachments associated with the ticket. What&apos;s more, you have the ability to make edits directly from this interface, streamlining the process of updating ticket details.</value>
+    </values>
+</CustomMetadata>

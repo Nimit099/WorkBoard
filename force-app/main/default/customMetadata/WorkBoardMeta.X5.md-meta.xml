@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>05</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">ViewBoard</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">Here&apos;s where all the work tracking happens! You can easily create, view, and manage your work tickets on this page. You can delete a ticket and also you can undo it from the recycle bin. To find any ticket just enter the ticket number or name in the search bar. And by drag and drop ticket you can easily change the ticket&apos;s field. It&apos;s your go-to spot for smooth and simple work ticket management.&quot;</value>
+    </values>
+</CustomMetadata>

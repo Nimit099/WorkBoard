@@ -158,7 +158,6 @@ public with sharing class HomePage {
                 delete as User b;
         } catch(Exception e){
             HandleExceptions eh = new HandleExceptions(e);
-            System.debug(e);
         }
     }
 
@@ -168,7 +167,6 @@ public with sharing class HomePage {
             return [SELECT Id, Label, ImageName__c, UserDescription__c FROM WorkBoardMeta__mdt Order By Label ASC];
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);
-            System.debug(e);
             return null;
         }
     }

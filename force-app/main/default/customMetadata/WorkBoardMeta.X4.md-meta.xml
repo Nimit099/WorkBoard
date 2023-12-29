@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>04</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">CreateField</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">Clicking on &apos;Create Field&apos; empowers you to effortlessly establish a new field by specifying its name. Should you wish to fine-tune the arrangement of fields, simply assign an order number during the creation process. This intuitive feature ensures not only the seamless generation of fields but also allows for precise customization of their sequential positioning.</value>
+    </values>
+</CustomMetadata>

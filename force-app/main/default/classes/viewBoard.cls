@@ -28,7 +28,6 @@ public with sharing class viewBoard {
             insert ticket;
             return ticket;
         } catch(Exception e){
-            System.debug(e);
             HandleExceptions eh = new HandleExceptions(e);
             return null; 
         }
@@ -41,7 +40,6 @@ public with sharing class viewBoard {
             Ticket__c ticket = new Ticket__c (Id = newticket.Id, TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c, CompletedPercentage__c = newticket.CompletedPercentage__c);
             update ticket;
         } catch(Exception e){
-            System.debug(e);
             HandleExceptions eh = new HandleExceptions(e); 
         }
     }
@@ -53,7 +51,6 @@ public with sharing class viewBoard {
         try{
         Database.upsert(new Ticket__c (Id = ticketId, Field__c = fieldId));
         } catch (Exception e){
-            System.debug(e);
             HandleExceptions eh = new HandleExceptions(e);
         }
     }
@@ -188,7 +185,6 @@ public with sharing class viewBoard {
     public static List<Comment__c> deleteComment(Id commentId, Id ticketId){
         try {
             Database.delete(commentId);
-            System.debug([SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ]);
             return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);  

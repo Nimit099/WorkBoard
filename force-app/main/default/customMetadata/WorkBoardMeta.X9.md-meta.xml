@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>09</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">Attachment</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">In the ticket view, managing attachments is a breeze. You can add, view, download, and delete attachments, making it simple to include or retrieve essential documents for the ticket. Whether you need to share files or keep important documents together, this feature offers flexibility and convenience.</value>
+    </values>
+</CustomMetadata>
