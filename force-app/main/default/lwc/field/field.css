@@ -23,6 +23,11 @@
   font-size: 80px;
   font-family: fantasy;
   cursor: pointer;
+  overflow-y: scroll;
+}
+
+.headerlogo::-webkit-scrollbar {
+  display: none;
 }
 
 .headerbutton {
@@ -125,6 +130,7 @@ lightning-input {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .fieldbody {

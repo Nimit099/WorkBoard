@@ -45,7 +45,7 @@
 					<template for:each={boarddata} for:item="field" for:index="index">
 						<div class="fields" data-id={field.field.Id} key={field.field.Id} ondrop={dropzone}
 							ondragover={dragover} ondragend={dragdone}>
-							<div class="fieldheader">
+							<div class="fieldheader" title={field.field.Name}>
 								<div class="fieldname">{field.field.Name}</div>
 							</div>
 							<div class="fieldbody">
@@ -56,7 +56,7 @@
 											onclick={openticket}>
 											<div class="ticketheader">
 												<div class="ticketnumber">
-													<div>
+													<div class="num">
 														{ticket.TicketNumber__c}
 													</div>
 													<div class="ticketstartdate">

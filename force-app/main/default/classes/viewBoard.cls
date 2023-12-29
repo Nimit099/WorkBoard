@@ -1,9 +1,9 @@
-public class viewBoard {
+public with sharing class viewBoard {
 
     @AuraEnabled
     public static FieldTicketwrapper getBoardData(Id boardId){
         try {
-            List<Fields__c> fieldList = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c  WHERE Board__c =: boardId WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
+            List<Fields__c> fieldList = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c  WHERE Board__c =: boardId AND DeletedDate__c =: null WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
             List<Ticket__c> ticketList = [SELECT Id, Name, TicketNumber__c,  TicketPriority__c, DeletedDate__c, Field__c, Color__c,CreatedDate FROM Ticket__c WHERE Field__c IN: fieldList WITH SECURITY_ENFORCED];
 
             FieldTicketwrapper ftw = new FieldTicketwrapper();
@@ -79,6 +79,13 @@ public class viewBoard {
     @AuraEnabled
     public static void permanentdeleteticket(Id ticketId){
         try {
+            Set<Id> cdId = new Set<Id>();
+            List<ContentDocumentLink> cdllist = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ticketId];
+            for (ContentDocumentLink cdl : cdllist) {
+                cdId.add(cdl.ContentDocumentId);
+            }
+            List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id IN: cdId];
+            Database.delete(cd);
             Database.delete(ticketId);
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);   

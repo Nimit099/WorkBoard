@@ -167,6 +167,7 @@
     justify-content: flex-start;
     align-items: center;
     padding-left: 10%;
+    overflow: hidden;
 }
 
 .desc {
@@ -265,6 +266,10 @@ lightning-textarea {
     margin: auto;
     margin-top: 5%;
 
+}
+
+.recycle {
+    height: 35%;
 }
 
 .desertImg {

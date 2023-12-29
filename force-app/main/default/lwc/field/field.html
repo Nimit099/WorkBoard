@@ -44,7 +44,7 @@
                     <template for:each={fielddata} for:item="field" for:index="index">
                         <div class="fields" data-id={field.Id} key={field.Id} draggable="true" ondragover={dragover}
                             ondrop={dropzone} ondragstart={dragstart}>
-                            <div class="fieldheader">
+                            <div class="fieldheader" title="edit name">
                                 <span class="fieldname" data-name={field.Id} onclick={editnamefunc}>{field.Name}</span>
                                 <div class="fieldname fieldeditname" data-name={field.Id}>
                                     <lightning-input variant="standard" name="name" value={newname} onkeyup={namechange}

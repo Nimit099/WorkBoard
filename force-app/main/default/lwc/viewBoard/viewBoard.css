@@ -29,6 +29,7 @@
     align-items: center;
     font-size: 80px;
     font-family: fantasy;
+    overflow-y: scroll;
 }
 
 .headerbutton {
@@ -122,6 +123,18 @@ lightning-input {
     display: none;
 }
 
+.headerlogo::-webkit-scrollbar {
+    display: none;
+}
+
+.num {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    width: 55%;
+}
+
 .fieldheader {
     height: 10%;
     width: 252px;
@@ -138,6 +151,7 @@ lightning-input {
     color: #ADEFD1FF;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
 }
 
 .fieldbody {
@@ -152,7 +166,7 @@ lightning-input {
     width: 94%;
     height: 25%;
     margin: 3% auto;
-    border: 1px solid;
+    border: 1px solid lightgray;
     border-radius: 10px;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 1);
     background-color: white;
@@ -195,7 +209,7 @@ lightning-input {
     width: 94%;
     margin: 3%;
     gap: 5px;
-    height: 50%;
+    height: 55%;
 }
 
 .ticketnumber {
@@ -208,6 +222,8 @@ lightning-input {
 .ticketname {
     font-weight: bold;
     font-size: 16px;
+    overflow-wrap: break-word;
+    overflow: hidden;
 }
 
 .ticketfooter {

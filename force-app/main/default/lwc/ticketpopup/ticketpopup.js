@@ -48,20 +48,23 @@ export default class Ticketpopup extends LightningElement {
     connectedCallback() {
         try {
             this.spinnertable = true;
-            getTicket({ ticketId: this.ticketid })
-                .then(result => {
-                    this.ticketpopupdata = result;
-                    this.assignvalue();
-                    this.spinnertable = false;
-                }).catch(error => {
-                    console.error(error.message);
-                })
+            this.getTickets();
             this.getfiles();
             this.getTicketComments();
         } catch (error) {
             console.error(error.message);
         }
+    }
 
+    getTickets() {
+        getTicket({ ticketId: this.ticketid })
+            .then(result => {
+                this.ticketpopupdata = result;
+                this.assignvalue();
+                this.spinnertable = false;
+            }).catch(error => {
+                console.error(error.message);
+            })
     }
 
     editticketpopup() {
@@ -75,13 +78,13 @@ export default class Ticketpopup extends LightningElement {
     updateticket(event) {
         try {
             this.spinnertable = true;
+            this.editticketpopup();
             let ticket = JSON.parse(JSON.stringify(event.detail));
             ticket.Id = this.ticketid;
             updatetickets({ newticket: ticket })
                 .then(() => {
                     this.ticketpopupdata = ticket;
-                    this.assignvalue();
-                    this.editticketpopup();
+                    this.getTickets();
                     this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATED SUCCESSFULLY' });
                     this.toastprocess(null);
@@ -247,7 +250,7 @@ export default class Ticketpopup extends LightningElement {
                 }).catch(error => {
                     console.error(error.message);
                 });
-            } else{
+            } else {
                 this.attachmentdeleting = false;
             }
         } catch (error) {

@@ -69,7 +69,24 @@ public with sharing class fieldController {
     @AuraEnabled
     public static void permanentdeletefield(Id fieldid){
         try {
-            delete (new Fields__c(Id = fieldid));
+            Set<Id> cdId = new Set<Id>();
+            Set<Id> ticketId = new Set<Id>();
+
+            List<Ticket__c> ticketlist = [SELECT Id FROM Ticket__c WHERE Field__c =: fieldid];
+            
+            for (Ticket__c ticket : ticketlist) {
+                ticketId.add(ticket.Id);
+            }
+
+            if (ticketId.size() > 0) {
+                List<ContentDocumentLink> cdllist = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId IN: ticketId];
+                for (ContentDocumentLink cdl : cdllist) {
+                    cdId.add(cdl.ContentDocumentId);
+                }
+                List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id IN: cdId];
+                Database.delete(cd);
+            }
+            delete as User (new Fields__c(Id = fieldid));
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);
             System.debug(e);
