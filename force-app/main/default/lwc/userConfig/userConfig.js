@@ -56,6 +56,8 @@ export default class UserConfig extends LightningElement {
                     this.meta = result;
                     this.metacount = this.meta.length;
                     this.img(this.meta[this.current]);
+                }).catch(error => {
+                    console.error(error);
                 });
         } catch (error) {
             console.error(error);

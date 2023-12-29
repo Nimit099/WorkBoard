@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>01</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">Home</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">&lt;p&gt;Explore the possibilities of heightened organization and efficiency on the &lt;strong&gt;Workboard&lt;/strong&gt; &lt;strong&gt;Home Page&lt;span class=&quot;ql-cursor&quot;&gt;﻿&lt;/span&gt;&lt;/strong&gt;. &lt;strong&gt;Here, you have the power to craft purposeful boards for precise tracking, fine-tune them with easy editing options, and gain valuable insights through comprehensive reports.&lt;/strong&gt; Effortlessly search and locate your boards, ensuring a swift continuation of your work. Workboard is more than just a platform; it&amp;#39;s a dynamic workspace designed to enhance your workflow, offering a seamless blend of user-friendly features. Take control of your tasks and projects with Workboard&amp;#39;s intuitive tools, making every aspect of your work easily accessible and manageable.&lt;/p&gt;</value>
+    </values>
+</CustomMetadata>

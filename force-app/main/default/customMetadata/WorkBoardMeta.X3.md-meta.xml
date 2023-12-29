@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>03</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">Field</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">&lt;p&gt;Click &amp;quot;Edit&amp;quot; on the home page to enter the Field page. Here, easily create or edit field names by clicking on field. Delete fields by hitting the delete icon, and rearrange their order effortlessly through drag and drop. Enjoy a straightforward and user-friendly way to customize your workspace.&lt;/p&gt;</value>
+    </values>
+</CustomMetadata>

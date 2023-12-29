@@ -435,7 +435,6 @@ export default class Home extends NavigationMixin(LightningElement) {
   // CREATION - Created By Nimit Shah on 21/08/2023
   // This function is use to remove the enqueueToast 
   disconnectedCallback() {
-    console.log('OUTPUT : disconnected');
     this.enqueueToast = [];
   }
 

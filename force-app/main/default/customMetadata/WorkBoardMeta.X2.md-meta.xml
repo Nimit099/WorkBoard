@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>02</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">CreateBoard</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">&lt;p&gt;Create a board, give it a name, and begin tracking your work seamlessly. Easily analyze your progress, all in one place. It&amp;#39;s that simple – personalized productivity at your fingertips. Welcome to an efficient and straightforward way of managing your tasks.&lt;/p&gt;</value>
+    </values>
+</CustomMetadata>

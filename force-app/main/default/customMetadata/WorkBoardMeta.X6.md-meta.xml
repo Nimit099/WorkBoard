@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>06</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">CreateTicket</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">The &apos;Create Ticket&apos; feature simplifies the ticket-making process. When utilizing this tool, it will prompt you for essential details such as ticket number, name, and field, ensuring a comprehensive ticket setup. In addition to the basics, you have the option to include additional information like start date, end date, priority, progress, color and a brief description. This user-friendly interface not only makes ticket creation mandatory but also offers flexibility for users to input additional data, providing a more detailed snapshot of the task at hand.</value>
+    </values>
+</CustomMetadata>

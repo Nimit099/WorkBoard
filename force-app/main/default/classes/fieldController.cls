@@ -5,7 +5,6 @@ public with sharing class fieldController {
         try {
             return [SELECT Id, Name, OrderNumber__c, Board__c, DeletedDate__c FROM Fields__c WHERE Board__c =: boardId ORDER BY OrderNumber__c ASC];
         } catch (Exception e) {
-            System.debug(e);
             return null;
         }
     }
@@ -35,7 +34,6 @@ public with sharing class fieldController {
             upsert as User newfieldList;
             return newfieldList;
         } catch (Exception e) {
-            System.debug(e);
             HandleExceptions eh = new HandleExceptions(e);
             return null;
         }
@@ -60,7 +58,6 @@ public with sharing class fieldController {
             update as User newfieldList;
             return newfieldList;
         } catch (Exception e) {
-            System.debug(e);
             HandleExceptions eh = new HandleExceptions(e);
             return null;
         }
@@ -89,7 +86,6 @@ public with sharing class fieldController {
             delete as User (new Fields__c(Id = fieldid));
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);
-            System.debug(e);
         }
     }
 
@@ -121,7 +117,6 @@ public with sharing class fieldController {
             
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);
-            System.debug(e);
             return null;
         }
     }
@@ -159,7 +154,6 @@ public with sharing class fieldController {
             return[SELECT Id, Name, OrderNumber__c,DeletedDate__c FROM Fields__c WHERE Board__c =: boardId ORDER By OrderNumber__c ASC];
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);
-            System.debug(e);
         }
         return null;
     }
@@ -170,7 +164,6 @@ public with sharing class fieldController {
             update as user (new Fields__c(Id = fieldId, Name = newName));
         } catch (Exception e) {
             HandleExceptions eh = new HandleExceptions(e);
-            System.debug(e);
         }
     }
 }

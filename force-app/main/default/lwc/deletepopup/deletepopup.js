@@ -30,7 +30,6 @@ export default class Deletepopup extends LightningElement {
             } else if (this.type == 'permanentdeletefield') {
                 this.showtype = 'Field';
             }
-            console.log(this.boardid);
         } catch (error) {
             console.error('OUTPUT : ', error.message);
         }

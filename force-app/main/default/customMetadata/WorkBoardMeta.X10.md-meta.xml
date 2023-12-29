@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>10</label>
+    <protected>false</protected>
+    <values>
+        <field>ImageName__c</field>
+        <value xsi:type="xsd:string">RecycleBin</value>
+    </values>
+    <values>
+        <field>UserDescription__c</field>
+        <value xsi:type="xsd:string">The Recycle Bin is a safety net where deleted boards, fields, or tickets are stored for 15 days before permanent deletion. You have the option to manually delete items from the Recycle Bin or easily undo the deletion, restoring items to their original state. This feature provides a safeguard and flexibility in managing your data, ensuring a secure and customizable approach to recovery and cleanup.</value>
+    </values>
+</CustomMetadata>

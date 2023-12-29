@@ -264,7 +264,6 @@ export default class Ticketpopup extends LightningElement {
             if (event != null) {
                 this.attachmentdeleting = true;
                 this.fileId = event.currentTarget.dataset.id;
-                console.log(this.fileId);
             }
         } catch (error) {
 

@@ -31,9 +31,7 @@ public with sharing class HandleExceptions {
 
             insert as User eh;
 
-        } catch (Exception error) {
-            System.debug(error);
-        }
+        } catch (Exception error) {}
             
     }
 }

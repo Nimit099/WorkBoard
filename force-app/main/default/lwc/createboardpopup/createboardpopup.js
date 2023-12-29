@@ -41,7 +41,6 @@ export default class Createboardpopup extends LightningElement {
 
     createboard() {
         try {
-            console.log(this.name.length);
             let boardrecord = {
                 'sobjectType': 'Board__c'
             };

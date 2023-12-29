@@ -17,9 +17,6 @@ export default class Recyclepopup extends LightningElement {
     @track enqueueToast = [];
     @track ongoingtoast;
 
-    connectedCallback() {
-        console.log('recyclepopup.. ' + this.type);
-    }
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to check who is calling and
     //  call function accordingly to permanently delete the board 
     // UPDATION - --
@@ -56,8 +53,6 @@ export default class Recyclepopup extends LightningElement {
                 } else if (this.type == 'Ticket') {
                     this.deletetype = "permanentdeleteticket";
                 }
-                console.log('openclose >..' + this.deletetype);
-                console.log('openclosetype >..' + this.type);
 
                 this.boardname = event.currentTarget.dataset.name;
                 this.boardid = event.currentTarget.dataset.id;
@@ -138,7 +133,6 @@ export default class Recyclepopup extends LightningElement {
     // STATUS - DONE
     handlerestore(event) {
         try {
-            console.log('restoration ' + this.type);
             if (this.type == 'Board') {
                 /****************** This is use to restore the board ******************/
                 this.handlerestoreboard(event);
