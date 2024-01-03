@@ -88,6 +88,10 @@ export default class Ticketpopup extends LightningElement {
                     this.spinnertable = false;
                     this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATED SUCCESSFULLY' });
                     this.toastprocess(null);
+                    const updateticket = new CustomEvent("updateticket", {
+                        detail: 'close'
+                    });
+                    this.dispatchEvent(updateticket);
                 }).catch(error => {
                     console.error('updateticketmethodcall', error);
                 });
@@ -362,9 +366,9 @@ export default class Ticketpopup extends LightningElement {
 
     commentdelete(event) {
         try {
-            this.spinnertable = true
             this.commentdeleting = false;
             if (event.currentTarget.dataset.name == 'delete') {
+                this.spinnertable = !this.spinnertable;
                 deleteComment({ commentId: this.commentId, ticketId: this.ticketid }).then(result => {
                     this.commentId = null;
                     this.comments = result;

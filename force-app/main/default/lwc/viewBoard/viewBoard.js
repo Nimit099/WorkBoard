@@ -417,6 +417,12 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
+    updatedticket() {
+        this.ticketlist = [];
+        this.deletedticketlist = [];
+        this.getboardfieldandticket();
+    }
+
     disconnectedCallback() {
         window.removeEventListener('popstate', this.handlePopstate.bind(this));
     }
