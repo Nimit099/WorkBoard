@@ -106,8 +106,6 @@ export default class Createticketpopup extends LightningElement {
                             detail: ticketrecord
                         })
                         this.dispatchEvent(dispatch);
-                        this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
-                        this.toastprocess(null);
                     }
 
                     this.number = '';
@@ -177,6 +175,16 @@ export default class Createticketpopup extends LightningElement {
 
         } catch (error) {
             console.error(error.message);
+        }
+    }
+
+    @api createtickettoast(event) {
+        if (event == 'success') {
+            this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+            this.toastprocess(null);
+        } else {
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET CREATE FAILED' });
+            this.toastprocess(null);
         }
     }
 }

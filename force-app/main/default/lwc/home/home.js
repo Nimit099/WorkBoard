@@ -5,9 +5,6 @@ import createboard from '@salesforce/apex/HomePage.createboard';  // This is use
 import getBoards from '@salesforce/apex/HomePage.getBoards';  // This is use to get the boards;
 import searchBoard from '@salesforce/apex/HomePage.searchBoard';  // This is use to get the boards while searching;
 import deleteboard from '@salesforce/apex/HomePage.deleteboard';  // This is use to temporary delete the board;
-import permanentdeleteboard from '@salesforce/apex/HomePage.permanentdeleteboard'; // This is use to permanent delete the board.
-
-
 
 import { NavigationMixin } from "lightning/navigation";
 
@@ -88,11 +85,13 @@ export default class Home extends NavigationMixin(LightningElement) {
 
         }).catch(error => {
           this.spinnertable = false;
-          console.error('OUTPUT home connected apex : ', error.message);
+          console.error(error.message);
+          this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET BOARD' });
+          this.toastprocess(null);
         })
     } catch (error) {
       this.spinnertable = false;
-      console.error('OUTPUT home connected: ', error.message);
+      console.error(error.message);
     }
   }
 
@@ -141,7 +140,9 @@ export default class Home extends NavigationMixin(LightningElement) {
 
           }).catch(error => {
             this.spinnertable = false;
-            console.error('OUTPUT home connected apex : ', error.message);
+            console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET BOARD' });
+            this.toastprocess(null);
           });
       }, 700);
 
@@ -178,7 +179,7 @@ export default class Home extends NavigationMixin(LightningElement) {
 
     } catch (error) {
       this.spinnertable = false;
-      console.error('OUTPUT openboard : ', error.message);
+      console.error(error.message);
     }
   }
 
@@ -200,8 +201,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     try {
 
       // This is use to create new board
-
-
       this.spinnertable = true;
       let boardrecord = JSON.parse(JSON.stringify(event.detail));
 
@@ -229,14 +228,14 @@ export default class Home extends NavigationMixin(LightningElement) {
         }).catch(error => {
           this.spinnertable = false;
           console.error('OUTPUT handlepopupaction apex: ', error.message);
-          this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
+          this.enqueueToast.push({ status: 'error', message: 'FAILED TO SAVE BOARD' });
           this.toastprocess(null);
         })
       this.opencloseCreateBoardPopup();
 
     } catch (error) {
       this.spinnertable = false;
-      this.enqueueToast.push({ status: 'error', message: 'FAILED TO STORE BOARD' });
+      this.enqueueToast.push({ status: 'error', message: 'FAILED TO SAVE BOARD' });
       this.toastprocess(null);
       console.error('OUTPUT handlepopupaction : ', error.message);
     }
@@ -360,7 +359,7 @@ export default class Home extends NavigationMixin(LightningElement) {
 
     } catch (error) {
       this.spinnertable = false;
-      console.error('OUTPUT restoreboard : ', error.message);
+      console.error(error.message);
     }
   }
 
@@ -429,7 +428,6 @@ export default class Home extends NavigationMixin(LightningElement) {
       });
     } catch (error) {
       console.error(error.message);
-      console.error(error + ' >> In Navigating report');
     }
   }
   // CREATION - Created By Nimit Shah on 21/08/2023

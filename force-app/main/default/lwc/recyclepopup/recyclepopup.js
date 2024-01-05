@@ -22,7 +22,7 @@ export default class Recyclepopup extends LightningElement {
     // UPDATION - --
     // CONDITION - Cleaned code
     // STATUS - DONE
-    handlepermanentdeleteaction(event) {
+    handlepermanentdeleteaction() {
         try {
             if (this.type == 'Board') {
                 this.handlepermanentdeleteboard();
@@ -32,7 +32,8 @@ export default class Recyclepopup extends LightningElement {
                 this.handlepermanentdeletefield();
             }
         } catch (error) {
-            console.error('OUTPUT handlepermanentdeleteaction: ', error.message);
+            console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -59,6 +60,7 @@ export default class Recyclepopup extends LightningElement {
             }
         } catch (error) {
             console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -73,7 +75,10 @@ export default class Recyclepopup extends LightningElement {
             });
             this.dispatchEvent(closerecycle);
         } catch (error) {
-            console.error('OUTPUT handle close: ', error.message);
+            console.error(error.message);
+            this.spinnertable = false;
+            this.enqueueToast.push({ status: 'failed', message: 'FAILED TO CLOSE RECYCLEBIN' });
+            this.toastprocess(null);
         }
     }
 
@@ -92,15 +97,16 @@ export default class Recyclepopup extends LightningElement {
                     this.enqueueToast.push({ status: 'success', message: 'BOARD DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
                 }).catch(error => {
-                    this.enqueueToast.push({ status: 'error', message: 'BOARD DELETED FAILED' });
+                    this.enqueueToast.push({ status: 'error', message: 'BOARD DELETE FAILED' });
                     this.toastprocess(null);
                     console.error('permanentdeleteBoard apex error :', (error.message));
-                })
+                    this.spinnertable = false;
+                });
             this.openclosedeletepopup();
         } catch (error) {
             console.error(error);
+            this.spinnertable = false;
         }
-
     }
 
     // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to permanently delete the ticket
@@ -118,10 +124,14 @@ export default class Recyclepopup extends LightningElement {
                     });
                     this.dispatchEvent(permanentdeleted);
                 }).catch(error => {
-                    console.error('handlepermanentdeleteaction apex error :', JSON.stringify(error.message));
+                    console.error(error.message);
+                    this.spinnertable = false;
+                    this.enqueueToast.push({ status: 'failed', message: 'TICKET DELETE FAILED' });
+                    this.toastprocess(null);
                 });
             this.openclosedeletepopup();
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -146,7 +156,8 @@ export default class Recyclepopup extends LightningElement {
             }
         }
         catch (error) {
-            console.error('OUTPUT handlerestore : ', error.message);
+            this.spinnertable = false;
+            console.error(error.message);
         }
     }
 
@@ -167,9 +178,13 @@ export default class Recyclepopup extends LightningElement {
                     });
                     this.dispatchEvent(closerecycle);
                 }).catch(error => {
+                    this.spinnertable = false;
                     console.error(error.message);
+                    this.enqueueToast.push({ status: 'failed', message: 'BOARD RESTORE FAILED' });
+                    this.toastprocess(null);
                 });
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -191,10 +206,14 @@ export default class Recyclepopup extends LightningElement {
                     });
                     this.dispatchEvent(closerecycle);
                 }).catch(error => {
+                    this.spinnertable = false;
                     console.error(error.message);
                 });
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET RESTORE FAILED' });
+            this.toastprocess(null);
         }
     }
 
@@ -208,7 +227,10 @@ export default class Recyclepopup extends LightningElement {
             })
             this.dispatchEvent(closerecycle);
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FIELD RESTORE FAILED' });
+            this.toastprocess(null);
         }
     }
 
@@ -222,7 +244,10 @@ export default class Recyclepopup extends LightningElement {
                 });
                 this.dispatchEvent(permanentdeleted);
             }).catch(error => {
-                console.error('handlepermanentdeleteaction apex error :', JSON.stringify(error.message));
+                this.spinnertable = false;
+                console.error(error.message);
+                this.enqueueToast.push({ status: 'failed', message: 'FIELD DELETE FAILED' });
+                this.toastprocess(null);
             });
         this.openclosedeletepopup();
     }
@@ -246,8 +271,8 @@ export default class Recyclepopup extends LightningElement {
                     }, 1);
                 }
             }
-
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }

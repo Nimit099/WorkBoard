@@ -63,9 +63,13 @@ export default class Field extends NavigationMixin(LightningElement) {
                     this.fieldformatter();
 
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET FIELD' });
+                    this.toastprocess(null);
+                    this.spinnertable = false;
                     console.error(error.message);
                 });
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -77,12 +81,10 @@ export default class Field extends NavigationMixin(LightningElement) {
     savefield(event) {
         try {
             this.spinnertable = true;
-            this.saveandnewfield(event);
             this.openclosecreatefield();
-            this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
-            this.toastprocess(null);
-
+            this.saveandnewfield(event);
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -95,12 +97,27 @@ export default class Field extends NavigationMixin(LightningElement) {
             createfield({ field: field, boardid: this.boardid })
                 .then(result => {
                     this.spinnertable = false;
+                    let firstfieldid = result[0].Id;
+                    if (!this.createField) {
+                        this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
+                        this.toastprocess(null);
+                    } else {
+                        this.template.querySelector('c-create-field').createfieldtoast('success');
+                    }
                     this.allfields = result;
                     this.fieldformatter();
                 }).catch(error => {
-                    console.error('Method execution failed ' + error.message);
+                    this.spinnertable = false;
+                    if (this.createField) {
+                        this.template.querySelector('c-create-field').createfieldtoast('failed');
+                    } else {
+                        this.enqueueToast.push({ status: 'failed', message: 'FIELD CREATION FAILED' });
+                        this.toastprocess(null);
+                    }
+                    console.error(error.message);
                 });
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -119,7 +136,7 @@ export default class Field extends NavigationMixin(LightningElement) {
             });
         } catch (error) {
             console.error(error);
-            console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -132,6 +149,7 @@ export default class Field extends NavigationMixin(LightningElement) {
             this.deletemodal = !this.deletemodal;
 
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -149,9 +167,14 @@ export default class Field extends NavigationMixin(LightningElement) {
                     this.toastprocess(null);
 
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'FIELD DELETE FAILED' });
+                    this.toastprocess(null);
                     console.error(error.message);
                 });
         } catch (error) {
+            this.enqueueToast.push({ status: 'failed', message: 'FIELD DELETE FAILED' });
+            this.toastprocess(null);
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -171,6 +194,7 @@ export default class Field extends NavigationMixin(LightningElement) {
             this.allfields.splice(i, 1);
             this.fieldformatter();
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
 
@@ -225,10 +249,14 @@ export default class Field extends NavigationMixin(LightningElement) {
                     this.allfields = result;
                     this.fieldformatter();
                 }).catch(error => {
-                    console.error('Method execution failed ' + error.message);
+                    this.enqueueToast.push({ status: 'failed', message: 'FIELD RESTORE FAILED' });
+                    this.toastprocess(null);
+                    console.error(error.message);
+                    this.spinnertable = false;
                 });
 
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -249,9 +277,13 @@ export default class Field extends NavigationMixin(LightningElement) {
                     this.allfields = result;
                     this.fieldformatter();
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
+                    this.toastprocess(null);
+                    this.spinnertable = false;
                     console.error(error);
                 });
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -270,17 +302,20 @@ export default class Field extends NavigationMixin(LightningElement) {
                         });
                         this.fieldformatter();
                         this.cancelRenameField();
-                        this.enqueueToast.push({ status: 'success', message: 'FIELD EDITED SUCCESSFULLY' });
+                        this.enqueueToast.push({ status: 'success', message: 'FIELD UPDATED SUCCESSFULLY' });
                         this.toastprocess(null);
                     }).catch(error => {
+                        this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
+                        this.toastprocess(null);
                         console.error(error);
+                        this.spinnertable = false;
                     });
             } else {
                 this.newname = event.target.value;
             }
         } catch (error) {
             console.error(error);
-            console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -300,7 +335,7 @@ export default class Field extends NavigationMixin(LightningElement) {
                 this.editfieldId = null;
             }
         } catch (error) {
-            console.error(error + 'cancelrenamefield');
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -320,7 +355,7 @@ export default class Field extends NavigationMixin(LightningElement) {
             event.stopPropagation();
             return false;
         } catch (error) {
-            console.error(error + 'editnamefunc');
+            this.spinnertable = false;
             console.error(error.message);
         }
     }

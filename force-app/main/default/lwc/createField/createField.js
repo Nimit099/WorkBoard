@@ -61,8 +61,6 @@ export default class CreateField extends LightningElement {
                 })
                 this.dispatchEvent(dispatch);
 
-                this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
-                this.toastprocess(null);
             } else {
                 this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
                 this.toastprocess(null);
@@ -108,6 +106,16 @@ export default class CreateField extends LightningElement {
 
         } catch (error) {
             console.error(error.message);
+        }
+    }
+
+    @api createfieldtoast(event){
+        if (event == 'success') {
+            this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
+            this.toastprocess(null);
+        } else{
+            this.enqueueToast.push({ status: 'failed', message: 'FIELD CREATE FAILED' });
+            this.toastprocess(null);
         }
     }
 }

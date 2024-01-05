@@ -75,6 +75,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
         } catch (error) {
             console.error('OUTPUT viewBoard connected: ', error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -99,11 +100,15 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                         this.fieldsfound = true;
                     }
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET TICKET' });
+                    this.toastprocess(null);
                     console.error(error.message);
                 });
         } catch (error) {
             console.error(error);
-            console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET TICKET' });
+            this.toastprocess(null);
+            this.spinnertable = false;
         }
 
     }
@@ -115,11 +120,15 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         try {
             this.ticketlist.forEach(ticket => {
                 if (ticket.Color__c != undefined) {
-                    this.template.querySelector("div[data-id =" + ticket.Id + "]").style.background = ticket.Color__c;
+                    let tic = this.template.querySelector("div[data-id =" + ticket.Id + "]");
+                    if (tic != null) {
+                        tic.style.background = ticket.Color__c;
+                    }
                 }
             });
         } catch (e) {
-            // console.error(e);
+            console.error(e.message);
+            this.spinnertable = false;
         }
     }
 
@@ -149,6 +158,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             });
         } catch (error) {
             console.error('OUTPUT : ', error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -166,6 +176,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 element.style = 'border:dotted;';
             }
         } catch (error) {
+            this.spinnertable = false;
             console.error('OUTPUT dragstart : ', error.message);
         }
     }
@@ -174,6 +185,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         try {
             event.preventDefault();
         } catch (error) {
+            this.spinnertable = false;
             console.error(error);
         }
     }
@@ -186,6 +198,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 element.style = 'border:none;';
             }
         } catch (error) {
+            this.spinnertable = false;
             console.error(error);
         }
     }
@@ -205,6 +218,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     .then(result => {
 
                     }).catch(error => {
+                        this.spinnertable = false;
+                        this.enqueueToast.push({ status: 'failed', message: 'TICKET UPDATE FAILED' });
+                        this.toastprocess(null);
                         console.error('updateticketfield : ', error.message);
                     })
 
@@ -224,6 +240,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             }
 
         } catch (error) {
+            this.spinnertable = false;
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET UPDATE FAILED' });
+            this.toastprocess(null);
             console.error('OUTPUT dropzone: ', (error.message));
         }
     }
@@ -232,6 +251,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         try {
             this.createticketmodal = !this.createticketmodal
         } catch (error) {
+            this.spinnertable = false;
             console.error('OUTPUT : ', error.message);
         }
     }
@@ -239,11 +259,11 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     saveticket(event) {
         try {
             let ticket = JSON.parse(JSON.stringify(event.detail));
-            this.createticket(ticket);
             this.openclosecreateticket();
-            this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
-            this.toastprocess(null);
+            this.createticket(ticket);
+
         } catch (error) {
+            this.spinnertable = false;
             console.error('OUTPUT errors: ', error.message);
         }
     }
@@ -253,6 +273,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             let ticket = JSON.parse(JSON.stringify(event.detail));
             this.createticket(ticket);
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -266,11 +287,25 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.ticketlist.push(ticket);
                     this.search(null);
                     this.spinnertable = false;
+                    if (!this.createticketmodal) {
+                        this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+                        this.toastprocess(null);
+                    } else {
+                        this.template.querySelector('c-createticketpopup').createtickettoast('success');
+                    }
                 }).catch(error => {
-                    console.error(error.message);
+                    this.spinnertable = false;
+                    if (!this.createticketmodal) {
+                        this.enqueueToast.push({ status: 'failed', message: 'TICKET CREATED FAILED' });
+                        this.toastprocess(null);
+                    } else {
+                        this.template.querySelector('c-createticketpopup').createtickettoast('failed');
+                    }
+                    console.error('createtickets' + error.message);
                 });
         } catch (error) {
-            console.error(error.message);
+            this.spinnertable = false;
+            console.error('createticket method' + error.message);
         }
     }
 
@@ -286,8 +321,8 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 this.ticketId = event.currentTarget.dataset.id;
                 this.ticketName = event.currentTarget.dataset.name;
             }
-
         } catch (error) {
+            this.spinnertable = false;
             console.error('OUTPUT : ', error.message);
         }
     }
@@ -311,11 +346,17 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.search(null);
 
                 }).catch(error => {
+                    this.spinnertable = false;
+                    this.enqueueToast.push({ status: 'failed', message: 'TICKET DELETE FAILED' });
+                    this.toastprocess(null);
                     console.error(error.message);
                 });
 
             this.openclosedeletepopup();
         } catch (error) {
+            this.spinnertable = false;
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET DELETE FAILED' });
+            this.toastprocess(null);
             console.error(error.message);
         }
     }
@@ -341,6 +382,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         try {
             this.isRecyclemodal = !this.isRecyclemodal;
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -355,6 +397,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             })
 
         } catch (error) {
+            this.spinnertable = false;
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET DELETE FAILED' });
+            this.toastprocess(null);
             console.error('OUTPUT : ', error.message);
         }
     }
@@ -372,6 +417,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             this.search(null);
 
         } catch (error) {
+            this.spinnertable = false;
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET RESTORE FAILED' });
+            this.toastprocess(null);
             console.error('OUTPUT : ', error.message);
         }
     }
@@ -389,6 +437,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 this.openticketmodal = !this.openticketmodal;
             }
         } catch (error) {
+            this.spinnertable = false;
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET FAILED TO OPEN' });
+            this.toastprocess(null);
             console.error('OUTPUT : ', error.message);
         }
     }
@@ -413,6 +464,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             }
 
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }

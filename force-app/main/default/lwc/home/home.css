@@ -418,4 +418,8 @@ lightning-textarea {
     .body {
         height: 70vh;
     }
+
+    .recycle {
+        height: 45%
+    }
 }
