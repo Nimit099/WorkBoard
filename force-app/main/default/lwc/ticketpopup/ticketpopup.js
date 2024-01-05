@@ -53,6 +53,7 @@ export default class Ticketpopup extends LightningElement {
             this.getTicketComments();
         } catch (error) {
             console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -64,7 +65,8 @@ export default class Ticketpopup extends LightningElement {
                 this.spinnertable = false;
             }).catch(error => {
                 console.error(error.message);
-            })
+                this.spinnertable = false;
+            });
     }
 
     editticketpopup() {
@@ -72,6 +74,7 @@ export default class Ticketpopup extends LightningElement {
             this.isupdateticket = !this.isupdateticket;
         } catch (error) {
             console.error('editticketpopup', error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -93,10 +96,16 @@ export default class Ticketpopup extends LightningElement {
                     });
                     this.dispatchEvent(updateticket);
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'TICKET UPDATE FAILED' });
+                    this.toastprocess(null);
+                    this.spinnertable = false;
                     console.error('updateticketmethodcall', error);
                 });
         } catch (error) {
+            this.enqueueToast.push({ status: 'failed', message: 'TICKET UPDATE FAILED' });
+            this.toastprocess(null);
             console.error('updateticket', error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -108,6 +117,7 @@ export default class Ticketpopup extends LightningElement {
             this.dispatchEvent(closeticketpopup);
         } catch (error) {
             console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -148,6 +158,7 @@ export default class Ticketpopup extends LightningElement {
 
         } catch (error) {
             console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -166,12 +177,17 @@ export default class Ticketpopup extends LightningElement {
                     this.toastprocess(null);
 
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'FILE UPLOADED FAILED' });
+                    this.toastprocess(null);
+                    this.spinnertable = false;
                     console.error(error.message);
                 });
             }
             reader.readAsDataURL(file)
         } catch (error) {
-            console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FILE UPLOADED FAILED' });
+            this.toastprocess(null);
+            this.spinnertable = false;
             console.error(error);
         }
     }
@@ -184,7 +200,9 @@ export default class Ticketpopup extends LightningElement {
                 console.error(error.message);
             });
         } catch (error) {
-            console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET FILES' });
+            this.toastprocess(null);
+            this.spinnertable = false;
             console.error(error);
         }
     }
@@ -220,7 +238,7 @@ export default class Ticketpopup extends LightningElement {
                 this.filescount = false;
             }
         } catch (error) {
-            console.error(error.message);
+            this.spinnertable = false;
             console.error(error);
         }
     }
@@ -252,6 +270,9 @@ export default class Ticketpopup extends LightningElement {
                     this.toastprocess(null);
                     this.attachmentdeleting = false;
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'FILE DELETE FAILED' });
+                    this.toastprocess(null);
+                    this.spinnertable = false;
                     console.error(error.message);
                 });
             } else {
@@ -259,6 +280,9 @@ export default class Ticketpopup extends LightningElement {
             }
         } catch (error) {
             console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FILE DELETE FAILED' });
+            this.toastprocess(null);
+            this.spinnertable = false;
         }
     }
 
@@ -270,7 +294,7 @@ export default class Ticketpopup extends LightningElement {
                 this.fileId = event.currentTarget.dataset.id;
             }
         } catch (error) {
-
+            this.spinnertable = false;
         }
     }
 
@@ -285,9 +309,15 @@ export default class Ticketpopup extends LightningElement {
                 }
             }).catch(error => {
                 console.error(error);
+                this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET COMMENTS' });
+                this.toastprocess(null);
+                this.spinnertable = false;
             });
         } catch (error) {
             console.error(error.message);
+            this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET COMMENTS' });
+            this.toastprocess(null);
+            this.spinnertable = false;
         }
     }
 
@@ -306,6 +336,7 @@ export default class Ticketpopup extends LightningElement {
             this.commentbutton();
 
         } catch (error) {
+            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -331,14 +362,18 @@ export default class Ticketpopup extends LightningElement {
                     this.enqueueToast.push({ status: 'success', message: 'COMMENT ADDED!' });
                     this.toastprocess(null);
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'COMMENT SAVE FAILED' });
+                    this.toastprocess(null);
                     console.error(error);
+                    this.spinnertable = false;
                 });
             }
 
         } catch (error) {
             console.error(error.message);
-            console.error(error + 'commentbutton');
-
+            this.enqueueToast.push({ status: 'failed', message: 'COMMENT SAVE FAILED' });
+            this.toastprocess(null);
+            this.spinnertable = false;
         }
     }
 
@@ -349,7 +384,7 @@ export default class Ticketpopup extends LightningElement {
             this.newcomment = '';
         } catch (error) {
             console.error(error);
-            console.error(error.message);
+            this.spinnertable = false;
         }
     }
 
@@ -359,8 +394,7 @@ export default class Ticketpopup extends LightningElement {
             this.commentId = event.currentTarget.dataset.id;
         } catch (error) {
             console.error(error);
-            console.error(error.message);
-
+            this.spinnertable = false;
         }
     }
 
@@ -381,12 +415,18 @@ export default class Ticketpopup extends LightningElement {
                     this.enqueueToast.push({ status: 'success', message: 'COMMENT DELETED SUCCESSFULLY' });
                     this.toastprocess(null);
                 }).catch(error => {
+                    this.enqueueToast.push({ status: 'failed', message: 'COMMENT DELETE FAILED' });
+                    this.toastprocess(null);
                     console.error(error);
+                    this.spinnertable = false;
+
                 });
             }
         } catch (error) {
-            console.error(error + 'commentdelete');
+            this.enqueueToast.push({ status: 'failed', message: 'COMMENT DELETE FAILED' });
+            this.toastprocess(null);
             console.error(error.message);
+            this.spinnertable = false;
         }
     }
 

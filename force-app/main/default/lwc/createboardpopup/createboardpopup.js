@@ -61,8 +61,8 @@ export default class Createboardpopup extends LightningElement {
             }
         } catch (error) {
             console.error(error);
-            console.error(error.message);
-
+            this.enqueueToast.push({ status: 'error', message: 'FAILED TO SAVE BOARD' });
+            this.toastprocess(null);
         }
     }
 

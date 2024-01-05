@@ -5,6 +5,7 @@ public with sharing class fieldController {
         try {
             return [SELECT Id, Name, OrderNumber__c, Board__c, DeletedDate__c FROM Fields__c WHERE Board__c =: boardId ORDER BY OrderNumber__c ASC];
         } catch (Exception e) {
+            HandleExceptions eh = new HandleExceptions(e);
             return null;
         }
     }
