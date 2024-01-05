@@ -7,8 +7,13 @@ public with sharing class HomePageTest {
         List<Board__c> bList = new List<Board__c>();
         bList.add(b1);
         bList.add(b2);
-
         insert bList;
+
+        Fields__c f = new Fields__c(Name = 'Test', OrderNumber__c = 1, Board__c = bList[1].Id);
+        insert f;
+
+        Ticket__c t = new Ticket__c (TicketNumber__c = '101', Name = 'TIC', Description__c = 'TIC', StartDate__c  = System.today(), EndDate__c =  System.today(), TicketPriority__c  = 'High', Field__c = f.Id, Color__c = '#000000', CompletedPercentage__c = 100);
+        insert t;
     }
 
     @isTest

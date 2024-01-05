@@ -89,7 +89,14 @@ public with sharing class fieldControllerTest {
     
     @isTest
     static void fieldPositionchangeTest() {
-        List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c];
+        List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c ASC];
+        List<Fields__c> flist = fieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
+        System.assertEquals(fieldList.size(), flist.size());
+    }
+
+    @isTest
+    static void fieldPositionchangeTest1() {
+        List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c DESC];
         List<Fields__c> flist = fieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
         System.assertEquals(fieldList.size(), flist.size());
     }
