@@ -293,23 +293,28 @@ export default class Field extends NavigationMixin(LightningElement) {
             if (event.keyCode == 27) {
                 this.cancelRenameField();
             } else if (event.keyCode == 13) {
-                renamefield({ fieldId: this.editfieldId, newName: this.newname })
-                    .then(() => {
-                        this.allfields.forEach(element => {
-                            if (element.Id == this.editfieldId) {
-                                element.Name = this.newname;
-                            }
+                if (this.newname.length > 25) {
+                    this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+                    this.toastprocess(null);
+                } else {
+                    renamefield({ fieldId: this.editfieldId, newName: this.newname })
+                        .then(() => {
+                            this.allfields.forEach(element => {
+                                if (element.Id == this.editfieldId) {
+                                    element.Name = this.newname;
+                                }
+                            });
+                            this.fieldformatter();
+                            this.cancelRenameField();
+                            this.enqueueToast.push({ status: 'success', message: 'FIELD UPDATED SUCCESSFULLY' });
+                            this.toastprocess(null);
+                        }).catch(error => {
+                            this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
+                            this.toastprocess(null);
+                            console.error(error);
+                            this.spinnertable = false;
                         });
-                        this.fieldformatter();
-                        this.cancelRenameField();
-                        this.enqueueToast.push({ status: 'success', message: 'FIELD UPDATED SUCCESSFULLY' });
-                        this.toastprocess(null);
-                    }).catch(error => {
-                        this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
-                        this.toastprocess(null);
-                        console.error(error);
-                        this.spinnertable = false;
-                    });
+                }
             } else {
                 this.newname = event.target.value;
             }
