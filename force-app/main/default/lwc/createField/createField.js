@@ -32,10 +32,15 @@ export default class CreateField extends LightningElement {
             fieldrecord['Board__c'] = this.boardid;
 
             if (this.fieldName != undefined && this.fieldName.trim() != '') {
-                const dispatch = new CustomEvent("savefield", {
-                    detail: fieldrecord
-                })
-                this.dispatchEvent(dispatch);
+                if (this.fieldName.length > 25) {
+                    this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+                    this.toastprocess(null);
+                } else {
+                    const dispatch = new CustomEvent("savefield", {
+                        detail: fieldrecord
+                    })
+                    this.dispatchEvent(dispatch);
+                }
             } else {
                 this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
                 this.toastprocess(null);
@@ -56,18 +61,21 @@ export default class CreateField extends LightningElement {
             fieldrecord['Board__c'] = this.boardid;
 
             if (this.fieldName != undefined && this.fieldName.trim() != '') {
-                const dispatch = new CustomEvent("saveandnewfield", {
-                    detail: fieldrecord
-                })
-                this.dispatchEvent(dispatch);
-
+                if (this.fieldName.length > 25) {
+                    this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+                    this.toastprocess(null);
+                } else {
+                    const dispatch = new CustomEvent("saveandnewfield", {
+                        detail: fieldrecord
+                    })
+                    this.dispatchEvent(dispatch);
+                    this.fieldName = '';
+                    this.fieldOrder = '';
+                }
             } else {
                 this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
                 this.toastprocess(null);
             }
-
-            this.fieldName = '';
-            this.fieldOrder = '';
 
         } catch (error) {
             console.error(error.message);
@@ -109,11 +117,11 @@ export default class CreateField extends LightningElement {
         }
     }
 
-    @api createfieldtoast(event){
+    @api createfieldtoast(event) {
         if (event == 'success') {
             this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
             this.toastprocess(null);
-        } else{
+        } else {
             this.enqueueToast.push({ status: 'failed', message: 'FIELD CREATE FAILED' });
             this.toastprocess(null);
         }
