@@ -419,6 +419,10 @@ lightning-menu-item {
     .ticket {
         height: 30%;
     }
+
+    .spinnerbody {
+        height: 70%;
+    }
 }
 
 @media only screen and (max-height:1000px) and (min-height:990px) {

@@ -406,4 +406,9 @@ lightning-button-icon {
     .popupbutton {
         width: 20%;
     }
+
+    .spinnerbody {
+        height: 73.5%;
+        border-radius: 21px;
+    }
 }
