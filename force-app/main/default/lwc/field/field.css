@@ -363,3 +363,14 @@ lightning-input {
     width: 59%;
   }
 }
+
+@media only screen and (max-height:990px) {
+
+  .body {
+    height: 71.5vh;
+  }
+
+  .spinnerbody {
+    height: 71.5%;
+  }
+}
