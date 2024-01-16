@@ -424,13 +424,13 @@ lightning-textarea {
     }
 }
 
-@media only screen and (max-height:990px) {
+@media only screen and (max-height:1000px) and (min-height:990px) {
 
     .body {
         height: 71.5vh;
     }
 
-    .spinnerbody{
+    .spinnerbody {
         height: 71.5%;
     }
 
