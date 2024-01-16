@@ -25,7 +25,7 @@
 							<div class="ticket-details">
 								<div class="ticket-number-priority">
 									<template if:false={isupdateticketNumber}>
-										<div class="ticket-number" data-name="ticketNumber">
+										<div class="ticket-number" title={ticketNumber} data-name="ticketNumber">
 											{ticketNumber}</div>
 									</template>
 
@@ -36,7 +36,7 @@
 									</div>
 								</div>
 								<template if:false={isupdateticketName}>
-									<div class="ticket-name" data-name="ticketName">{ticketName}
+									<div class="ticket-name" title={ticketName} data-name="ticketName">{ticketName}
 									</div>
 								</template>
 								<div class="ticket-description-attachment">
