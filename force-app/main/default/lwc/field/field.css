@@ -362,6 +362,10 @@ lightning-input {
   .homebutton {
     width: 59%;
   }
+
+  .spinnerbody {
+    height: 70%;
+  }
 }
 
 @media only screen and (max-height:1000px) and (min-height:990px) {
