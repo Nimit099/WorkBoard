@@ -368,7 +368,7 @@ lightning-input {
   }
 }
 
-@media only screen and (max-height:1000px) and (min-height:990px) {
+@media only screen and (min-width:1700px) and (max-width:1800px) {
 
   .body {
     height: 71.5vh;
@@ -377,4 +377,5 @@ lightning-input {
   .spinnerbody {
     height: 71.5%;
   }
+
 }

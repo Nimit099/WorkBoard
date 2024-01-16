@@ -213,7 +213,7 @@ export default class Ticketpopup extends LightningElement {
                 this.filescount = true;
                 this.files = []; //initialize the array
                 //extract file data and prepare files array with converted information
-                data.map(element => {
+                data.forEach(element => {
                     let fSize = this.formatFileSize(element.ContentSize);
                     let fDate = this.formatDateString((element.CreatedDate).slice(0, 10));
                     this.files =

@@ -16,7 +16,7 @@
 }
 
 .body {
-    height: 72vh;
+    height: 72.5vh;
     width: 100%;
     border-radius: 10px;
     background-color: white;
@@ -404,7 +404,7 @@ lightning-textarea {
     color: #ADEFD1FF;
 }
 
-@media only screen and (max-width: 1700px) {
+@media only screen and (max-width: 1650px) {
     .createbutton {
         height: 42%;
         width: 65%;
@@ -428,7 +428,7 @@ lightning-textarea {
     }
 }
 
-@media only screen and (max-height:1000px) and (min-height:990px) {
+@media only screen and (min-width:1700px) and (max-width:1800px) {
 
     .body {
         height: 71.5vh;
