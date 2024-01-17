@@ -1,5 +1,5 @@
 @isTest
-public with sharing class fieldControllerTest {
+public with sharing class FieldControllerTest {
     @TestSetup
     static void fieldData(){
         Board__c b1 = new Board__c(Name = 'TestBoard', Description__c = 'T3est');
@@ -10,94 +10,140 @@ public with sharing class fieldControllerTest {
         fieldList.add(f1);
         fieldList.add(f);
         insert fieldList;
+
+        Profile p = [SELECT id from profile WHERE Name='System Administrator'];
+        User u = new User(
+            alias = 'abc123xyz', 
+            email='unit.test@email123.com',
+            emailencodingkey='UTF-8',
+            firstname='Sam',
+            lastname='Franks', 
+            languagelocalekey='en_US',
+            localesidkey='en_GB', 
+            profileid = p.Id,
+            timezonesidkey='Europe/London', 
+            username='unit.test@email123.com'
+        );
+        insert u;
     }
 
     @isTest
     static void getFieldsTest() {
-        Board__c b = [SELECT Id FROM Board__c LIMIT 1];
-        Integer fieldcount = [SELECT Count() FROM Fields__c WHERE Board__c =: b.Id];
-        List<Fields__c> f = fieldController.getFields(b.Id);
-        System.assertEquals(fieldcount, f.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id FROM Board__c LIMIT 1];
+            Integer fieldcount = [SELECT Count() FROM Fields__c WHERE Board__c =: b.Id];
+            List<Fields__c> f = FieldController.getFields(b.Id);
+            System.assertEquals(fieldcount, f.size());
+        }
     }
 
     @isTest
     static void createfieldTest() {
-        Board__c b = [SELECT Id FROM Board__c LIMIT 1];
-        Fields__c field = [SELECT Id, Board__c,OrderNumber__c FROM Fields__c LIMIT 1];
-        field.OrderNumber__c = null;
-        List<Fields__c> f = fieldController.createfield(field, b.Id);
-        System.assertEquals(null, f);
-
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id FROM Board__c LIMIT 1];
+            Fields__c field = [SELECT Id, Board__c,OrderNumber__c FROM Fields__c LIMIT 1];
+            field.OrderNumber__c = null;
+            List<Fields__c> f = FieldController.createfield(field, b.Id);
+            System.assertEquals(null, f);
+        }
     }
 
     @isTest
     static void createfieldTest1() {
-        Board__c b = [SELECT Id FROM Board__c LIMIT 1];
-        Fields__c f = new Fields__c(Name = 'Test', OrderNumber__c = 1, Board__c = b.Id);
-        List<Fields__c> flist = fieldController.createfield(f, b.Id);
-        System.assertEquals(3, flist.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id FROM Board__c LIMIT 1];
+            Fields__c f = new Fields__c(Name = 'Test', OrderNumber__c = 1, Board__c = b.Id);
+            List<Fields__c> flist = FieldController.createfield(f, b.Id);
+            System.assertEquals(3, flist.size());
+        }
     }
 
     @isTest
     static void temporarydeletefieldTest() {
-        Fields__c f = [SELECT Id, Board__c, DeletedDate__c FROM Fields__c LIMIT 1];
-        List<Fields__c> flist = fieldController.temporarydeletefield(f.Id, f.Board__c);
-        System.assertNotEquals(f.DeletedDate__c, flist[1].DeletedDate__c);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Fields__c f = [SELECT Id, Board__c, DeletedDate__c FROM Fields__c LIMIT 1];
+            List<Fields__c> flist = FieldController.temporarydeletefield(f.Id, f.Board__c);
+            System.assertNotEquals(f.DeletedDate__c, flist[1].DeletedDate__c);
+        }
     }
 
     @isTest
     static void permanentdeletefieldTest() {
-        Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
-        fieldController.permanentdeletefield(f.Id);
-        List<Fields__c> flist = [SELECT Id FROM Fields__c];
-        System.assertEquals(1, flist.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
+            FieldController.permanentdeletefield(f.Id);
+            List<Fields__c> flist = [SELECT Id FROM Fields__c];
+            System.assertEquals(1, flist.size());
+        }
     }
 
     @isTest
     static void permanentdeletefieldTest1() {
-        Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
-        delete f;
-        fieldController.permanentdeletefield(f.Id);
-        List<Fields__c> flist = [SELECT Id FROM Fields__c];
-        System.assertEquals(1, flist.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
+            delete f;
+            FieldController.permanentdeletefield(f.Id);
+            List<Fields__c> flist = [SELECT Id FROM Fields__c];
+            System.assertEquals(1, flist.size());
+        }
     }
 
     @isTest
     static void restoreFieldsTest() {
-        Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
-        List<Fields__c> flist = fieldController.restoreFields(f.Id, f.Board__c);
-        System.assertEquals(2, flist.size());
-
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
+            List<Fields__c> flist = FieldController.restoreFields(f.Id, f.Board__c);
+            System.assertEquals(2, flist.size());
+        }
     }
 
     @isTest
     static void renamefieldTest() {
-        Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
-        fieldController.renamefield(f.Id, 'Test1');
-        Fields__c flist = [SELECT Id, Name FROM Fields__c WHERE Id =: f.Id];
-        System.assertEquals('Test1', flist.Name);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
+            FieldController.renamefield(f.Id, 'Test1');
+            Fields__c flist = [SELECT Id, Name FROM Fields__c WHERE Id =: f.Id];
+            System.assertEquals('Test1', flist.Name);
+        }
     }
 
     @isTest
     static void renamefieldTest1() {
-        Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
-        delete f;
-        fieldController.renamefield(f.Id, 'Test');
-        Fields__c flist = [SELECT Id, Name FROM Fields__c WHERE Id !=: f.Id];
-        System.assertEquals('Test', flist.Name);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
+            delete f;
+            FieldController.renamefield(f.Id, 'Test');
+            Fields__c flist = [SELECT Id, Name FROM Fields__c WHERE Id !=: f.Id];
+            System.assertEquals('Test', flist.Name);
+        }
     }
     
     @isTest
     static void fieldPositionchangeTest() {
-        List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c ASC];
-        List<Fields__c> flist = fieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
-        System.assertEquals(fieldList.size(), flist.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c ASC];
+            List<Fields__c> flist = FieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
+            System.assertEquals(fieldList.size(), flist.size());
+        }
     }
 
     @isTest
     static void fieldPositionchangeTest1() {
-        List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c DESC];
-        List<Fields__c> flist = fieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
-        System.assertEquals(fieldList.size(), flist.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c DESC];
+            List<Fields__c> flist = FieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
+            System.assertEquals(fieldList.size(), flist.size());
+        }
     }
 }

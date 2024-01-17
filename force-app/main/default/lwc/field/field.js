@@ -1,10 +1,10 @@
 import { LightningElement, api, track } from 'lwc';
-import getFields from '@salesforce/apex/fieldController.getFields';
-import createfield from '@salesforce/apex/fieldController.createfield';
-import temporarydeletefield from '@salesforce/apex/fieldController.temporarydeletefield';
-import restoreFields from '@salesforce/apex/fieldController.restoreFields';
-import fieldPositionchange from '@salesforce/apex/fieldController.fieldPositionchange';
-import renamefield from '@salesforce/apex/fieldController.renamefield';
+import getFields from '@salesforce/apex/FieldController.getFields';
+import createfield from '@salesforce/apex/FieldController.createfield';
+import temporarydeletefield from '@salesforce/apex/FieldController.temporarydeletefield';
+import restoreFields from '@salesforce/apex/FieldController.restoreFields';
+import fieldPositionchange from '@salesforce/apex/FieldController.fieldPositionchange';
+import renamefield from '@salesforce/apex/FieldController.renamefield';
 
 import { NavigationMixin } from "lightning/navigation";
 
@@ -199,10 +199,7 @@ export default class Field extends NavigationMixin(LightningElement) {
         }
 
     }
-    // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
-    // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
-    // CONDITION - Cleaned code
-    // STATUS - DONE
+
     toastprocess(event) {
         try {
             if (event != null) {

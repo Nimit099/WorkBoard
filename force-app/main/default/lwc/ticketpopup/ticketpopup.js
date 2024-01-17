@@ -1,12 +1,12 @@
 import { LightningElement, api, track } from 'lwc';
-import getTicket from '@salesforce/apex/viewBoard.getTicket';
-import updatetickets from '@salesforce/apex/viewBoard.updateticket';
-import uploadFile from '@salesforce/apex/viewBoard.uploadFile';
-import retrieveFiles from '@salesforce/apex/viewBoard.retrieveFiles';
-import deletefile from '@salesforce/apex/viewBoard.deletefile';
-import getTicektsComment from '@salesforce/apex/viewBoard.getTicektsComment';
-import saveComment from '@salesforce/apex/viewBoard.saveComment';
-import deleteComment from '@salesforce/apex/viewBoard.deleteComment';
+import getTicket from '@salesforce/apex/ViewBoard.getTicket';
+import updatetickets from '@salesforce/apex/ViewBoard.updateticket';
+import uploadFile from '@salesforce/apex/ViewBoard.uploadFile';
+import retrieveFiles from '@salesforce/apex/ViewBoard.retrieveFiles';
+import deletefile from '@salesforce/apex/ViewBoard.deletefile';
+import getTicektsComment from '@salesforce/apex/ViewBoard.getTicektsComment';
+import saveComment from '@salesforce/apex/ViewBoard.saveComment';
+import deleteComment from '@salesforce/apex/ViewBoard.deleteComment';
 
 
 export default class Ticketpopup extends LightningElement {
@@ -431,10 +431,6 @@ export default class Ticketpopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
-    // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     toastprocess(event) {
         try {
             if (event != null) {

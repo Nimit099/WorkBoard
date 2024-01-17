@@ -1,5 +1,3 @@
-// STATUS FOR THE FUNCTIONS - WORKING, WORKING-FATAL, DONE, DEPRECATED
-
 import { LightningElement, track } from 'lwc';
 import createboard from '@salesforce/apex/HomePage.createboard';  // This is use to create boards;
 import getBoards from '@salesforce/apex/HomePage.getBoards';  // This is use to get the boards;
@@ -42,11 +40,6 @@ export default class Home extends NavigationMixin(LightningElement) {
   @track enqueueToast = [];
   @track ongoingtoast;
 
-
-  // CREATION - Created By Nimit Shah on 12/08/2023  ---  This is use to get Boards and arrange the boards.
-  // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  Remove usage of Boardlist variable
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   connectedCallback() {
     try {
 
@@ -95,11 +88,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to give index to the boards
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   get index() {
     if (this.indexval > this.boardlist.length) {
       this.indexval = 1;
@@ -107,10 +95,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     return this.indexval++;
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to search board.
-  // UPDATION - Updated By Nimit Shah on 23/08/2023 --- Add condition so that every functionality work with searching
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   search(event) {
     try {
       clearTimeout(this.typingTimer);
@@ -152,10 +136,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open the Board or View the Board.
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code.
-  // CONDITION - Cleaned code
-  // STATUS - FATAL --- Need to change code in viewBoard.
   openboard(event) {
     try {
 
@@ -183,20 +163,12 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open & close Create Board popup.
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   opencloseCreateBoardPopup() {
     this.isShowModal = !this.isShowModal;
     this.name = '';
     this.description = '';
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to save records of Boards.
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   saveboardaction(event) {
     try {
 
@@ -241,10 +213,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open and close delete popup
-  // UPDATION - Updated By Nimit Shah on 22/08/2023 --- Make it lighter and furnish the code
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   openclosedeletepopup(event) {
     try {
       this.deletemodal = !this.deletemodal;
@@ -258,10 +226,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to open delete popup to delete the boards
-  // UPDATION - UPDATION - Updated By Nimit Shah on 23/08/2023 --- Remove boardlist variable usage in this
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   handletemporarydeleteaction(event) {
     try {
 
@@ -308,10 +272,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to remove the permanent deleted board
-  // UPDATION - Updated By Nimit Shah on 26/08/2023 --- Make it lighter and furnish the code. Made function to remove the board from the list
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   permanentdeleteBoard(event) {
     try {
       this.recyclelist.forEach((element, index) => {
@@ -325,18 +285,10 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to open and close recycle popup  
-  // UPDATION - --
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   opencloserecyclepopup() {
     this.isRecyclemodal = !this.isRecyclemodal;
   }
 
-  // CREATION - Created By Nimit Shah on 12/08/2023 --- This function is use to restore the boards 
-  // UPDATION - Updated By Nimit Shah on 23/08/2023 --- Add data to boardlist so that when someone is searching and restore the board then it work smooth
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   restoreboard(event) {
     try {
 
@@ -363,10 +315,6 @@ export default class Home extends NavigationMixin(LightningElement) {
     }
   }
 
-  // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
-  // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
-  // CONDITION - Cleaned code
-  // STATUS - DONE
   toastprocess(event) {
     try {
       if (event != null) {
@@ -430,8 +378,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       console.error(error.message);
     }
   }
-  // CREATION - Created By Nimit Shah on 21/08/2023
-  // This function is use to remove the enqueueToast 
+
   disconnectedCallback() {
     this.enqueueToast = [];
   }

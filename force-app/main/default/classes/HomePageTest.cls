@@ -14,97 +14,145 @@ public with sharing class HomePageTest {
 
         Ticket__c t = new Ticket__c (TicketNumber__c = '101', Name = 'TIC', Description__c = 'TIC', StartDate__c  = System.today(), EndDate__c =  System.today(), TicketPriority__c  = 'High', Field__c = f.Id, Color__c = '#000000', CompletedPercentage__c = 100);
         insert t;
+
+        Profile p = [SELECT id from profile WHERE Name='System Administrator'];
+        User u = new User(
+            alias = 'abc123xyz', 
+            email='unit.test@email123.com',
+            emailencodingkey='UTF-8',
+            firstname='Sam',
+            lastname='Franks', 
+            languagelocalekey='en_US',
+            localesidkey='en_GB', 
+            profileid = p.Id,
+            timezonesidkey='Europe/London', 
+            username='unit.test@email123.com'
+        );
+        insert u;
     }
 
     @isTest
     static void getBoardsTest() {
-        Test.startTest();
-        Board__c b = [SELECT Id,Name FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        List<Board__c> bList = HomePage.getBoards();
-        System.assertEquals(b.Id, bList[0].Id);
-        Test.stopTest();
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Test.startTest();
+            Board__c b = [SELECT Id,Name FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            List<Board__c> bList = HomePage.getBoards();
+            System.assertEquals(b.Id, bList[0].Id);
+            Test.stopTest();
+        }
     }
 
     @isTest
     static void getBoardsTest1() {
         
-        delete [SELECT Id FROM Board__c];
-        Test.startTest();
-        List<Board__c> bList = HomePage.getBoards();
-        System.assertEquals(0, bList.size());
-        Test.stopTest();
-        
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            delete [SELECT Id FROM Board__c];
+            Test.startTest();
+            List<Board__c> bList = HomePage.getBoards();
+            System.assertEquals(0, bList.size());
+            Test.stopTest();
+        }
     }
 
     @isTest
     static void createboardTest() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        Board__c newb = HomePage.createboard(b);
-        System.assertEquals(b.Name, newb.Name);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            Board__c newb = HomePage.createboard(b);
+            System.assertEquals(b.Name, newb.Name);
+        }
     }
 
     @isTest
     static void searchBoardTest() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        HomePage.searchBoard(null);
-        List<Board__c> newb = HomePage.searchBoard(b.Name);
-        System.assertEquals(b.Name, newb[0].Name);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            HomePage.searchBoard(null);
+            List<Board__c> newb = HomePage.searchBoard(b.Name);
+            System.assertEquals(b.Name, newb[0].Name);
+        }
     }
 
     @isTest
     static void deleteboardTest() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        HomePage.deleteboard(b.Id);
-        Board__c newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c WHERE Id =: b.Id LIMIT 1 ];
-        System.assertEquals( System.today(), newb.DeletedDate__c);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            HomePage.deleteboard(b.Id);
+            Board__c newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c WHERE Id =: b.Id LIMIT 1 ];
+            System.assertEquals( System.today(), newb.DeletedDate__c);
+        }
     }
 
     @isTest
     static void deleteboardTest1() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        delete b;
-        HomePage.deleteboard(b.Id);
-        List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-        System.assertEquals( 1, newb.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            delete b;
+            HomePage.deleteboard(b.Id);
+            List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
+            System.assertEquals( 1, newb.size());
+        }
     }
     
     @isTest
     static void restoreboardTest() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        HomePage.restoreboard(b.Id);
-        Board__c newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c WHERE Id =: b.Id LIMIT 1 ];
-        System.assertEquals( null, newb.DeletedDate__c);
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            HomePage.restoreboard(b.Id);
+            Board__c newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c WHERE Id =: b.Id LIMIT 1 ];
+            System.assertEquals( null, newb.DeletedDate__c);
+        }
     }
     
     @isTest
     static void restoreboardTest1() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        delete b;
-        HomePage.restoreboard(b.Id);
-        List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-        System.assertEquals( 1, newb.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            delete b;
+            HomePage.restoreboard(b.Id);
+            List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
+            System.assertEquals( 1, newb.size());
+        }
     }
 
     @isTest
     static void permanentdeleteboardTest() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c != null LIMIT 1 ];
-        HomePage.permanentdeleteboard(b.Id);
-        List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-        System.assertEquals( 1, newb.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c != null LIMIT 1 ];
+            HomePage.permanentdeleteboard(b.Id);
+            List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
+            System.assertEquals( 1, newb.size());
+        }
     }
 
     @isTest
     static void permanentdeleteboardTest1() {
-        Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
-        delete b;
-        HomePage.permanentdeleteboard(b.Id);
-        List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-        System.assertEquals( 1, newb.size());
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
+            delete b;
+            HomePage.permanentdeleteboard(b.Id);
+            List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
+            System.assertEquals( 1, newb.size());
+        }
     }
 
     @isTest
     static void userconfigTest() {
-        HomePage.userconfig();
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        System.runAs(u) {
+            List<WorkBoardMeta__mdt> wbmdt = HomePage.userconfig();
+            System.assertEquals(12, wbmdt.size());
+        }
     }
 
 }

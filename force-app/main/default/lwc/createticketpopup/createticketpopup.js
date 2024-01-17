@@ -154,10 +154,6 @@ export default class Createticketpopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
-    // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     toastprocess(event) {
         try {
             if (event != null) {

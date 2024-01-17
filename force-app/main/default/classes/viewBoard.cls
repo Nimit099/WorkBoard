@@ -1,5 +1,22 @@
-public with sharing class viewBoard {
+/*******************************************************
+* Name          : ViewBoard
+* Author        : Nimit Shah
+* Create Date   : 01/01/2024
+* UsedBy        : recyclepopup.js, ticketpopup.js, viewBoard.js
+* Description   : Use to perform CRUD operation on and related to Ticket__C Object
+* Test Class    : ViewBoardTest
+*******************************************************/
 
+/**
+ * @description ViewBoard Class
+ */
+public with sharing class ViewBoard {
+
+    /**
+     * @description getBoardData Method
+     * @param boardId Id of Board__C Object
+     * @return Wrapper of Field and Ticket object
+     */
     @AuraEnabled
     public static FieldTicketwrapper getBoardData(Id boardId){
         try {
@@ -15,98 +32,143 @@ public with sharing class viewBoard {
             }
             return ftw;
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);
+            HandleExceptions.handleExceptionsmethod(e);
             return null;
         }
     }
 
-    //It is call when someone create ticket
+    /**
+     * @description createticket Method
+     * @param newticket Id of Board__C Object
+     * @return Record of Ticket__C Object
+     */
     @AuraEnabled
     public static Ticket__c createticket(Ticket__c newticket){
         try{
             Ticket__c ticket = new Ticket__c (TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c, CompletedPercentage__c = newticket.CompletedPercentage__c);
-            insert ticket;
+            insert as User ticket;
             return ticket;
         } catch(Exception e){
-            HandleExceptions eh = new HandleExceptions(e);
+            HandleExceptions.handleExceptionsmethod(e);
             return null; 
         }
     }
 
-    //It is call when someone update ticket
+    /**
+     * @description updateticket Method
+     * @param newticket Id of Board__C Object
+     */
     @AuraEnabled
     public static void updateticket(Ticket__c newticket){
         try{
             Ticket__c ticket = new Ticket__c (Id = newticket.Id, TicketNumber__c = newticket.TicketNumber__c, Name = newticket.Name, Description__c = newticket.Description__c, StartDate__c  = newticket.StartDate__c, EndDate__c =  newticket.EndDate__c, TicketPriority__c  = newticket.TicketPriority__c, Field__c = newticket.Field__c, Color__c = newticket.Color__c, CompletedPercentage__c = newticket.CompletedPercentage__c);
-            update ticket;
+            update as User ticket;
         } catch(Exception e){
-            HandleExceptions eh = new HandleExceptions(e); 
+            HandleExceptions.handleExceptionsmethod(e); 
         }
     }
     
-
-    // It is call when someone drag and drop ticket
-    @AuraEnabled
+    /**
+     * @description updateticketfield Method
+     * @param ticketId Id of Ticket__C Object
+     * @param fieldId Id of Field__C Object
+     */   
+     @AuraEnabled
     public static void updateticketfield(Id ticketId, Id fieldId){
         try{
-        Database.upsert(new Ticket__c (Id = ticketId, Field__c = fieldId));
+            upsert as User (new Ticket__c (Id = ticketId, Field__c = fieldId));
         } catch (Exception e){
-            HandleExceptions eh = new HandleExceptions(e);
+            HandleExceptions.handleExceptionsmethod(e);
         }
     }
 
+    /**
+     * @description temporarydeleteticket Method
+     * @param ticketId Id of Ticket__C Object
+     */  
     @AuraEnabled
     public static void temporarydeleteticket(Id ticketId){
         try {
-            Database.upsert(new Ticket__c(Id = ticketId, DeletedDate__c = System.today()));
+            upsert as User (new Ticket__c(Id = ticketId, DeletedDate__c = System.today()));
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);
+            HandleExceptions.handleExceptionsmethod(e);
         }
     }
 
+    /**
+     * @description restoreticket Method
+     * @param ticketId Id of Ticket__C Object
+     */  
     @AuraEnabled
     public static void restoreticket(Id ticketId){
         try {
-            Database.upsert(new Ticket__c(Id = ticketId, DeletedDate__c = null));
+            upsert as User (new Ticket__c(Id = ticketId, DeletedDate__c = null));
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e); 
+            HandleExceptions.handleExceptionsmethod(e); 
         }
     }
 
+    /**
+     * @description permanentdeleteticket Method
+     * @param ticketId Id of Ticket__C Object
+     */  
     @AuraEnabled
     public static void permanentdeleteticket(Id ticketId){
         try {
             Set<Id> cdId = new Set<Id>();
-            List<ContentDocumentLink> cdllist = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ticketId];
+            List<ContentDocumentLink> cdllist = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ticketId WITH SECURITY_ENFORCED];
             for (ContentDocumentLink cdl : cdllist) {
                 cdId.add(cdl.ContentDocumentId);
             }
-            List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id IN: cdId];
-            Database.delete(cd);
-            Database.delete(ticketId);
+            List<ContentDocument> cd = [SELECT Id FROM ContentDocument WHERE Id IN: cdId WITH SECURITY_ENFORCED];
+            delete as User cd;
+            delete as User (new Ticket__C(Id = ticketId));
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);   
+            HandleExceptions.handleExceptionsmethod(e);   
         }
     }
 
+    /**
+     * @description getTicket Method
+     * @param ticketId Id of Ticket__C Object
+     * @return Record of Ticket__c Object
+     */  
     @AuraEnabled
     public static Ticket__c getTicket(Id ticketId){
         try {
             Ticket__c ticketList = [SELECT Id, Name, TicketNumber__c,  TicketPriority__c, Field__r.Name, StartDate__c,EndDate__c,Description__c, CompletedPercentage__c, Field__c, Color__c,CreatedDate, LastModifiedDate FROM Ticket__c WHERE Id =: ticketId WITH SECURITY_ENFORCED];
             return ticketList;
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null; 
         }
     }
 
+    /**
+        *@description create a wrapper for store Fields__C and Ticket__C value
+    */
     public class FieldTicketwrapper{
+
+        /**
+            *@description wrapperclass variable to store fieldList record
+        */
         @AuraEnabled
         public List<Fields__c> fieldList {get; set;}
+
+        /**
+            *@description wrapperclass variable to store ticketList record
+        */
         @AuraEnabled
         public List<Ticket__c> ticketList {get; set;}
     }
 
+    /**
+     * @description uploadFile Method
+     * @param base64 Base64 of the image
+     * @param filename Name of the file
+     * @param ticketId Id of Ticket__C Object
+     * @return List of ContentVersion Object
+     */  
     @AuraEnabled
     public static List<ContentVersion> uploadFile(String base64, String filename, String ticketId) {
         try {
@@ -117,7 +179,7 @@ public with sharing class viewBoard {
             insert as User cv; 
             
             ContentDocumentLink cdl = new ContentDocumentLink();
-            cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id].ContentDocumentId;
+            cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id WITH SECURITY_ENFORCED].ContentDocumentId;
             cdl.LinkedEntityId = ticketId;
             cdl.ShareType = 'V';
             insert as User cdl;
@@ -128,66 +190,95 @@ public with sharing class viewBoard {
 
             return retrieveFiles(ticketId);
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null;
         }
     }
 
+    /**
+     * @description retrieveFiles Method
+     * @param ticketId Id of Ticket__C Object
+     * @return List of ContentVersion Object
+     */ 
     @AuraEnabled
     public static List<ContentVersion> retrieveFiles(String ticketId){
         try {
-            List<ContentDocumentLink> cdlList = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ticketId];
+            List<ContentDocumentLink> cdlList = [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ticketId WITH SECURITY_ENFORCED];
             List<Id> cdIds = new List<Id>();
             for(ContentDocumentLink obj: cdlList){
                 cdIds.add(obj.ContentDocumentId);
             }
-            List<ContentVersion> cvList = [SELECT Id, ContentDocumentId, ContentUrl, VersionNumber, Title, PathOnClient, FileType, FileExtension, ContentSize, CreatedDate FROM ContentVersion WHERE ContentDocumentId IN:cdIds];
+            List<ContentVersion> cvList = [SELECT Id, ContentDocumentId, ContentUrl, VersionNumber, Title, PathOnClient, FileType, FileExtension, ContentSize, CreatedDate FROM ContentVersion WHERE ContentDocumentId IN:cdIds WITH SECURITY_ENFORCED];
             return cvList;        
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null;
         }
     }    
 
+    /**
+     * @description deletefile Method
+     * @param contentDocId Id of ContentDocument Object
+     * @param ticketId Id of Ticket__C Object
+     * @return List of ContentVersion Object
+     */ 
     @AuraEnabled
     public static List<ContentVersion> deletefile( String contentDocId, String ticketId){
         try {
-            Database.delete(contentDocId);
+            delete as User (new ContentDocument (Id = contentDocId));
             return retrieveFiles(ticketId);
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null;
         }
     }
 
+    /**
+     * @description getTicektsComment Method
+     * @param ticketId Id of Ticket__C Object
+     * @return List of Comment__c Object
+     */ 
     @AuraEnabled
     public static List<Comment__c> getTicektsComment(Id ticketId){
         try {
-            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
+            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId WITH SECURITY_ENFORCED ORDER BY CreatedDate DESC ];
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null;
         }
     }
 
+    /**
+     * @description saveComment Method
+     * @param commentId Id of Comment__c Object
+     * @param ticketId Id of Ticket__C Object
+     * @param comment String to store in Comment__C Object
+     * @return List of Comment__c Object
+     */ 
     @AuraEnabled
     public static List<Comment__c> saveComment(Id commentId, Id ticketId, String comment){
         try {
             upsert as User ( new Comment__c (Id = commentId, Ticket__c = ticketId, Comments__c = comment));
-            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
+            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId WITH SECURITY_ENFORCED ORDER BY CreatedDate DESC ];
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null;
         }
     }
 
+    /**
+     * @description deleteComment Method
+     * @param commentId Id of Comment__c Object
+     * @param ticketId Id of Ticket__C Object
+     * @return List of Comment__c Object
+     */ 
     @AuraEnabled
     public static List<Comment__c> deleteComment(Id commentId, Id ticketId){
         try {
-            Database.delete(commentId);
-            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId ORDER BY CreatedDate DESC ];
+            delete as User (new Comment__c ( Id = commentId));
+            return [SELECT Id, Comments__c, CreatedDate, CreatedBy.Name FROM Comment__c WHERE Ticket__c =: ticketId WITH SECURITY_ENFORCED ORDER BY CreatedDate DESC ];
         } catch (Exception e) {
-            HandleExceptions eh = new HandleExceptions(e);  
+            HandleExceptions.handleExceptionsmethod(e);  
             return null;
         }
     }
