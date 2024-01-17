@@ -4,16 +4,19 @@
 * Create Date   : 22/08/2022
 * UsedBy        : Used by all the classes of WorkBoard 
 * Description   : Call this class when exception occur in any other classes of WorkBoard
-* Test Class    : 
+* Test Class    : HandleExceptionTest
 *******************************************************/
 
+/**
+ * @description HandleExceptions Class
+ */
 public with sharing class HandleExceptions {
 
     /**
      * @description HandleExceptions Method
      * @param e It is Exception 
      */
-    public HandleExceptions(Exception e) {
+    public static void handleExceptionsmethod(Exception e) {
         try {
             
             String stackTrace = e.getStackTraceString().substringBefore('\n');
@@ -31,7 +34,8 @@ public with sharing class HandleExceptions {
 
             insert as User eh;
 
-        } catch (Exception error) {}
-            
+        } catch (Exception error) {
+            HandleExceptions.handleExceptionsmethod(e);
+        }
     }
 }

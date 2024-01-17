@@ -1,8 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
-import updateticketfield from '@salesforce/apex/viewBoard.updateticketfield';
-import createtickets from '@salesforce/apex/viewBoard.createticket';
-import getBoardData from '@salesforce/apex/viewBoard.getBoardData';
-import temporarydeleteticket from '@salesforce/apex/viewBoard.temporarydeleteticket';
+import updateticketfield from '@salesforce/apex/ViewBoard.updateticketfield';
+import createtickets from '@salesforce/apex/ViewBoard.createticket';
+import getBoardData from '@salesforce/apex/ViewBoard.getBoardData';
+import temporarydeleteticket from '@salesforce/apex/ViewBoard.temporarydeleteticket';
 
 import { NavigationMixin } from "lightning/navigation";
 export default class ViewBoard extends NavigationMixin(LightningElement) {
@@ -46,10 +46,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     @track ticketpopupdata;
 
 
-    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to get Fields and Ticket List.
-    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     connectedCallback() {
         try {
 
@@ -74,7 +70,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
 
         } catch (error) {
-            console.error('OUTPUT viewBoard connected: ', error.message);
+            console.error('OUTPUT ViewBoard connected: ', error.message);
             this.spinnertable = false;
         }
     }
@@ -112,10 +108,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
 
     }
-    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to color the tickets.
-    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
-    // CONDITION - Cleaned code
-    // STATUS - WORKING
+
     renderedCallback() {
         try {
             this.ticketlist.forEach(ticket => {
@@ -132,10 +125,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to search tickets.
-    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
-    // CONDITION - Cleaned code
-    // STATUS - WORKING
     search(event) {
         try {
             if (event != null) {
@@ -162,10 +151,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use to get ticketId and make field border dotted on drag.
-    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     dragstart(event) {
         try {
             this.ticketId = event.currentTarget.dataset.id;
@@ -203,10 +188,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 27/08/2023  ---  This is use drop ticket on the fields and change ticket field.
-    // UPDATION - Updated By Nimit Shah on 23/8/2023   ---  --
-    // CONDITION - Cleaned code
-    // STATUS - WORKING
     dropzone(event) {
         try {
             let fieldId = event.currentTarget.dataset.id;
@@ -444,10 +425,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 21/08/2023 --- This is use to call toast 
-    // UPDATION - Updated By Nimit Shah on 21/08/2023 --- This is use to call multiple time toast at once.
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     toastprocess(event) {
         try {
             if (event != null) {

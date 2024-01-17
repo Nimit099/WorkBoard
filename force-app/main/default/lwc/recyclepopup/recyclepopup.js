@@ -1,9 +1,9 @@
 import { LightningElement, api, track } from 'lwc';
-import permanentdeleteticket from '@salesforce/apex/viewBoard.permanentdeleteticket';
+import permanentdeleteticket from '@salesforce/apex/ViewBoard.permanentdeleteticket';
 import permanentdeleteboard from '@salesforce/apex/HomePage.permanentdeleteboard';
-import restoreticket from '@salesforce/apex/viewBoard.restoreticket';
+import restoreticket from '@salesforce/apex/ViewBoard.restoreticket';
 import restoreboard from '@salesforce/apex/HomePage.restoreboard';
-import permanentdeletefield from '@salesforce/apex/fieldController.permanentdeletefield';
+import permanentdeletefield from '@salesforce/apex/FieldController.permanentdeletefield';
 
 export default class Recyclepopup extends LightningElement {
     @api recyclelist = [];
@@ -17,11 +17,6 @@ export default class Recyclepopup extends LightningElement {
     @track enqueueToast = [];
     @track ongoingtoast;
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to check who is calling and
-    //  call function accordingly to permanently delete the board 
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     handlepermanentdeleteaction() {
         try {
             if (this.type == 'Board') {
@@ -37,12 +32,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to open the deletepopup when click on delete icon
-    // and to close when delete popup either using custom event on delete popup(Click cancel) or delete the board permanently from 
-    // handlepermanentdeleteaction form this component.
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     openclosedeletepopup(event) {
         try {
             this.deletepopup = !this.deletepopup;
@@ -64,10 +53,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to close recycle popup
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     handlecloserecycle() {
         try {
             const closerecycle = new CustomEvent("closerecycle", {
@@ -82,10 +67,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to permanently delete the board
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     handlepermanentdeleteboard() {
         try {
             permanentdeleteboard({ boardId: this.boardid })
@@ -109,10 +90,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to permanently delete the ticket
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - WORKING
     handlepermanentdeleteticket() {
         try {
             permanentdeleteticket({ ticketId: this.boardid }) // boardid is ticket id here
@@ -136,11 +113,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to check who is 
-    // restoring and call function accordingly.
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     handlerestore(event) {
         try {
             if (this.type == 'Board') {
@@ -161,10 +133,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to restore the board and also tell to homepage.
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - DONE
     handlerestoreboard(event) {
         /****************** This is use to restore the board ******************/
         try {
@@ -189,10 +157,6 @@ export default class Recyclepopup extends LightningElement {
         }
     }
 
-    // CREATION - Created By Nimit Shah on 26/08/2023 --- This function is use to restore the ticket also tell to viewBoard.
-    // UPDATION - --
-    // CONDITION - Cleaned code
-    // STATUS - WORKING
     handlerestoreticket(event) {
         /****************** This is use to restore the ticket ******************/
         try {
@@ -252,9 +216,6 @@ export default class Recyclepopup extends LightningElement {
         this.openclosedeletepopup();
     }
 
-    // 21/8/2023 Created By Nimit Shah
-    // This function is use to show toast on multiple calls
-    // Multiple calls like I press two time save button on create board and it will generate two time red toast 
     toastprocess(event) {
         try {
 
