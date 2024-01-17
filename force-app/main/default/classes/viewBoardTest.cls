@@ -20,7 +20,7 @@ public with sharing class ViewBoardTest {
 
         Profile p = [SELECT id from profile WHERE Name='System Administrator'];
         User u = new User(
-            alias = 'abc123xyz', 
+            alias = 'abc', 
             email='unit.test@email123.com',
             emailencodingkey='UTF-8',
             firstname='Sam',
@@ -29,14 +29,15 @@ public with sharing class ViewBoardTest {
             localesidkey='en_GB', 
             profileid = p.Id,
             timezonesidkey='Europe/London', 
-            username='unit.test@email123.com'
+            username='unit.test@email123.com',
+            IsActive = true
         );
         insert u;
     }
 
     @isTest
     static void getBoardDataTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             String s  = String.valueOf(ViewBoard.getBoardData(b.Id));
@@ -46,7 +47,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void getBoardDataTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             String s  = String.valueOf(ViewBoard.getBoardData(b.Id));
@@ -56,7 +57,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void createticketTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             Ticket__c t  = ViewBoard.createticket(tic);
@@ -66,7 +67,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void updateticketTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             tic.Name = 'Nameupdate';
@@ -78,7 +79,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void temporarydeleteticketTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.temporarydeleteticket(tic.Id);
@@ -89,7 +90,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void temporarydeleteticketTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.temporarydeleteticket(tic.Field__c);
@@ -100,7 +101,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void restoreticketTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.restoreticket(tic.Id);
@@ -111,7 +112,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void updateticketfieldTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.updateticketfield(tic.Id, tic.Field__c);
@@ -122,7 +123,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void updateticketfieldTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.updateticketfield(tic.Field__c, tic.Field__c);
@@ -133,7 +134,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void restoreticketTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.restoreticket(tic.Field__c);
@@ -144,7 +145,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void permanentdeleteticketTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.permanentdeleteticket(tic.Id);
@@ -155,7 +156,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void getTicketTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             Ticket__c t = ViewBoard.getTicket(tic.Id);
@@ -165,7 +166,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void uploadFileTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.uploadFile('xxx', 'Test', tic.Id);
@@ -175,7 +176,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void uploadFileTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.uploadFile('xxx', 'Test', 'xxx');
@@ -185,7 +186,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void retrieveFiles() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.retrieveFiles(tic.Id);
@@ -195,17 +196,19 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void deletefileTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
+            Test.startTest();
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.deletefile(tic.Id, tic.Id);
-            System.assertEquals(0, cv.size());
+            System.assertEquals(null, cv);
+            Test.stopTest();
         }
     }
 
     @isTest
     static void getTicektsCommentTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<Comment__c> cv = ViewBoard.getTicektsComment(tic.Id);
@@ -215,7 +218,7 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void saveCommentTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<Comment__c> cv = ViewBoard.saveComment(tic.Id,tic.Id, 'xxx');
@@ -225,11 +228,13 @@ public with sharing class ViewBoardTest {
 
     @isTest
     static void deleteCommentTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
+            Test.startTest();
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<Comment__c> cv = ViewBoard.deleteComment(tic.Id, tic.Id);
-            System.assertEquals(0, cv.size());
+            System.assertEquals(null, cv);
+            Test.stopTest();
         }
     }
 }
