@@ -13,7 +13,7 @@ public with sharing class FieldControllerTest {
 
         Profile p = [SELECT id from profile WHERE Name='System Administrator'];
         User u = new User(
-            alias = 'abc123xyz', 
+            alias = 'abc', 
             email='unit.test@email123.com',
             emailencodingkey='UTF-8',
             firstname='Sam',
@@ -22,14 +22,15 @@ public with sharing class FieldControllerTest {
             localesidkey='en_GB', 
             profileid = p.Id,
             timezonesidkey='Europe/London', 
-            username='unit.test@email123.com'
+            username='unit.test@email123.com',
+            IsActive = true
         );
         insert u;
     }
 
     @isTest
     static void getFieldsTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             Integer fieldcount = [SELECT Count() FROM Fields__c WHERE Board__c =: b.Id];
@@ -40,7 +41,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void createfieldTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             Fields__c field = [SELECT Id, Board__c,OrderNumber__c FROM Fields__c LIMIT 1];
@@ -52,7 +53,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void createfieldTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             Fields__c f = new Fields__c(Name = 'Test', OrderNumber__c = 1, Board__c = b.Id);
@@ -63,7 +64,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void temporarydeletefieldTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Fields__c f = [SELECT Id, Board__c, DeletedDate__c FROM Fields__c LIMIT 1];
             List<Fields__c> flist = FieldController.temporarydeletefield(f.Id, f.Board__c);
@@ -73,7 +74,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void permanentdeletefieldTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
             FieldController.permanentdeletefield(f.Id);
@@ -84,7 +85,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void permanentdeletefieldTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
             delete f;
@@ -96,7 +97,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void restoreFieldsTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
             List<Fields__c> flist = FieldController.restoreFields(f.Id, f.Board__c);
@@ -106,7 +107,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void renamefieldTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
             FieldController.renamefield(f.Id, 'Test1');
@@ -117,7 +118,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void renamefieldTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Fields__c f = [SELECT Id, Board__c FROM Fields__c LIMIT 1];
             delete f;
@@ -129,7 +130,7 @@ public with sharing class FieldControllerTest {
     
     @isTest
     static void fieldPositionchangeTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c ASC];
             List<Fields__c> flist = FieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);
@@ -139,7 +140,7 @@ public with sharing class FieldControllerTest {
 
     @isTest
     static void fieldPositionchangeTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             List<Fields__c> fieldList = [SELECT Id, Board__c FROM Fields__c Order by OrderNumber__c DESC];
             List<Fields__c> flist = FieldController.fieldPositionchange(fieldList[0].Id, fieldList[1].Id, fieldList[0].Board__c);

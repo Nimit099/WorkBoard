@@ -17,7 +17,7 @@ public with sharing class HomePageTest {
 
         Profile p = [SELECT id from profile WHERE Name='System Administrator'];
         User u = new User(
-            alias = 'abc123xyz', 
+            alias = 'abc', 
             email='unit.test@email123.com',
             emailencodingkey='UTF-8',
             firstname='Sam',
@@ -26,14 +26,15 @@ public with sharing class HomePageTest {
             localesidkey='en_GB', 
             profileid = p.Id,
             timezonesidkey='Europe/London', 
-            username='unit.test@email123.com'
+            username='unit.test@email123.com',
+            IsActive = true
         );
         insert u;
     }
 
     @isTest
     static void getBoardsTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Test.startTest();
             Board__c b = [SELECT Id,Name FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
@@ -46,7 +47,7 @@ public with sharing class HomePageTest {
     @isTest
     static void getBoardsTest1() {
         
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             delete [SELECT Id FROM Board__c];
             Test.startTest();
@@ -58,7 +59,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void createboardTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             Board__c newb = HomePage.createboard(b);
@@ -68,7 +69,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void searchBoardTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             HomePage.searchBoard(null);
@@ -79,7 +80,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void deleteboardTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             HomePage.deleteboard(b.Id);
@@ -90,7 +91,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void deleteboardTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             delete b;
@@ -102,7 +103,7 @@ public with sharing class HomePageTest {
     
     @isTest
     static void restoreboardTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             HomePage.restoreboard(b.Id);
@@ -113,7 +114,7 @@ public with sharing class HomePageTest {
     
     @isTest
     static void restoreboardTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             delete b;
@@ -125,7 +126,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void permanentdeleteboardTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c != null LIMIT 1 ];
             HomePage.permanentdeleteboard(b.Id);
@@ -136,7 +137,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void permanentdeleteboardTest1() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             delete b;
@@ -148,7 +149,7 @@ public with sharing class HomePageTest {
 
     @isTest
     static void userconfigTest() {
-        User u = [SELECT Id FROM User WHERE Profile.Name = 'System.Administrator'];
+        User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             List<WorkBoardMeta__mdt> wbmdt = HomePage.userconfig();
             System.assertEquals(12, wbmdt.size());
