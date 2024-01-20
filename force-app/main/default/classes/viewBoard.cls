@@ -27,9 +27,6 @@ public with sharing class ViewBoard {
             ftw.fieldList = fieldList;
             ftw.ticketList = ticketList;
 
-            if (Test.isRunningTest() && boardId == 'xxx') {
-                Integer i = 5/0;
-            }
             return ftw;
         } catch (Exception e) {
             HandleExceptions.handleExceptionsmethod(e);
@@ -183,10 +180,6 @@ public with sharing class ViewBoard {
             cdl.LinkedEntityId = ticketId;
             cdl.ShareType = 'V';
             insert as User cdl;
-
-            if (Test.isRunningTest() && ticketId == 'xxx') {
-                Integer i = 5/0;
-            }
 
             return retrieveFiles(ticketId);
         } catch (Exception e) {

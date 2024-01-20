@@ -138,7 +138,7 @@ export default class Recyclepopup extends LightningElement {
         try {
             this.boardid = event.currentTarget.dataset.id
             restoreboard({ boardId: this.boardid })
-                .then(result => {
+                .then(() => {
                     this.enqueueToast.push({ status: 'success', message: 'BOARD RESTORED SUCCESSFULLY' });
                     this.toastprocess(null);
                     const closerecycle = new CustomEvent("restoreboard", {
@@ -162,7 +162,7 @@ export default class Recyclepopup extends LightningElement {
         try {
             let ticketId = event.currentTarget.dataset.id
             restoreticket({ ticketId: ticketId })
-                .then(result => {
+                .then(() => {
                     this.enqueueToast.push({ status: 'success', message: 'TICKET RESTORED SUCCESSFULLY' });
                     this.toastprocess(null);
                     const closerecycle = new CustomEvent("restoreticket", {

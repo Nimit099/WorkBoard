@@ -327,13 +327,13 @@ export default class Ticketpopup extends LightningElement {
 
     editcomment(event) {
         try {
+            this.commentbutton();
             this.commentId = event.currentTarget.dataset.id;
             this.comments.forEach(element => {
                 if (element.Id == this.commentId) {
                     this.newcomment = element.Comments__c;
                 }
             });
-            this.commentbutton();
 
         } catch (error) {
             this.spinnertable = false;
@@ -351,6 +351,7 @@ export default class Ticketpopup extends LightningElement {
                 this.spinnertable = true;
                 this.buttonlabel = 'Add Comment';
                 this.commentediting = false;
+                console.log(this.commentId + ' comment Id');
                 saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
                     this.comments = result;
                     if (this.comments.length > 0) {

@@ -98,6 +98,7 @@ export default class Field extends NavigationMixin(LightningElement) {
                 .then(result => {
                     this.spinnertable = false;
                     let firstfieldid = result[0].Id;
+                    console.log(firstfieldid);
                     if (!this.createField) {
                         this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
                         this.toastprocess(null);
@@ -154,7 +155,7 @@ export default class Field extends NavigationMixin(LightningElement) {
         }
     }
 
-    handletemporarydeletefield(event) {
+    handletemporarydeletefield() {
         try {
             this.spinnertable = true;
             this.openclosedeletepopup(null);

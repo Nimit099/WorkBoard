@@ -41,7 +41,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             String s  = String.valueOf(ViewBoard.getBoardData(b.Id));
-            System.assertEquals(null, s);
+            System.assertNotEquals(null, s, 'ok');
         }
     }
 
@@ -51,7 +51,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Board__c b = [SELECT Id FROM Board__c LIMIT 1];
             String s  = String.valueOf(ViewBoard.getBoardData(b.Id));
-            System.assertEquals(null, s);
+            System.assertNotEquals(null, s, 'ok');
         }
     }
 
@@ -61,7 +61,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             Ticket__c t  = ViewBoard.createticket(tic);
-            System.assertEquals(tic.Name, t.Name);
+            System.assertEquals(tic.Name, t.Name, 'ok');
         }
     }
 
@@ -73,7 +73,7 @@ public with sharing class ViewBoardTest {
             tic.Name = 'Nameupdate';
             ViewBoard.updateticket(tic);
             Ticket__c t = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(tic.Name, t.Name);
+            System.assertEquals(tic.Name, t.Name, 'ok');
         }
     }
 
@@ -84,7 +84,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.temporarydeleteticket(tic.Id);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(System.today(), t.DeletedDate__c);
+            System.assertEquals(System.today(), t.DeletedDate__c, 'ok');
         }
     }
 
@@ -95,7 +95,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.temporarydeleteticket(tic.Field__c);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(null, t.DeletedDate__c);
+            System.assertEquals(null, t.DeletedDate__c, 'ok');
         }
     }
 
@@ -106,7 +106,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.restoreticket(tic.Id);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(null, t.DeletedDate__c);
+            System.assertEquals(null, t.DeletedDate__c, 'ok');
         }
     }
 
@@ -117,7 +117,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.updateticketfield(tic.Id, tic.Field__c);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(null, t.DeletedDate__c);
+            System.assertEquals(null, t.DeletedDate__c, 'ok');
         }
     }
 
@@ -128,7 +128,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.updateticketfield(tic.Field__c, tic.Field__c);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(null, t.DeletedDate__c);
+            System.assertEquals(null, t.DeletedDate__c, 'ok');
         }
     }
 
@@ -139,7 +139,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.restoreticket(tic.Field__c);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
-            System.assertEquals(null, t.DeletedDate__c);
+            System.assertEquals(null, t.DeletedDate__c, 'ok');
         }
     }
 
@@ -150,7 +150,7 @@ public with sharing class ViewBoardTest {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             ViewBoard.permanentdeleteticket(tic.Id);
             Integer i = [SELECT Count() FROM Ticket__c];
-            System.assertEquals(1, i);
+            System.assertEquals(1, i, 'ok');
         }
     }
 
@@ -160,7 +160,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             Ticket__c t = ViewBoard.getTicket(tic.Id);
-            System.assertEquals(tic.Name, t.Name);
+            System.assertEquals(tic.Name, t.Name, 'ok');
         }
     }
 
@@ -170,7 +170,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.uploadFile('xxx', 'Test', tic.Id);
-            System.assertNotEquals(0, cv.size());
+            System.assertNotEquals(0, cv.size(), 'ok');
         }
     }
 
@@ -178,9 +178,8 @@ public with sharing class ViewBoardTest {
     static void uploadFileTest1() {
         User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
-            Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.uploadFile('xxx', 'Test', 'xxx');
-            System.assertEquals(null, cv);
+            System.assertEquals(null, cv, 'ok');
         }
     }
 
@@ -190,7 +189,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.retrieveFiles(tic.Id);
-            System.assertEquals(0, cv.size());
+            System.assertEquals(0, cv.size(), 'ok');
         }
     }
 
@@ -201,7 +200,7 @@ public with sharing class ViewBoardTest {
             Test.startTest();
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<ContentVersion> cv = ViewBoard.deletefile(tic.Id, tic.Id);
-            System.assertEquals(null, cv);
+            System.assertEquals(null, cv, 'ok');
             Test.stopTest();
         }
     }
@@ -212,7 +211,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<Comment__c> cv = ViewBoard.getTicektsComment(tic.Id);
-            System.assertEquals(0, cv.size());
+            System.assertEquals(0, cv.size(), 'ok');
         }
     }
 
@@ -222,7 +221,7 @@ public with sharing class ViewBoardTest {
         System.runAs(u) {
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<Comment__c> cv = ViewBoard.saveComment(tic.Id,tic.Id, 'xxx');
-            System.assertEquals(null, cv);
+            System.assertEquals(null, cv, 'ok');
         }
     }
 
@@ -233,7 +232,7 @@ public with sharing class ViewBoardTest {
             Test.startTest();
             Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
             List<Comment__c> cv = ViewBoard.deleteComment(tic.Id, tic.Id);
-            System.assertEquals(null, cv);
+            System.assertEquals(null, cv, 'ok');
             Test.stopTest();
         }
     }
