@@ -351,7 +351,6 @@ export default class Ticketpopup extends LightningElement {
                 this.spinnertable = true;
                 this.buttonlabel = 'Add Comment';
                 this.commentediting = false;
-                console.log(this.commentId + ' comment Id');
                 saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
                     this.comments = result;
                     if (this.comments.length > 0) {
