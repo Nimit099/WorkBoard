@@ -270,6 +270,10 @@ lightning-textarea {
 
 .recycle {
     height: 35%;
+    width: 13%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .desertImg {
@@ -420,7 +424,8 @@ lightning-textarea {
     }
 
     .recycle {
-        height: 45%
+        height: 42%;
+        width: 15%;
     }
 
     .spinnerbody {
