@@ -327,13 +327,13 @@ export default class Ticketpopup extends LightningElement {
 
     editcomment(event) {
         try {
+            this.commentbutton();
             this.commentId = event.currentTarget.dataset.id;
             this.comments.forEach(element => {
                 if (element.Id == this.commentId) {
                     this.newcomment = element.Comments__c;
                 }
             });
-            this.commentbutton();
 
         } catch (error) {
             this.spinnertable = false;

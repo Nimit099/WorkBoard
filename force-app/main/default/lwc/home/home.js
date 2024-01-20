@@ -235,7 +235,7 @@ export default class Home extends NavigationMixin(LightningElement) {
 
       if (this.boardid != null) {
         deleteboard({ boardId: this.boardid })
-          .then(result => {
+          .then(() => {
             this.boardlist.forEach((element, index) => {
               if (element.Id.includes(this.boardid)) {
                 let recycleboard = this.boardlist.splice(index, 1);

@@ -196,7 +196,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 this.boarddata = [];
 
                 updateticketfield({ ticketId: this.ticketId, fieldId: fieldId })
-                    .then(result => {
+                    .then(() => {
 
                     }).catch(error => {
                         this.spinnertable = false;
@@ -313,7 +313,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             this.ticketId = event.detail;
 
             temporarydeleteticket({ ticketId: this.ticketId })
-                .then(result => {
+                .then(() => {
 
                     this.ticketlist.forEach((ticket, index) => {
                         if (ticket.Id == this.ticketId) {
@@ -388,7 +388,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     restoreticket(event) {
         try {
             let ticketId = event.detail;
-            let i;
             this.deletedticketlist.forEach((ticket, index) => {
                 if (ticket.Id == ticketId) {
                     this.ticketlist.push(this.deletedticketlist.splice(index, 1)[0]);

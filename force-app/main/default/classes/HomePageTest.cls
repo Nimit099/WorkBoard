@@ -39,7 +39,7 @@ public with sharing class HomePageTest {
             Test.startTest();
             Board__c b = [SELECT Id,Name FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             List<Board__c> bList = HomePage.getBoards();
-            System.assertEquals(b.Id, bList[0].Id);
+            System.assertEquals(b.Id, bList[0].Id, 'ok');
             Test.stopTest();
         }
     }
@@ -52,7 +52,7 @@ public with sharing class HomePageTest {
             delete [SELECT Id FROM Board__c];
             Test.startTest();
             List<Board__c> bList = HomePage.getBoards();
-            System.assertEquals(0, bList.size());
+            System.assertEquals(0, bList.size(), 'ok');
             Test.stopTest();
         }
     }
@@ -63,7 +63,7 @@ public with sharing class HomePageTest {
         System.runAs(u) {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             Board__c newb = HomePage.createboard(b);
-            System.assertEquals(b.Name, newb.Name);
+            System.assertEquals(b.Name, newb.Name, 'ok');
         }
     }
 
@@ -74,7 +74,7 @@ public with sharing class HomePageTest {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             HomePage.searchBoard(null);
             List<Board__c> newb = HomePage.searchBoard(b.Name);
-            System.assertEquals(b.Name, newb[0].Name);
+            System.assertEquals(b.Name, newb[0].Name, 'ok');
         }
     }
 
@@ -85,7 +85,7 @@ public with sharing class HomePageTest {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             HomePage.deleteboard(b.Id);
             Board__c newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c WHERE Id =: b.Id LIMIT 1 ];
-            System.assertEquals( System.today(), newb.DeletedDate__c);
+            System.assertEquals( System.today(), newb.DeletedDate__c, 'ok');
         }
     }
 
@@ -97,7 +97,7 @@ public with sharing class HomePageTest {
             delete b;
             HomePage.deleteboard(b.Id);
             List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-            System.assertEquals( 1, newb.size());
+            System.assertEquals( 1, newb.size(), 'ok');
         }
     }
     
@@ -108,7 +108,7 @@ public with sharing class HomePageTest {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c = null LIMIT 1 ];
             HomePage.restoreboard(b.Id);
             Board__c newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c WHERE Id =: b.Id LIMIT 1 ];
-            System.assertEquals( null, newb.DeletedDate__c);
+            System.assertEquals( null, newb.DeletedDate__c, 'ok');
         }
     }
     
@@ -120,7 +120,7 @@ public with sharing class HomePageTest {
             delete b;
             HomePage.restoreboard(b.Id);
             List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-            System.assertEquals( 1, newb.size());
+            System.assertEquals( 1, newb.size(), 'ok');
         }
     }
 
@@ -131,7 +131,7 @@ public with sharing class HomePageTest {
             Board__c b = [SELECT Id,Name, Description__c FROM Board__c WHERE DeletedDate__c != null LIMIT 1 ];
             HomePage.permanentdeleteboard(b.Id);
             List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-            System.assertEquals( 1, newb.size());
+            System.assertEquals( 1, newb.size(), 'ok');
         }
     }
 
@@ -143,7 +143,7 @@ public with sharing class HomePageTest {
             delete b;
             HomePage.permanentdeleteboard(b.Id);
             List<Board__c> newb = [SELECT Id,Name, Description__c,DeletedDate__c FROM Board__c ];
-            System.assertEquals( 1, newb.size());
+            System.assertEquals( 1, newb.size(), 'ok');
         }
     }
 
@@ -152,7 +152,7 @@ public with sharing class HomePageTest {
         User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             List<WorkBoardMeta__mdt> wbmdt = HomePage.userconfig();
-            System.assertEquals(12, wbmdt.size());
+            System.assertEquals(12, wbmdt.size(), 'ok');
         }
     }
 

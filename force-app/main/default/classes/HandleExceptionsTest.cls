@@ -21,7 +21,7 @@ public with sharing class HandleExceptionsTest {
             
             System.runAs(u) {
                 integer i = 1/0;
-                System.assertNotEquals(0, i);
+                System.assertNotEquals(0, i, 'ok');
             }
         } catch (Exception e ) {
             HandleExceptions.handleExceptionsmethod(e);
