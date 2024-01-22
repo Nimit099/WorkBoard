@@ -31,7 +31,7 @@ export default class CreateField extends LightningElement {
             fieldrecord['OrderNumber__c'] = this.fieldOrder;
             fieldrecord['Board__c'] = this.boardid;
 
-            if (this.fieldName != undefined && this.fieldName.trim() != '') {
+            if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined)) {
                 if (this.fieldName.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
                     this.toastprocess(null);
@@ -42,7 +42,7 @@ export default class CreateField extends LightningElement {
                     this.dispatchEvent(dispatch);
                 }
             } else {
-                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
+                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL/CORRECT REQUIRED FIELD' });
                 this.toastprocess(null);
             }
 
@@ -60,7 +60,7 @@ export default class CreateField extends LightningElement {
             fieldrecord['OrderNumber__c'] = this.fieldOrder;
             fieldrecord['Board__c'] = this.boardid;
 
-            if (this.fieldName != undefined && this.fieldName.trim() != '') {
+            if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined)) {
                 if (this.fieldName.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
                     this.toastprocess(null);
@@ -69,11 +69,11 @@ export default class CreateField extends LightningElement {
                         detail: fieldrecord
                     })
                     this.dispatchEvent(dispatch);
-                    this.fieldName = '';
-                    this.fieldOrder = '';
+                    this.fieldName = undefined;
+                    this.fieldOrder = undefined;
                 }
             } else {
-                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
+                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL/CORRECT REQUIRED FIELD' });
                 this.toastprocess(null);
             }
 
