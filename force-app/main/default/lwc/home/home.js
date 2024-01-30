@@ -292,22 +292,35 @@ export default class Home extends NavigationMixin(LightningElement) {
   restoreboard(event) {
     try {
 
-      this.recyclelist.forEach((element, index) => {
-        if (element.Id.includes(event.detail)) {
-          let restoreboard = this.recyclelist.splice(index, 1);
-          restoreboard[0].DeletedDate__c = undefined;
-          if (this.searchkey == undefined || restoreboard[0].Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
-            this.boardlist.push(restoreboard[0]);
-          }
-        }
-      })
-
-      this.indexval = 1;
-      if (this.boardlist.length > 0) {
-        this.boardfound = true;
-      } else {
-        this.boardfound = false;
+      if (this.searchkey == undefined || this.searchkey.trim() == '') {
+        this.searchkey = null;
       }
+      searchBoard({ searchkey: this.searchkey })
+        .then(result => {
+
+          this.boardlist = result;
+
+          this.recyclelist.forEach((element, index) => {
+            if (element.Id.includes(event.detail)) {
+              this.recyclelist.splice(index, 1);
+            }
+          })
+
+          this.indexval = 1;
+          if (this.boardlist.length > 0) {
+            this.boardfound = true;
+          } else {
+            this.boardfound = false;
+          }
+
+          this.spinnertable = false;
+
+        }).catch(error => {
+          this.spinnertable = false;
+          console.error(error.message);
+          this.enqueueToast.push({ status: 'failed', message: 'FAILED TO GET BOARD' });
+          this.toastprocess(null);
+        });
 
     } catch (error) {
       this.spinnertable = false;
