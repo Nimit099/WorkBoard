@@ -176,7 +176,7 @@ public with sharing class ViewBoard {
             insert as User cv; 
             
             ContentDocumentLink cdl = new ContentDocumentLink();
-            cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id WITH SECURITY_ENFORCED].ContentDocumentId;
+            cdl.ContentDocumentId = [SELECT ContentDocumentId FROM ContentVersion WHERE Id =: cv.Id WITH SECURITY_ENFORCED ORDER BY CreatedDate].ContentDocumentId;
             cdl.LinkedEntityId = ticketId;
             cdl.ShareType = 'V';
             insert as User cdl;
@@ -201,7 +201,7 @@ public with sharing class ViewBoard {
             for(ContentDocumentLink obj: cdlList){
                 cdIds.add(obj.ContentDocumentId);
             }
-            List<ContentVersion> cvList = [SELECT Id, ContentDocumentId, ContentUrl, VersionNumber, Title, PathOnClient, FileType, FileExtension, ContentSize, CreatedDate FROM ContentVersion WHERE ContentDocumentId IN:cdIds WITH SECURITY_ENFORCED];
+            List<ContentVersion> cvList = [SELECT Id, ContentDocumentId, ContentUrl, VersionNumber, Title, PathOnClient, FileType, FileExtension, ContentSize, CreatedDate FROM ContentVersion WHERE ContentDocumentId IN:cdIds WITH SECURITY_ENFORCED ORDER BY CreatedDate];
             return cvList;        
         } catch (Exception e) {
             HandleExceptions.handleExceptionsmethod(e);  

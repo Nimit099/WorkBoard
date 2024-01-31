@@ -166,24 +166,30 @@ export default class Ticketpopup extends LightningElement {
         try {
             this.spinnertable = true;
             const file = event.target.files[0];
-            var reader = new FileReader()
-            reader.onload = () => {
-                var base64 = reader.result.split(',')[1];
+            if (file.size < 3900000) {
+                var reader = new FileReader()
+                reader.onload = () => {
+                    var base64 = reader.result.split(',')[1];
 
-                uploadFile({ base64: base64, filename: file.name, ticketId: this.ticketid }).then(result => {
-                    this.prepareFileRows(result);
-                    this.spinnertable = false;
-                    this.enqueueToast.push({ status: 'success', message: 'FILE UPLOADED SUCCESSFULLY' });
-                    this.toastprocess(null);
+                    uploadFile({ base64: base64, filename: file.name, ticketId: this.ticketid }).then(result => {
+                        this.prepareFileRows(result);
+                        this.spinnertable = false;
+                        this.enqueueToast.push({ status: 'success', message: 'FILE UPLOADED SUCCESSFULLY' });
+                        this.toastprocess(null);
 
-                }).catch(error => {
-                    this.enqueueToast.push({ status: 'failed', message: 'FILE UPLOADED FAILED' });
-                    this.toastprocess(null);
-                    this.spinnertable = false;
-                    console.error(error.message);
-                });
+                    }).catch(error => {
+                        this.enqueueToast.push({ status: 'failed', message: 'FILE UPLOADED FAILED' });
+                        this.toastprocess(null);
+                        this.spinnertable = false;
+                        console.error(error.message);
+                    });
+                }
+                reader.readAsDataURL(file)
+            } else {
+                this.spinnertable = false;
+                this.enqueueToast.push({ status: 'failed', message: 'FILE SIZE IS TOO BIG' });
+                this.toastprocess(null);
             }
-            reader.readAsDataURL(file)
         } catch (error) {
             this.enqueueToast.push({ status: 'failed', message: 'FILE UPLOADED FAILED' });
             this.toastprocess(null);
