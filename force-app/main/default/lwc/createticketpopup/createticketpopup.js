@@ -10,7 +10,7 @@ export default class Createticketpopup extends LightningElement {
 
     @api name = '';
     @api number = '';
-    @api description;
+    @api description = '';
     @api enddate;
     @api startdate;
     @api priority;
@@ -93,30 +93,38 @@ export default class Createticketpopup extends LightningElement {
                 if ((this.number != '' || this.number.trim() != '') && (this.name != '' || this.name.trim() != '')
                     && (this.field != '' || this.field.trim() != '')) {
 
-                    if (event.currentTarget.dataset.name == 'Save') {
+                    if (this.number.length < 40 && this.name.length < 80 && this.description.length < 131072) {
 
-                        const dispatch = new CustomEvent("saveticket", {
-                            detail: ticketrecord
-                        })
-                        this.dispatchEvent(dispatch);
+                        if (event.currentTarget.dataset.name == 'Save') {
 
-                    } else if (event.currentTarget.dataset.name == 'SaveNew') {
+                            const dispatch = new CustomEvent("saveticket", {
+                                detail: ticketrecord
+                            })
+                            this.dispatchEvent(dispatch);
 
-                        const dispatch = new CustomEvent("savenewticket", {
-                            detail: ticketrecord
-                        })
-                        this.dispatchEvent(dispatch);
+                        } else if (event.currentTarget.dataset.name == 'SaveNew') {
+
+                            const dispatch = new CustomEvent("savenewticket", {
+                                detail: ticketrecord
+                            })
+                            this.dispatchEvent(dispatch);
+                        }
+
+                        this.number = '';
+                        this.name = '';
+                        this.description = '';
+                        this.color = '';
+                        this.startdate = '';
+                        this.enddate = '';
+                        this.field = '';
+                        this.priority = '';
+                        this.progress = '';
+
+                    } else {
+                        this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEDED' });
+                        this.toastprocess(null);
                     }
 
-                    this.number = '';
-                    this.name = '';
-                    this.description = '';
-                    this.color = '';
-                    this.startdate = '';
-                    this.enddate = '';
-                    this.field = '';
-                    this.priority = '';
-                    this.progress = '';
                 } else {
                     this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
                     this.toastprocess(null);
