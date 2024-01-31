@@ -351,23 +351,28 @@ export default class Ticketpopup extends LightningElement {
                 this.spinnertable = true;
                 this.buttonlabel = 'Add Comment';
                 this.commentediting = false;
-                saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
-                    this.comments = result;
-                    if (this.comments.length > 0) {
-                        this.commentscount = true;
-                    } else {
-                        this.commentscount = false;
-                    }
-                    this.newcomment = '';
-                    this.spinnertable = false;
-                    this.enqueueToast.push({ status: 'success', message: 'COMMENT ADDED!' });
-                    this.toastprocess(null);
-                }).catch(error => {
+                if (this.newcomment.length < 131072) {
+                    saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
+                        this.comments = result;
+                        if (this.comments.length > 0) {
+                            this.commentscount = true;
+                        } else {
+                            this.commentscount = false;
+                        }
+                        this.newcomment = '';
+                        this.spinnertable = false;
+                        this.enqueueToast.push({ status: 'success', message: 'COMMENT SAVE SUCCESSFULLY' });
+                        this.toastprocess(null);
+                    }).catch(error => {
+                        this.enqueueToast.push({ status: 'failed', message: 'COMMENT SAVE FAILED' });
+                        this.toastprocess(null);
+                        console.error(error);
+                        this.spinnertable = false;
+                    });
+                } else {
                     this.enqueueToast.push({ status: 'failed', message: 'COMMENT SAVE FAILED' });
                     this.toastprocess(null);
-                    console.error(error);
-                    this.spinnertable = false;
-                });
+                }
             }
 
         } catch (error) {
