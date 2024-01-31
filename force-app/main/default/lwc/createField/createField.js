@@ -30,8 +30,8 @@ export default class CreateField extends LightningElement {
             fieldrecord['Name'] = this.fieldName;
             fieldrecord['OrderNumber__c'] = this.fieldOrder;
             fieldrecord['Board__c'] = this.boardid;
-
-            if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined)) {
+            console.log(this.fieldOrder + 'fieldorder');
+            if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined || this.fieldOrder.trim() == '')) {
                 if (this.fieldName.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
                     this.toastprocess(null);
@@ -42,7 +42,7 @@ export default class CreateField extends LightningElement {
                     this.dispatchEvent(dispatch);
                 }
             } else {
-                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL/CORRECT REQUIRED FIELD' });
+                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL CORRECT/REQUIRED FIELD' });
                 this.toastprocess(null);
             }
 
@@ -59,8 +59,8 @@ export default class CreateField extends LightningElement {
             fieldrecord['Name'] = this.fieldName;
             fieldrecord['OrderNumber__c'] = this.fieldOrder;
             fieldrecord['Board__c'] = this.boardid;
-
-            if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined)) {
+            console.log(this.fieldOrder + 'fieldorder');
+            if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined || this.fieldOrder.trim() == '')) {
                 if (this.fieldName.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
                     this.toastprocess(null);
@@ -73,7 +73,7 @@ export default class CreateField extends LightningElement {
                     this.fieldOrder = undefined;
                 }
             } else {
-                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL/CORRECT REQUIRED FIELD' });
+                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL CORRECT/REQUIRED FIELD' });
                 this.toastprocess(null);
             }
 

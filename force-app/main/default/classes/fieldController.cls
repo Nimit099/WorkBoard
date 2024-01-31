@@ -36,9 +36,10 @@ public with sharing class FieldController {
     @AuraEnabled
     public static List<Fields__c> createfield(Fields__c field, Id boardid){
         try {
+
             List<Fields__c> fieldList = new List<Fields__c>();
             List<Fields__c> newfieldList = new List<Fields__c>();
-            fieldList = [SELECT Id, Name, OrderNumber__c, DeletedDate__c FROM Fields__c WHERE Board__c =: boardid WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
+            fieldList = [SELECT Id, Name, OrderNumber__c, DeletedDate__c FROM Fields__c WHERE Board__c =: boardid AND DeletedDate__c =: null WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
 
             if (field.OrderNumber__c == null || field.OrderNumber__c > fieldList.size()) {
                 field.OrderNumber__c = fieldList.size() + 1;
@@ -46,17 +47,21 @@ public with sharing class FieldController {
                 newfieldList.add(field);
             } else {
                 for (Fields__c fields : fieldList) {
-                    if (fields.OrderNumber__c >= field.OrderNumber__c) {
-                        if(field.OrderNumber__c == fields.OrderNumber__c){
-                            newfieldList.add(field);
-                        } 
-                        fields.OrderNumber__c += 1; 
-                    }
-                    newfieldList.add(fields);
+                if(field.OrderNumber__c == fields.OrderNumber__c){
+                    newfieldList.add(field);
+                }
+                if (fields.OrderNumber__c >= field.OrderNumber__c) {
+                    fields.OrderNumber__c += 1;
+                }
+                newfieldList.add(fields);
                 }
             }
+
             upsert as User newfieldList;
-            return newfieldList;
+
+            return [SELECT Id, Name, OrderNumber__c, Board__c, DeletedDate__c FROM Fields__c WHERE Board__c =: boardid WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
+
+
         } catch (Exception e) {
             HandleExceptions.handleExceptionsmethod(e);
             return null;
