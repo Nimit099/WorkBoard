@@ -193,10 +193,22 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             let fieldId = event.currentTarget.dataset.id;
 
             if (fieldId != this.fieldid) {
-                this.boarddata = [];
+                updateticketfield({ ticketId: this.ticketId, fieldId: fieldId, boardId: this.boardid })
+                    .then((result) => {
+                        this.ticketlist = [];
+                        this.deletedticketlist = [];
+                        result.ticketList.forEach(ticket => {
+                            if (ticket.DeletedDate__c == undefined) {
+                                this.ticketlist.push(ticket)
+                            } else {
+                                this.deletedticketlist.push(ticket);
+                            }
+                        });
 
-                updateticketfield({ ticketId: this.ticketId, fieldId: fieldId })
-                    .then(() => {
+                        this.search(null);
+
+                        this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATE SUCCESSFULLY' });
+                        this.toastprocess(null);
 
                     }).catch(error => {
                         this.spinnertable = false;
@@ -210,8 +222,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                         ticket.Field__c = fieldId;
                     }
                 });
-
-                this.search(null);
             }
 
             let arr = this.template.querySelectorAll('.fieldbody');
@@ -385,16 +395,12 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
         }
     }
 
-    restoreticket(event) {
+    restoreticket() {
         try {
-            let ticketId = event.detail;
-            this.deletedticketlist.forEach((ticket, index) => {
-                if (ticket.Id == ticketId) {
-                    this.ticketlist.push(this.deletedticketlist.splice(index, 1)[0]);
-                }
-            })
-
-            this.search(null);
+            this.ticketlist = [];
+            this.fieldlist = [];
+            this.deletedticketlist = [];
+            this.getboardfieldandticket();
 
         } catch (error) {
             this.spinnertable = false;
