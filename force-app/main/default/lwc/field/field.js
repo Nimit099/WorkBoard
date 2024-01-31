@@ -80,7 +80,6 @@ export default class Field extends NavigationMixin(LightningElement) {
 
     savefield(event) {
         try {
-            this.spinnertable = true;
             this.openclosecreatefield();
             this.saveandnewfield(event);
         } catch (error) {
@@ -91,7 +90,7 @@ export default class Field extends NavigationMixin(LightningElement) {
 
     saveandnewfield(event) {
         try {
-
+            this.spinnertable = true;
             let field = JSON.parse(JSON.stringify(event.detail));
 
             createfield({ field: field, boardid: this.boardid })
