@@ -21,7 +21,7 @@ public with sharing class ViewBoard {
     public static FieldTicketwrapper getBoardData(Id boardId){
         try {
             List<Fields__c> fieldList = [SELECT Id, Name, OrderNumber__c, Board__c FROM Fields__c  WHERE Board__c =: boardId AND DeletedDate__c =: null WITH SECURITY_ENFORCED ORDER BY OrderNumber__c ASC];
-            List<Ticket__c> ticketList = [SELECT Id, Name, TicketNumber__c,  TicketPriority__c, DeletedDate__c, Field__c, Color__c,CreatedDate FROM Ticket__c WHERE Field__c IN: fieldList WITH SECURITY_ENFORCED];
+            List<Ticket__c> ticketList = [SELECT Id, Name, TicketNumber__c,  TicketPriority__c, DeletedDate__c, Field__c, Color__c,CreatedDate FROM Ticket__c WHERE Field__c IN: fieldList WITH SECURITY_ENFORCED ORDER BY CreatedDate];
 
             FieldTicketwrapper ftw = new FieldTicketwrapper();
             ftw.fieldList = fieldList;
@@ -71,11 +71,13 @@ public with sharing class ViewBoard {
      * @param fieldId Id of Field__C Object
      */   
      @AuraEnabled
-    public static void updateticketfield(Id ticketId, Id fieldId){
+    public static FieldTicketwrapper updateticketfield(Id ticketId, Id fieldId, Id boardId){
         try{
             upsert as User (new Ticket__c (Id = ticketId, Field__c = fieldId));
+            return getBoardData(boardId);
         } catch (Exception e){
             HandleExceptions.handleExceptionsmethod(e);
+            return null;
         }
     }
 
