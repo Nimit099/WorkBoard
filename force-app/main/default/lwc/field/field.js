@@ -273,6 +273,8 @@ export default class Field extends NavigationMixin(LightningElement) {
                 .then(result => {
                     this.allfields = result;
                     this.fieldformatter();
+                    this.enqueueToast.push({ status: 'success', message: 'FIELD POSITION CHANGED' });
+                    this.toastprocess(null);
                 }).catch(error => {
                     this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
                     this.toastprocess(null);
