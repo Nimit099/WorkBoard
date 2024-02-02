@@ -269,18 +269,20 @@ export default class Field extends NavigationMixin(LightningElement) {
     dropzone(event) {
         try {
             let droppedfieldId = event.currentTarget.dataset.id;
-            fieldPositionchange({ dragfieldId: this.dragfieldId, dropfieldId: droppedfieldId, boardId: this.boardid })
-                .then(result => {
-                    this.allfields = result;
-                    this.fieldformatter();
-                    this.enqueueToast.push({ status: 'success', message: 'FIELD POSITION CHANGED' });
-                    this.toastprocess(null);
-                }).catch(error => {
-                    this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
-                    this.toastprocess(null);
-                    this.spinnertable = false;
-                    console.error(error);
-                });
+            if (this.dragfieldId != droppedfieldId) {
+                fieldPositionchange({ dragfieldId: this.dragfieldId, dropfieldId: droppedfieldId, boardId: this.boardid })
+                    .then(result => {
+                        this.allfields = result;
+                        this.fieldformatter();
+                        this.enqueueToast.push({ status: 'success', message: 'FIELD POSITION CHANGED' });
+                        this.toastprocess(null);
+                    }).catch(error => {
+                        this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });
+                        this.toastprocess(null);
+                        this.spinnertable = false;
+                        console.error(error);
+                    });
+            }
         } catch (error) {
             this.spinnertable = false;
             console.error(error.message);
