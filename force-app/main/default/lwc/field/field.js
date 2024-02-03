@@ -97,8 +97,7 @@ export default class Field extends NavigationMixin(LightningElement) {
                 .then(result => {
                     this.spinnertable = false;
                     let firstfieldid = result[0].Id;
-                    firstfieldid = this.fieldid;
-                    if (!this.createField) {
+                    if (!this.createField && firstfieldid != undefined) {
                         this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
                         this.toastprocess(null);
                     } else {

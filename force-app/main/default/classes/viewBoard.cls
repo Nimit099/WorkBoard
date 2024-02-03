@@ -69,6 +69,8 @@ public with sharing class ViewBoard {
      * @description updateticketfield Method
      * @param ticketId Id of Ticket__C Object
      * @param fieldId Id of Field__C Object
+     * @param boardId Id of Field__C Object
+     * @return  Wrapper of Field and Ticket object
      */   
      @AuraEnabled
     public static FieldTicketwrapper updateticketfield(Id ticketId, Id fieldId, Id boardId){
