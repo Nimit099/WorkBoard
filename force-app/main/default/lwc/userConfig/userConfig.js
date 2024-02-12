@@ -26,6 +26,7 @@ export default class UserConfig extends LightningElement {
     @track leftarrow = false;
     @track rightarrow = true;
     @track currentUserName;
+    @track whatsapp;
 
     ViewBoard = ViewBoard;
     ViewTicket = ViewTicket;
@@ -53,6 +54,8 @@ export default class UserConfig extends LightningElement {
         try {
             userconfig()
                 .then(result => {
+                    this.whatsapp = result.splice(0, 1);
+                    this.whatsapp = this.whatsapp[0].UserDescription__c;
                     this.meta = result;
                     this.metacount = this.meta.length;
                     this.img(this.meta[this.current]);

@@ -1,13 +1,20 @@
 <template>
     <div class="workboardmanual">
-        <div class="header">
-            <div class="welcomeheader">
-                <span class="darkblue">Welcome </span> <span class="lightblue">{currentUserName}</span>
+        <div class="mainheader">
+            <div class="header">
+                <div class="welcomeheader">
+                    <span class="darkblue">Welcome </span> <span class="lightblue">{currentUserName}</span>
+                </div>
+                <div class="welcomenote">
+                    Explore the comprehensive guide below to unleash the full potential of WorkBoard and optimize your
+                    user
+                    experience.
+                </div>
             </div>
-            <div class="welcomenote">
-                Explore the comprehensive guide below to unleash the full potential of WorkBoard and optimize your user
-                experience.
-            </div>
+            <a href={whatsapp} class="usericon" target="_blank">
+                <lightning-icon icon-name='standard:messaging_conversation' alternative-text='Whatsapp' size='large'
+                    title='Whatsapp' ></lightning-icon>
+            </a>
         </div>
 
         <div class="body">
