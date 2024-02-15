@@ -114,8 +114,8 @@ public with sharing class ViewBoardTest {
     static void updateticketfieldTest() {
         User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
-            Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
-            ViewBoard.updateticketfield(tic.Id, tic.Field__c);
+            Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__r.Board__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
+            ViewBoard.updateticketfield(tic.Id, tic.Field__c, tic.Field__r.Board__c);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
             System.assertEquals(null, t.DeletedDate__c, 'ok');
         }
@@ -125,8 +125,8 @@ public with sharing class ViewBoardTest {
     static void updateticketfieldTest1() {
         User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
-            Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
-            ViewBoard.updateticketfield(tic.Field__c, tic.Field__c);
+            Ticket__c tic = [SELECT Id,TicketNumber__c,Name,Description__c,Field__r.Board__c, StartDate__c,EndDate__c, TicketPriority__c, Color__c, CompletedPercentage__c FROM Ticket__c LIMIT 1];
+            ViewBoard.updateticketfield(tic.Field__c, tic.Field__c, tic.Field__r.Board__c);
             Ticket__c t = [SELECT Id,DeletedDate__c FROM Ticket__c WHERE Id =: tic.Id];
             System.assertEquals(null, t.DeletedDate__c, 'ok');
         }

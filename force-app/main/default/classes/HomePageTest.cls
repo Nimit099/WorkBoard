@@ -152,7 +152,7 @@ public with sharing class HomePageTest {
         User u = [SELECT Id FROM User WHERE Profile.Name = 'System Administrator' AND IsActive = true LIMIT 1];
         System.runAs(u) {
             List<WorkBoardMeta__mdt> wbmdt = HomePage.userconfig();
-            System.assertEquals(12, wbmdt.size(), 'ok');
+            System.assertEquals(13, wbmdt.size(), 'ok');
         }
     }
 

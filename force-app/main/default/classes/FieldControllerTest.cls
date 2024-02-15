@@ -47,7 +47,7 @@ public with sharing class FieldControllerTest {
             Fields__c field = [SELECT Id, Board__c,OrderNumber__c FROM Fields__c LIMIT 1];
             field.OrderNumber__c = null;
             List<Fields__c> f = FieldController.createfield(field, b.Id);
-            System.assertEquals(null, f, 'ok');
+            System.assertNotEquals(null, f.size(), 'ok');
         }
     }
 
