@@ -239,10 +239,12 @@ export default class Field extends NavigationMixin(LightningElement) {
 
     restorefield(event) {
         try {
+            this.spinnertable = true;
             let fieldId = event.detail;
             restoreFields({ fieldId: fieldId, boardId: this.boardid })
                 .then(result => {
                     this.allfields = result;
+                    this.spinnertable = false;
                     this.fieldformatter();
                 }).catch(error => {
                     this.enqueueToast.push({ status: 'failed', message: 'FIELD RESTORE FAILED' });

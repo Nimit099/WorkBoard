@@ -322,11 +322,12 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
     handletemporarydeleteticket(event) {
         try {
+            this.spinnertable = true;
             this.ticketId = event.detail;
 
             temporarydeleteticket({ ticketId: this.ticketId })
                 .then(() => {
-
+                    this.spinnertable = false;
                     this.ticketlist.forEach((ticket, index) => {
                         if (ticket.Id == this.ticketId) {
                             ticket.DeletedDate__c = this.today;
