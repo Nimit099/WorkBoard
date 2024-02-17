@@ -51,13 +51,13 @@
 							<div class="fieldbody">
 								<div class="scrollableclass">
 									<template for:each={field.ticket} for:item="ticket">
-										<div class="ticket" data-id={ticket.Id} data-fieldid={ticket.Field__c}
+										<div class="ticket" data-id={ticket.Id} data-fieldid={ticket.GB_24__Field__c}
 											draggable="true" key={ticket.Id} ondragstart={dragstart}
 											onclick={openticket}>
 											<div class="ticketheader">
 												<div class="ticketnumber">
 													<div class="num">
-														{ticket.TicketNumber__c}
+														{ticket.GB_24__TicketNumber__c}
 													</div>
 													<div class="ticketstartdate">
 														<lightning-formatted-date-time
@@ -76,7 +76,7 @@
 														alternative-text="delete"></lightning-button-icon>
 												</div>
 												<div class="ticketpriority">
-													<u>{ticket.TicketPriority__c}</u>
+													<u>{ticket.GB_24__TicketPriority__c}</u>
 												</div>
 											</div>
 										</div>

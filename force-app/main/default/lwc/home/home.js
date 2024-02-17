@@ -58,7 +58,7 @@ export default class Home extends NavigationMixin(LightningElement) {
           let board = [];
           let recycleboard = [];
           result.forEach((element) => {
-            if (element.DeletedDate__c == undefined) {
+            if (element.GB_24__DeletedDate__c == undefined) {
               board.push(element);
             } else {
               recycleboard.push(element);
@@ -180,7 +180,7 @@ export default class Home extends NavigationMixin(LightningElement) {
         .then(result => {
 
           this.indexval = 1;
-          let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "Description__c": result.Description__c }];
+          let newboard = [{ "CreatedDate": this.today, "Id": result.Id, "Name": result.Name, "GB_24__Description__c": result.GB_24__Description__c }];
 
           if (this.searchkey == undefined || newboard[0].Name.toLowerCase().includes(this.searchkey.toLowerCase())) {
             this.boardlist.push(newboard[0]);
@@ -239,7 +239,7 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.boardlist.forEach((element, index) => {
               if (element.Id.includes(this.boardid)) {
                 let recycleboard = this.boardlist.splice(index, 1);
-                recycleboard[0].DeletedDate__c = this.today;
+                recycleboard[0].GB_24__DeletedDate__c = this.today;
                 this.recyclelist.push(recycleboard[0]);
               }
             });

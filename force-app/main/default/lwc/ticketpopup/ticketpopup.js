@@ -125,15 +125,15 @@ export default class Ticketpopup extends LightningElement {
         try {
 
             this.ticketName = this.ticketpopupdata.Name;
-            this.ticketNumber = this.ticketpopupdata.TicketNumber__c;
+            this.ticketNumber = this.ticketpopupdata.GB_24__TicketNumber__c;
 
-            if (this.ticketpopupdata.Field__r != undefined) {
-                this.ticketFieldName = this.ticketpopupdata.Field__r.Name;
-                this.ticketFieldId = this.ticketpopupdata.Field__r.Id;
+            if (this.ticketpopupdata.GB_24__Field__r != undefined) {
+                this.ticketFieldName = this.ticketpopupdata.GB_24__Field__r.Name;
+                this.ticketFieldId = this.ticketpopupdata.GB_24__Field__r.Id;
             }
 
-            if (this.ticketpopupdata.Color__c != undefined)
-                this.ticketColor = this.ticketpopupdata.Color__c;
+            if (this.ticketpopupdata.GB_24__Color__c != undefined)
+                this.ticketColor = this.ticketpopupdata.GB_24__Color__c;
 
             if (this.ticketpopupdata.CreatedDate != undefined)
                 this.ticketCreatedDate = this.ticketpopupdata.CreatedDate;
@@ -141,20 +141,20 @@ export default class Ticketpopup extends LightningElement {
             if (this.ticketpopupdata.LastModifiedDate != undefined)
                 this.ticketLastmodifieddate = this.ticketpopupdata.LastModifiedDate;
 
-            if (this.ticketpopupdata.Description__c != undefined)
-                this.ticketDescription = this.ticketpopupdata.Description__c;
+            if (this.ticketpopupdata.GB_24__Description__c != undefined)
+                this.ticketDescription = this.ticketpopupdata.GB_24__Description__c;
 
-            if (this.ticketpopupdata.TicketPriority__c != undefined)
-                this.ticketPriority = this.ticketpopupdata.TicketPriority__c;
+            if (this.ticketpopupdata.GB_24__TicketPriority__c != undefined)
+                this.ticketPriority = this.ticketpopupdata.GB_24__TicketPriority__c;
 
-            if (this.ticketpopupdata.StartDate__c != undefined)
-                this.ticketStartDate = this.ticketpopupdata.StartDate__c;
+            if (this.ticketpopupdata.GB_24__StartDate__c != undefined)
+                this.ticketStartDate = this.ticketpopupdata.GB_24__StartDate__c;
 
-            if (this.ticketpopupdata.EndDate__c != undefined)
-                this.ticketEndDate = this.ticketpopupdata.EndDate__c;
+            if (this.ticketpopupdata.GB_24__EndDate__c != undefined)
+                this.ticketEndDate = this.ticketpopupdata.GB_24__EndDate__c;
 
-            if (this.ticketpopupdata.CompletedPercentage__c != undefined)
-                this.ticketCompletedPercentage = this.ticketpopupdata.CompletedPercentage__c;
+            if (this.ticketpopupdata.GB_24__CompletedPercentage__c != undefined)
+                this.ticketCompletedPercentage = this.ticketpopupdata.GB_24__CompletedPercentage__c;
 
         } catch (error) {
             console.error(error.message);
@@ -337,7 +337,7 @@ export default class Ticketpopup extends LightningElement {
             this.commentId = event.currentTarget.dataset.id;
             this.comments.forEach(element => {
                 if (element.Id == this.commentId) {
-                    this.newcomment = element.Comments__c;
+                    this.newcomment = element.GB_24__Comments__c;
                 }
             });
 
