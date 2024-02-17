@@ -28,8 +28,8 @@ export default class CreateField extends LightningElement {
                 'sobjectType': 'Fields__c'
             };
             fieldrecord['Name'] = this.fieldName;
-            fieldrecord['OrderNumber__c'] = this.fieldOrder;
-            fieldrecord['Board__c'] = this.boardid;
+            fieldrecord['GB_24__OrderNumber__c'] = this.fieldOrder;
+            fieldrecord['GB_24__Board__c'] = this.boardid;
             if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined || this.fieldOrder.trim() == '')) {
                 if (this.fieldName.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
@@ -56,8 +56,8 @@ export default class CreateField extends LightningElement {
                 'sobjectType': 'Fields__c'
             };
             fieldrecord['Name'] = this.fieldName;
-            fieldrecord['OrderNumber__c'] = this.fieldOrder;
-            fieldrecord['Board__c'] = this.boardid;
+            fieldrecord['GB_24__OrderNumber__c'] = this.fieldOrder;
+            fieldrecord['GB_24__Board__c'] = this.boardid;
             if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined || this.fieldOrder.trim() == '')) {
                 if (this.fieldName.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });

@@ -85,7 +85,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.fieldlist = result.fieldList;
 
                     result.ticketList.forEach(ticket => {
-                        if (ticket.DeletedDate__c == undefined) {
+                        if (ticket.GB_24__DeletedDate__c == undefined) {
                             this.ticketlist.push(ticket)
                         } else {
                             this.deletedticketlist.push(ticket);
@@ -114,10 +114,10 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     renderedCallback() {
         try {
             this.ticketlist.forEach(ticket => {
-                if (ticket.Color__c != undefined) {
+                if (ticket.GB_24__Color__c != undefined) {
                     let tic = this.template.querySelector("div[data-id =" + ticket.Id + "]");
                     if (tic != null) {
-                        tic.style.background = ticket.Color__c;
+                        tic.style.background = ticket.GB_24__Color__c;
                     }
                 }
             });
@@ -138,9 +138,9 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             this.fieldlist.forEach(field => {
                 let tickets = [];
                 this.ticketlist.forEach(ticket => {
-                    if (ticket.Field__c == field.Id) {
+                    if (ticket.GB_24__Field__c == field.Id) {
                         if (ticket.Name.toLowerCase().includes(this.searchkey.toLowerCase()) ||
-                            ticket.TicketNumber__c.toLowerCase().includes(this.searchkey.toLowerCase())) {
+                            ticket.GB_24__TicketNumber__c.toLowerCase().includes(this.searchkey.toLowerCase())) {
                             tickets.push(ticket);
                         }
                     }
@@ -200,7 +200,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                         this.ticketlist = [];
                         this.deletedticketlist = [];
                         result.ticketList.forEach(ticket => {
-                            if (ticket.DeletedDate__c == undefined) {
+                            if (ticket.GB_24__DeletedDate__c == undefined) {
                                 this.ticketlist.push(ticket)
                             } else {
                                 this.deletedticketlist.push(ticket);
@@ -221,7 +221,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
                 this.ticketlist.forEach(ticket => {
                     if (this.ticketId == ticket.Id) {
-                        ticket.Field__c = fieldId;
+                        ticket.GB_24__Field__c = fieldId;
                     }
                 });
             }
@@ -330,7 +330,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.spinnertable = false;
                     this.ticketlist.forEach((ticket, index) => {
                         if (ticket.Id == this.ticketId) {
-                            ticket.DeletedDate__c = this.today;
+                            ticket.GB_24__DeletedDate__c = this.today;
                             this.deletedticketlist.push(this.ticketlist.splice(index, 1)[0]);
                             this.enqueueToast.push({ status: 'success', message: 'TICKET DELETED SUCCESSFULLY' });
                             this.toastprocess(null);

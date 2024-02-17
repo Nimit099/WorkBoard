@@ -55,7 +55,7 @@ export default class UserConfig extends LightningElement {
             userconfig()
                 .then(result => {
                     this.whatsapp = result.splice(0, 1);
-                    this.whatsapp = this.whatsapp[0].UserDescription__c;
+                    this.whatsapp = this.whatsapp[0].GB_24__UserDescription__c;
                     this.meta = result;
                     this.metacount = this.meta.length;
                     this.img(this.meta[this.current]);
@@ -102,30 +102,30 @@ export default class UserConfig extends LightningElement {
 
     img(file) {
         try {
-            this.content = file.UserDescription__c;
-            if (file.ImageName__c == 'Home') {
+            this.content = file.GB_24__UserDescription__c;
+            if (file.GB_24__ImageName__c == 'Home') {
                 this.images = Home;
-            } else if (file.ImageName__c == 'CreateBoard') {
+            } else if (file.GB_24__ImageName__c == 'CreateBoard') {
                 this.images = CreateBoard;
-            } else if (file.ImageName__c == 'Field') {
+            } else if (file.GB_24__ImageName__c == 'Field') {
                 this.images = Field;
-            } else if (file.ImageName__c == 'CreateField') {
+            } else if (file.GB_24__ImageName__c == 'CreateField') {
                 this.images = CreateField;
-            } else if (file.ImageName__c == 'ViewBoard') {
+            } else if (file.GB_24__ImageName__c == 'ViewBoard') {
                 this.images = ViewBoard;
-            } else if (file.ImageName__c == 'CreateTicket') {
+            } else if (file.GB_24__ImageName__c == 'CreateTicket') {
                 this.images = CreateTicket;
-            } else if (file.ImageName__c == 'ViewTicket') {
+            } else if (file.GB_24__ImageName__c == 'ViewTicket') {
                 this.images = ViewTicket;
-            } else if (file.ImageName__c == 'Comment') {
+            } else if (file.GB_24__ImageName__c == 'Comment') {
                 this.images = Comment;
-            } else if (file.ImageName__c == 'Attachment') {
+            } else if (file.GB_24__ImageName__c == 'Attachment') {
                 this.images = Attachment;
-            } else if (file.ImageName__c == 'RecycleBin') {
+            } else if (file.GB_24__ImageName__c == 'RecycleBin') {
                 this.images = Recyclebin;
-            } else if (file.ImageName__c == 'Chart_1') {
+            } else if (file.GB_24__ImageName__c == 'Chart_1') {
                 this.images = Chart_1;
-            } else if (file.ImageName__c == 'Chart_2') {
+            } else if (file.GB_24__ImageName__c == 'Chart_2') {
                 this.images = Chart_2;
             }
         } catch (error) {

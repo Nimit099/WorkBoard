@@ -224,7 +224,7 @@ export default class Field extends NavigationMixin(LightningElement) {
         this.fielddata = [];
         this.deletedfield = [];
         this.allfields.forEach(element => {
-            if (element.DeletedDate__c == undefined) {
+            if (element.GB_24__DeletedDate__c == undefined) {
                 this.fielddata.push(element);
             } else {
                 this.deletedfield.push(element);

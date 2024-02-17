@@ -41,7 +41,7 @@ export default class Createboardpopup extends LightningElement {
                 'sobjectType': 'Board__c'
             };
             boardrecord['Name'] = this.name;
-            boardrecord['Description__c'] = this.description;
+            boardrecord['GB_24__Description__c'] = this.description;
 
             if (this.name == null || this.name == undefined || this.name.trim() == '') {
                 this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });

@@ -75,14 +75,14 @@ export default class Createticketpopup extends LightningElement {
             };
             ticketrecord['Id'] = '';
             ticketrecord['Name'] = this.name;
-            ticketrecord['Description__c'] = this.description;
-            ticketrecord['TicketNumber__c'] = this.number;
-            ticketrecord['StartDate__c'] = this.startdate;
-            ticketrecord['EndDate__c'] = this.enddate;
-            ticketrecord['TicketPriority__c'] = this.priority;
-            ticketrecord['Field__c'] = this.field;
-            ticketrecord['Color__c'] = this.color;
-            ticketrecord['CompletedPercentage__c'] = this.progress;
+            ticketrecord['GB_24__Description__c'] = this.description;
+            ticketrecord['GB_24__TicketNumber__c'] = this.number;
+            ticketrecord['GB_24__StartDate__c'] = this.startdate;
+            ticketrecord['GB_24__EndDate__c'] = this.enddate;
+            ticketrecord['GB_24__TicketPriority__c'] = this.priority;
+            ticketrecord['GB_24__Field__c'] = this.field;
+            ticketrecord['GB_24__Color__c'] = this.color;
+            ticketrecord['GB_24__CompletedPercentage__c'] = this.progress;
             if (this.isupdateticket) {
                 ticketrecord['LastModifiedDate'] = this.today;
             } else {
