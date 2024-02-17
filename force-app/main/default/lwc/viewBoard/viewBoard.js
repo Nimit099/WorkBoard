@@ -80,6 +80,8 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             getBoardData({ boardId: this.boardid })
                 .then(result => {
                     this.spinnertable = false;
+                    this.ticketlist = [];
+                    this.deletedticketlist = [];
                     this.fieldlist = result.fieldList;
 
                     result.ticketList.forEach(ticket => {
@@ -397,9 +399,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
 
     restoreticket() {
         try {
-            this.ticketlist = [];
-            this.fieldlist = [];
-            this.deletedticketlist = [];
+            this.spinnertable = true;
             this.getboardfieldandticket();
 
         } catch (error) {
@@ -416,8 +416,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 if (!this.openticketmodal) {
                     this.ticketId = event.currentTarget.dataset.id;
                 } else {
-                    this.ticketlist = [];
-                    this.deletedticketlist = [];
                     this.getboardfieldandticket();
                 }
                 this.openticketmodal = !this.openticketmodal;
@@ -452,8 +450,6 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
     }
 
     updatedticket() {
-        this.ticketlist = [];
-        this.deletedticketlist = [];
         this.getboardfieldandticket();
     }
 

@@ -28,7 +28,6 @@ export default class Recyclepopup extends LightningElement {
             }
         } catch (error) {
             console.error(error.message);
-            this.spinnertable = false;
         }
     }
 
@@ -49,7 +48,6 @@ export default class Recyclepopup extends LightningElement {
             }
         } catch (error) {
             console.error(error.message);
-            this.spinnertable = false;
         }
     }
 
@@ -61,7 +59,6 @@ export default class Recyclepopup extends LightningElement {
             this.dispatchEvent(closerecycle);
         } catch (error) {
             console.error(error.message);
-            this.spinnertable = false;
             this.enqueueToast.push({ status: 'failed', message: 'FAILED TO CLOSE RECYCLEBIN' });
             this.toastprocess(null);
         }
@@ -81,12 +78,10 @@ export default class Recyclepopup extends LightningElement {
                     this.enqueueToast.push({ status: 'error', message: 'BOARD DELETE FAILED' });
                     this.toastprocess(null);
                     console.error('permanentdeleteBoard apex error :', (error.message));
-                    this.spinnertable = false;
                 });
             this.openclosedeletepopup();
         } catch (error) {
             console.error(error);
-            this.spinnertable = false;
         }
     }
 
@@ -102,13 +97,11 @@ export default class Recyclepopup extends LightningElement {
                     this.dispatchEvent(permanentdeleted);
                 }).catch(error => {
                     console.error(error.message);
-                    this.spinnertable = false;
                     this.enqueueToast.push({ status: 'failed', message: 'TICKET DELETE FAILED' });
                     this.toastprocess(null);
                 });
             this.openclosedeletepopup();
         } catch (error) {
-            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -128,7 +121,6 @@ export default class Recyclepopup extends LightningElement {
             }
         }
         catch (error) {
-            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -146,13 +138,11 @@ export default class Recyclepopup extends LightningElement {
                     });
                     this.dispatchEvent(closerecycle);
                 }).catch(error => {
-                    this.spinnertable = false;
                     console.error(error.message);
                     this.enqueueToast.push({ status: 'failed', message: 'BOARD RESTORE FAILED' });
                     this.toastprocess(null);
                 });
         } catch (error) {
-            this.spinnertable = false;
             console.error(error.message);
         }
     }
@@ -170,11 +160,9 @@ export default class Recyclepopup extends LightningElement {
                     });
                     this.dispatchEvent(closerecycle);
                 }).catch(error => {
-                    this.spinnertable = false;
                     console.error(error.message);
                 });
         } catch (error) {
-            this.spinnertable = false;
             console.error(error.message);
             this.enqueueToast.push({ status: 'failed', message: 'TICKET RESTORE FAILED' });
             this.toastprocess(null);
@@ -191,7 +179,6 @@ export default class Recyclepopup extends LightningElement {
             })
             this.dispatchEvent(closerecycle);
         } catch (error) {
-            this.spinnertable = false;
             console.error(error.message);
             this.enqueueToast.push({ status: 'failed', message: 'FIELD RESTORE FAILED' });
             this.toastprocess(null);
@@ -208,7 +195,6 @@ export default class Recyclepopup extends LightningElement {
                 });
                 this.dispatchEvent(permanentdeleted);
             }).catch(error => {
-                this.spinnertable = false;
                 console.error(error.message);
                 this.enqueueToast.push({ status: 'failed', message: 'FIELD DELETE FAILED' });
                 this.toastprocess(null);
@@ -233,7 +219,6 @@ export default class Recyclepopup extends LightningElement {
                 }
             }
         } catch (error) {
-            this.spinnertable = false;
             console.error(error.message);
         }
     }
