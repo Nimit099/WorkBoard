@@ -2,7 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
      <types>
         <members>*</members>
-        <name>CustomObject</name>
+        <name>Profile</name>
     </types>
      <types>
         <members>*</members>
