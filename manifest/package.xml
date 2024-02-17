@@ -48,5 +48,9 @@
         <members>*</members>
         <name>FlexiPage</name>
     </types>
+     <types>
+        <members>*</members>
+        <name>ContentAsset</name>
+    </types>
     <version>57.0</version>
 </Package>
