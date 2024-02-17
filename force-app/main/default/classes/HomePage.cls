@@ -43,9 +43,9 @@ public with sharing class HomePage {
                     }
                 }
             }
-            delete as User deleteboard;             // To delete the 15 day old deleted board.
-            delete as User fields;                  // To delete the 15 day old deleted field.
             delete as User tickets;                 // To delete the 15 day old deleted ticket.
+            delete as User fields;                  // To delete the 15 day old deleted field.
+            delete as User deleteboard;             // To delete the 15 day old deleted board.
             
             return boards;
         }
