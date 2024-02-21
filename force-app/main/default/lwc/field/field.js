@@ -124,7 +124,7 @@ export default class Field extends NavigationMixin(LightningElement) {
     backhome() {
         try {
             let cmpDef = {
-                componentDef: "c:home",
+                componentDef: "GB_24:home",
             };
             let encodedDef = btoa(JSON.stringify(cmpDef));
             this[NavigationMixin.Navigate]({

@@ -20,9 +20,9 @@ public with sharing class HandleExceptions {
         try {
             
             String stackTrace = e.getStackTraceString().substringBefore('\n');
-            String className = stackTrace.substringAfter('.').substringBefore('.');	
+            String className = stackTrace.substringAfter('GB_24.').substringBefore('.');	
             String methodName = stackTrace.substringBefore(':').substringAfter(className).substringAfter('.');
-    
+
             Error_Handler__c eh = new Error_Handler__c(
                 Class_Name__c = classname,
                 Method_Name__c = methodName,
@@ -35,7 +35,7 @@ public with sharing class HandleExceptions {
             insert as User eh;
 
         } catch (Exception error) {
-            HandleExceptions.handleExceptionsmethod(e);
+            System.debug(error);
         }
     }
 }
