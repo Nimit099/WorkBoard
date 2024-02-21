@@ -143,7 +143,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       this.boardname = event.currentTarget.dataset.name;
 
       let cmpDef = {
-        componentDef: "c:viewBoard",
+        componentDef: "GB_24:viewBoard",
         attributes: {
           boardid: this.boardid,
           boardname: this.boardname,
@@ -357,7 +357,7 @@ export default class Home extends NavigationMixin(LightningElement) {
       this.boardname = event.currentTarget.dataset.name;
 
       let cmpDef = {
-        componentDef: "c:field",
+        componentDef: "GB_24:field",
         attributes: {
           boardid: this.boardid,
           boardname: this.boardname,

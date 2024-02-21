@@ -360,7 +360,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
             this.isRecyclemodal = !this.isRecyclemodal;
         } else {
             let cmpDef = {
-                componentDef: "c:home"
+                componentDef: "GB_24:home"
             };
             let encodedDef = btoa(JSON.stringify(cmpDef));
             this[NavigationMixin.Navigate]({
