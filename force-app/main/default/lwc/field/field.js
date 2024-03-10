@@ -98,7 +98,7 @@ export default class Field extends NavigationMixin(LightningElement) {
                     this.spinnertable = false;
                     let firstfieldid = result[0].Id;
                     if (!this.createField && firstfieldid != undefined) {
-                        this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
+                        this.enqueueToast.push({ status: 'success', message: 'FIELD CREATE SUCCESSFULLY' });
                         this.toastprocess(null);
                     } else {
                         this.template.querySelector('c-create-field').createfieldtoast('success');
@@ -313,7 +313,7 @@ export default class Field extends NavigationMixin(LightningElement) {
                             });
                             this.fieldformatter();
                             this.cancelRenameField();
-                            this.enqueueToast.push({ status: 'success', message: 'FIELD UPDATED SUCCESSFULLY' });
+                            this.enqueueToast.push({ status: 'success', message: 'FIELD UPDATE SUCCESSFULLY' });
                             this.toastprocess(null);
                         }).catch(error => {
                             this.enqueueToast.push({ status: 'failed', message: 'FIELD UPDATE FAILED' });

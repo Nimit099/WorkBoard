@@ -113,7 +113,7 @@ export default class CreateField extends LightningElement {
 
     @api createfieldtoast(event) {
         if (event == 'success') {
-            this.enqueueToast.push({ status: 'success', message: 'FIELD CREATED SUCCESSFULLY' });
+            this.enqueueToast.push({ status: 'success', message: 'FIELD CREATE SUCCESSFULLY' });
             this.toastprocess(null);
         } else {
             this.enqueueToast.push({ status: 'failed', message: 'FIELD CREATE FAILED' });
