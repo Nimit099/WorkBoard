@@ -3,7 +3,7 @@ import { LightningElement, track } from 'lwc';
 export default class Createboardpopup extends LightningElement {
 
     @track name = '';
-    @track description;
+    @track description = '';
 
     // This variables use in Toast
     @track enqueueToast = [];
@@ -46,8 +46,8 @@ export default class Createboardpopup extends LightningElement {
             if (this.name == null || this.name == undefined || this.name.trim() == '') {
                 this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
                 this.toastprocess(null);
-            } else if (this.name.length > 25) {
-                this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+            } else if (this.name.length > 25 || this.description.length > 100000) {
+                this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEED' });
                 this.toastprocess(null);
             } else {
                 const dispatch = new CustomEvent("saveboard", {

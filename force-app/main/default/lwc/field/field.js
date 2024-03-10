@@ -24,7 +24,7 @@ export default class Field extends NavigationMixin(LightningElement) {
     @track today;
     @track isRecyclemodal = false;
     @track dragfieldId;
-    @track newname;
+    @track newname = '';
     @track noteditname = true;
     outsideClick;
     @track editfieldId;
@@ -295,8 +295,13 @@ export default class Field extends NavigationMixin(LightningElement) {
             if (event.keyCode == 27) {
                 this.cancelRenameField();
             } else if (event.keyCode == 13) {
-                if (this.newname.length > 25) {
-                    this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+
+                if ( this.newname.trim() == '' || this.newname == '') {
+                    this.enqueueToast.push({ status: 'error', message: 'ENTER FIELD NAME' });
+                    this.toastprocess(null);
+                }
+                else if (this.newname.length > 25) {
+                    this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEED' });
                     this.toastprocess(null);
                 } else {
                     renamefield({ fieldId: this.editfieldId, newName: this.newname })
@@ -318,6 +323,7 @@ export default class Field extends NavigationMixin(LightningElement) {
                         });
                 }
             } else {
+
                 this.newname = event.target.value;
             }
         } catch (error) {

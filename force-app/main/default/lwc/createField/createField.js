@@ -32,7 +32,7 @@ export default class CreateField extends LightningElement {
             fieldrecord['GB_24__Board__c'] = this.boardid;
             if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined || this.fieldOrder.trim() == '')) {
                 if (this.fieldName.length > 25) {
-                    this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+                    this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEED' });
                     this.toastprocess(null);
                 } else {
                     const dispatch = new CustomEvent("savefield", {
@@ -60,7 +60,7 @@ export default class CreateField extends LightningElement {
             fieldrecord['GB_24__Board__c'] = this.boardid;
             if (this.fieldName != undefined && this.fieldName.trim() != '' && (this.fieldOrder > 0 || this.fieldOrder == undefined || this.fieldOrder.trim() == '')) {
                 if (this.fieldName.length > 25) {
-                    this.enqueueToast.push({ status: 'error', message: 'NAME IS TOO BIG' });
+                    this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEED' });
                     this.toastprocess(null);
                 } else {
                     const dispatch = new CustomEvent("saveandnewfield", {
