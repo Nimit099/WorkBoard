@@ -89,7 +89,7 @@ export default class Ticketpopup extends LightningElement {
                     this.ticketpopupdata = ticket;
                     this.getTickets();
                     this.spinnertable = false;
-                    this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATED SUCCESSFULLY' });
+                    this.enqueueToast.push({ status: 'success', message: 'TICKET UPDATE SUCCESSFULLY' });
                     this.toastprocess(null);
                     const updateticket = new CustomEvent("updateticket", {
                         detail: 'close'

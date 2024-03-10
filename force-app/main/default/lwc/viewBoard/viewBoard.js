@@ -281,7 +281,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                     this.search(null);
                     this.spinnertable = false;
                     if (!this.createticketmodal) {
-                        this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+                        this.enqueueToast.push({ status: 'success', message: 'TICKET CREATE SUCCESSFULLY' });
                         this.toastprocess(null);
                     } else {
                         this.template.querySelector('c-createticketpopup').createtickettoast('success');
@@ -289,7 +289,7 @@ export default class ViewBoard extends NavigationMixin(LightningElement) {
                 }).catch(error => {
                     this.spinnertable = false;
                     if (!this.createticketmodal) {
-                        this.enqueueToast.push({ status: 'failed', message: 'TICKET CREATED FAILED' });
+                        this.enqueueToast.push({ status: 'failed', message: 'TICKET CREATE FAILED' });
                         this.toastprocess(null);
                     } else {
                         this.template.querySelector('c-createticketpopup').createtickettoast('failed');

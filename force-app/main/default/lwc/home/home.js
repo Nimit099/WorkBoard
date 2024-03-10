@@ -186,7 +186,7 @@ export default class Home extends NavigationMixin(LightningElement) {
             this.boardlist.push(newboard[0]);
           }
 
-          this.enqueueToast.push({ status: 'success', message: 'BOARD CREATED SUCCESSFULLY' });
+          this.enqueueToast.push({ status: 'success', message: 'BOARD CREATE SUCCESSFULLY' });
           this.toastprocess(null);
 
           this.spinnertable = false;

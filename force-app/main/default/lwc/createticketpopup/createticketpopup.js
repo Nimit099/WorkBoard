@@ -186,7 +186,7 @@ export default class Createticketpopup extends LightningElement {
 
     @api createtickettoast(event) {
         if (event == 'success') {
-            this.enqueueToast.push({ status: 'success', message: 'TICKET CREATED SUCCESSFULLY' });
+            this.enqueueToast.push({ status: 'success', message: 'TICKET CREATE SUCCESSFULLY' });
             this.toastprocess(null);
         } else {
             this.enqueueToast.push({ status: 'failed', message: 'TICKET CREATE FAILED' });
