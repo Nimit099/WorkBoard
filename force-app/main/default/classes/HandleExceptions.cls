@@ -17,25 +17,35 @@ public with sharing class HandleExceptions {
      * @param e It is Exception 
      */
     public static void handleExceptionsmethod(Exception e) {
-        try {
-            
-            String stackTrace = e.getStackTraceString().substringBefore('\n');
-            String className = stackTrace.substringAfter('GB_24.').substringBefore('.');	
-            String methodName = stackTrace.substringBefore(':').substringAfter(className).substringAfter('.');
 
-            Error_Handler__c eh = new Error_Handler__c(
-                Class_Name__c = classname,
-                Method_Name__c = methodName,
-                Exception_Message__c = e.getMessage(),
-                Exception_Type__c = e.getTypeName(),
-                Line_Number__c = e.getLineNumber(),
-                More_Details__c = e.getStackTraceString()
-            );
+        String stackTrace = e.getStackTraceString().substringBefore('\n');
+        String className = stackTrace.substringAfter('GB_24.').substringBefore('.');	
+        String methodName = stackTrace.substringBefore(':').substringAfter(className).substringAfter('.');
+        Error_Handler__c eh = new Error_Handler__c();
+        try {            
+            eh.Class_Name__c = classname;
+            eh.Method_Name__c = methodName;
+            eh.Exception_Message__c = e.getMessage();
+            eh.Exception_Type__c = e.getTypeName();
+            eh.Line_Number__c = e.getLineNumber();
+            eh.More_Details__c = e.getStackTraceString();
 
             insert as User eh;
 
         } catch (Exception error) {
-            System.debug(error);
+
+            stackTrace = error.getStackTraceString().substringBefore('\n');
+            className = stackTrace.substringAfter('GB_24.').substringBefore('.');	
+            methodName = stackTrace.substringBefore(':').substringAfter(className).substringAfter('.');
+
+            eh.Class_Name__c = classname;
+            eh.Method_Name__c = methodName;
+            eh.Exception_Message__c = error.getMessage();
+            eh.Exception_Type__c = error.getTypeName();
+            eh.Line_Number__c = error.getLineNumber();
+            eh.More_Details__c = error.getStackTraceString();
+
+            insert as User eh;
         }
     }
 }
