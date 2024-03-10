@@ -187,7 +187,7 @@ export default class Ticketpopup extends LightningElement {
                 reader.readAsDataURL(file)
             } else {
                 this.spinnertable = false;
-                this.enqueueToast.push({ status: 'failed', message: 'FILE SIZE IS TOO BIG' });
+                this.enqueueToast.push({ status: 'failed', message: 'FILE SIZE EXCEED' });
                 this.toastprocess(null);
             }
         } catch (error) {
@@ -355,9 +355,9 @@ export default class Ticketpopup extends LightningElement {
                 this.commentediting = true;
             } else {
                 this.spinnertable = true;
-                this.buttonlabel = 'Add Comment';
-                this.commentediting = false;
                 if (this.newcomment.length < 131072) {
+                    this.buttonlabel = 'Add Comment';
+                    this.commentediting = false;
                     saveComment({ commentId: this.commentId, ticketId: this.ticketid, comment: this.newcomment }).then(result => {
                         this.comments = result;
                         if (this.comments.length > 0) {
@@ -370,14 +370,15 @@ export default class Ticketpopup extends LightningElement {
                         this.enqueueToast.push({ status: 'success', message: 'COMMENT SAVE SUCCESSFULLY' });
                         this.toastprocess(null);
                     }).catch(error => {
+                        this.spinnertable = false;
                         this.enqueueToast.push({ status: 'failed', message: 'COMMENT SAVE FAILED' });
                         this.toastprocess(null);
                         console.error(error);
-                        this.spinnertable = false;
                     });
                 } else {
-                    this.enqueueToast.push({ status: 'failed', message: 'COMMENT SAVE FAILED' });
+                    this.enqueueToast.push({ status: 'failed', message: 'CHARACTER LENGTH EXCEED' });
                     this.toastprocess(null);
+                    this.spinnertable = false;
                 }
             }
 

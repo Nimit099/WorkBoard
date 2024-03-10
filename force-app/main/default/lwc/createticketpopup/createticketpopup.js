@@ -89,11 +89,12 @@ export default class Createticketpopup extends LightningElement {
                 ticketrecord['CreatedDate'] = this.today;
             }
 
-            if (!this.isupdateticket) {
-                if ((this.number != '' || this.number.trim() != '') && (this.name != '' || this.name.trim() != '')
-                    && (this.field != '' || this.field.trim() != '')) {
+            if ((this.number != '' || this.number.trim() != '') && (this.name != '' || this.name.trim() != '')
+                && (this.field != '' || this.field.trim() != '')) {
 
-                    if (this.number.length < 40 && this.name.length < 80 && this.description.length < 131072) {
+                if (this.number.length < 40 && this.name.length < 80 && this.description.length < 131072) {
+
+                    if (!this.isupdateticket) {
 
                         if (event.currentTarget.dataset.name == 'Save') {
 
@@ -119,22 +120,23 @@ export default class Createticketpopup extends LightningElement {
                         this.field = '';
                         this.priority = '';
                         this.progress = '';
-
                     } else {
-                        this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEDED' });
-                        this.toastprocess(null);
+                        const updateticket = new CustomEvent("updateticket", {
+                            detail: ticketrecord
+                        })
+                        this.dispatchEvent(updateticket);
                     }
 
                 } else {
-                    this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
+                    this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEED' });
                     this.toastprocess(null);
                 }
+
             } else {
-                const updateticket = new CustomEvent("updateticket", {
-                    detail: ticketrecord
-                })
-                this.dispatchEvent(updateticket);
+                this.enqueueToast.push({ status: 'error', message: 'PLEASE FILL REQUIRED FIELD' });
+                this.toastprocess(null);
             }
+
 
         } catch (error) {
             console.error(error.message);
