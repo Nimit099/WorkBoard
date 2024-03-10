@@ -295,20 +295,15 @@ export default class Field extends NavigationMixin(LightningElement) {
             if (event.keyCode == 27) {
                 this.cancelRenameField();
             } else if (event.keyCode == 13) {
-                console.log('test 0');
 
                 if ( this.newname.trim() == '' || this.newname == '') {
-                    console.log('test 1');
                     this.enqueueToast.push({ status: 'error', message: 'ENTER FIELD NAME' });
                     this.toastprocess(null);
                 }
                 else if (this.newname.length > 25) {
                     this.enqueueToast.push({ status: 'error', message: 'CHARACTER LENGTH EXCEED' });
                     this.toastprocess(null);
-                    console.log('test 2');
-
                 } else {
-                    console.log('test 3');
                     renamefield({ fieldId: this.editfieldId, newName: this.newname })
                         .then(() => {
                             this.allfields.forEach(element => {
