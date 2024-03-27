@@ -33,18 +33,7 @@ public with sharing class HandleExceptions {
             insert as User eh;
 
         } catch (Exception error) {
-
-            stackTrace = error.getStackTraceString().substringBefore('\n');
-            className = stackTrace.substringAfter('GB_24.').substringBefore('.');	
-            methodName = stackTrace.substringBefore(':').substringAfter(className).substringAfter('.');
-
-            eh.Class_Name__c = classname;
-            eh.Method_Name__c = methodName;
-            eh.Exception_Message__c = error.getMessage();
-            eh.Exception_Type__c = error.getTypeName();
-            eh.Line_Number__c = error.getLineNumber();
-            eh.More_Details__c = error.getStackTraceString();
-
+            eh.Class_Name__c = 'HandleExceptions';
             insert as User eh;
         }
     }
